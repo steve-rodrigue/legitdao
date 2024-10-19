@@ -1,1 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Authors on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</title><link>/fr/authors/</link><description>Recent content in Authors on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</description><generator>Hugo</generator><language>fr-can</language><atom:link href="/fr/authors/index.xml" rel="self" type="application/rss+xml"/><item><title>Steve Rodrigue</title><link>/fr/authors/steve-rodrigue/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/authors/steve-rodrigue/</guid><description>&lt;p>Steve Rodrigue est un ingénieur logiciel chevronné avec plus de 25 ans d’expérience dans divers domaines, y compris le développement de jeux vidéo, la conception de sites Web, les produits fintech, la modélisation de l’IA et les contrats intelligents. Tout au long de sa carrière, il a combiné ses compétences professionnelles avec des projets personnels, repoussant continuellement les limites de la technologie.&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authors on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</title>
+    <link>//localhost:1313/fr/authors/</link>
+    <description>Recent content in Authors on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</description>
+    <generator>Hugo</generator>
+    <language>fr-can</language>
+    <atom:link href="//localhost:1313/fr/authors/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Steve Rodrigue</title>
+      <link>//localhost:1313/fr/authors/steve-rodrigue/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/fr/authors/steve-rodrigue/</guid>
+      <description>&lt;p&gt;Steve Rodrigue est un ingénieur logiciel chevronné avec plus de 25 ans d’expérience dans divers domaines, y compris le développement de jeux vidéo, la conception de sites Web, les produits fintech, la modélisation de l’IA et les contrats intelligents. Tout au long de sa carrière, il a combiné ses compétences professionnelles avec des projets personnels, repoussant continuellement les limites de la technologie.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

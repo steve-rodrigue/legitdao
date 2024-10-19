@@ -1,1 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tags on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</title><link>/fr/tags/</link><description>Recent content in Tags on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</description><generator>Hugo</generator><language>fr-can</language><lastBuildDate>Sat, 19 Oct 2024 05:00:00 +0000</lastBuildDate><atom:link href="/fr/tags/index.xml" rel="self" type="application/rss+xml"/><item><title>Smart-Contracts</title><link>/fr/tags/smart-contracts/</link><pubDate>Sat, 19 Oct 2024 05:00:00 +0000</pubDate><guid>/fr/tags/smart-contracts/</guid><description/></item><item><title>Tokenomique</title><link>/fr/tags/tokenomique/</link><pubDate>Sat, 19 Oct 2024 05:00:00 +0000</pubDate><guid>/fr/tags/tokenomique/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</title>
+    <link>//localhost:1313/fr/tags/</link>
+    <description>Recent content in Tags on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</description>
+    <generator>Hugo</generator>
+    <language>fr-can</language>
+    <lastBuildDate>Sat, 19 Oct 2024 05:00:00 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/fr/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Smart-Contracts</title>
+      <link>//localhost:1313/fr/tags/smart-contracts/</link>
+      <pubDate>Sat, 19 Oct 2024 05:00:00 +0000</pubDate>
+      <guid>//localhost:1313/fr/tags/smart-contracts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tokenomique</title>
+      <link>//localhost:1313/fr/tags/tokenomique/</link>
+      <pubDate>Sat, 19 Oct 2024 05:00:00 +0000</pubDate>
+      <guid>//localhost:1313/fr/tags/tokenomique/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
