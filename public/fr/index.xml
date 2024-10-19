@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</title><link>/fr/</link><description>Recent content on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</description><generator>Hugo</generator><language>fr-can</language><lastBuildDate>Sat, 19 Oct 2024 05:00:00 +0000</lastBuildDate><atom:link href="/fr/index.xml" rel="self" type="application/rss+xml"/><item><title>Tokenomique de l’écosystème LegitDAO</title><link>/fr/blog/1-tokenomics/</link><pubDate>Sat, 19 Oct 2024 05:00:00 +0000</pubDate><guid>/fr/blog/1-tokenomics/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Dans l&amp;rsquo;écosystème de LegitDAO, les fondateurs sont les individus qui ont initialement conçu le projet et fourni les ressources nécessaires pour le lancer. Ils ont été responsables de la planification du développement initial de la technologie, de l&amp;rsquo;établissement de la tokenomique, et de la promotion du projet pour former la communauté initiale de soutiens à LegitDAO.&lt;/p></description></item><item><title>Contactez-nous</title><link>/fr/contact/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/contact/</guid><description>&lt;p>Chez LegitDAO, nous sommes fiers d&amp;rsquo;être une organisation décentralisée engagée en faveur de la transparence et de l&amp;rsquo;engagement communautaire. Pour gérer efficacement nos communications, nous élisons des personnes dédiées responsables de notre présence sur les réseaux sociaux et de notre correspondance par email. Ces membres de l&amp;rsquo;équipe ont pour mission de publier des mises à jour sur les réseaux sociaux, de répondre aux questions de la communauté et de contacter des individus par divers canaux de communication.&lt;/p></description></item><item><title>Feuille de Route</title><link>/fr/changelog/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/changelog/</guid><description>&lt;details class="table-of-content ">
+ &lt;summary>
+ 
+ Table des matières
+ 
+ &lt;/summary>
+ &lt;nav id="TableOfContents">
+ &lt;ol>
+ &lt;li>&lt;a href="#samedi-19-octobre-2024">Samedi 19 octobre 2024&lt;/a>&lt;/li>
+ &lt;/ol>
+&lt;/nav>
+&lt;/details>
+
+&lt;p>La feuille de route sert de registre complet de toutes les mises à jour apportées à l&amp;rsquo;écosystème de LegitDAO. Chaque fois qu&amp;rsquo;un individu implémente une mise à jour, il doit créer une entrée dans la feuille de route pour détailler les changements effectués. Ces modifications peuvent inclure des altérations du code source, des initiatives de marketing menées au nom de la DAO, des articles écrits sur des sites externes, ou toute autre contribution visant à faire progresser la mission de LegitDAO de développer une intelligence générale artificielle (AGI). Cette documentation systématique assure la transparence et la responsabilité au sein de la communauté, permettant à chacun de rester informé des progrès en cours et des efforts pour atteindre les objectifs du projet.&lt;/p></description></item><item><title>Feuille de Route</title><link>/fr/roadmap/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/roadmap/</guid><description>&lt;details class="table-of-content ">
+ &lt;summary>
+ 
+ Table des matières
+ 
+ &lt;/summary>
+ &lt;nav id="TableOfContents">
+ &lt;ol>
+ &lt;li>&lt;a href="#date-limite-des-étapes">Date limite des étapes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#réclamation-de-tokens-et-contrats-intelligents">Réclamation de Tokens et Contrats Intelligents&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#développement-de-linterpréteur-de-bytecode">Développement de l&amp;rsquo;Interpréteur de Bytecode&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#matcher-de-grammaire-et-arbre-de-syntaxe-abstraite-ast">Matcher de Grammaire et Arbre de Syntaxe Abstraite (AST)&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#développement-de-la-machine-virtuelle">Développement de la Machine Virtuelle&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#système-de-base-de-données-graphe">Système de Base de Données Graphe&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#blockchain-personnalisée">Blockchain personnalisée&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#développement-du-marché-nft">Développement du Marché NFT&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#base-de-données-de-contenu-et-modèle-linguistique">Base de Données de Contenu et Modèle Linguistique&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#plateforme-décentralisée-pour-linteraction-avec-les-données">Plateforme Décentralisée pour l&amp;rsquo;Interaction avec les Données&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#intégration-des-clients">Intégration des Clients&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusion">Conclusion&lt;/a>&lt;/li>
+ &lt;/ol>
+&lt;/nav>
+&lt;/details>
+
+&lt;p>LegitDAO se lance dans une aventure passionnante pour créer une organisation autonome décentralisée (DAO) avec un écosystème robuste. Notre feuille de route décrit les étapes que nous allons suivre pour développer des composants essentiels qui permettront aux utilisateurs de revendiquer des tokens, d&amp;rsquo;utiliser des contrats intelligents et de favoriser l&amp;rsquo;engagement communautaire. Dans cet article, nous allons élaborer nos plans, en les décomposant en phases distinctes afin de rendre notre vision plus claire et accessible.&lt;/p></description></item><item><title>Introduction à LegitDAO et sa Mission</title><link>/fr/mission/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/mission/</guid><description>&lt;details class="table-of-content ">
+ &lt;summary>
+ 
+ Table des matières
+ 
+ &lt;/summary>
+ &lt;nav id="TableOfContents">
+ &lt;ol>
+ &lt;li>&lt;a href="#pionnier-du-chemin-vers-lintelligence-artificielle-générale-agi">Pionnier du Chemin vers l&amp;rsquo;Intelligence Artificielle Générale (AGI)&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#la-vision--construire-lagi-grâce-à-la-collaboration-décentralisée">La Vision : Construire l&amp;rsquo;AGI grâce à la Collaboration Décentralisée&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#la-puissance-de-la-blockchain-et-des-dao">La Puissance de la Blockchain et des DAO&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#infrastructure-pour-laccumulation-le-filtrage-et-la-modération-des-données">Infrastructure pour l&amp;rsquo;Accumulation, le Filtrage et la Modération des Données&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#traiter-les-données-pour-découvrir-des-liens-entre-les-points-de-données">Traiter les Données pour Découvrir des Liens entre les Points de Données&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#une-collaboration-ouverte-et-globale">Une Collaboration Ouverte et Globale&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#lavenir-de-lagi--un-voyage-collaboratif">L&amp;rsquo;Avenir de l&amp;rsquo;AGI : Un Voyage Collaboratif&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#contrats-intelligents-sur-la-bnb-chain--le-rôle-des-prestataires-de-services-du-vote-et-des-programmes-daffiliation">Contrats Intelligents sur la BNB Chain : Le Rôle des Prestataires de Services, du Vote et des Programmes d&amp;rsquo;Affiliation&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#les-premiers-pas--lancement-avec-des-contrats-intelligents-sur-la-bnb-chain">Les Premiers Pas : Lancement avec des Contrats Intelligents sur la BNB Chain&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#donner-du-pouvoir-à-la-communauté-pour-choisir-les-prestataires-de-services">Donner du Pouvoir à la Communauté pour Choisir les Prestataires de Services&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#étape-1--proposer-des-services-à-la-dao">Étape 1 : Proposer des Services à la DAO&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#étape-2--voter-pour-accepter-ou-rejeter-la-proposition">Étape 2 : Voter pour Accepter ou Rejeter la Proposition&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#étape-3--exécution-du-projet-et-affinement-de-la-proposition">Étape 3 : Exécution du Projet et Affinement de la Proposition&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#affinement-de-la-proposition-de-projet">Affinement de la Proposition de Projet&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#appel-doffres-concurrentiel-pour-lexécution-du-projet">Appel d&amp;rsquo;Offres Concurrentiel pour l&amp;rsquo;Exécution du Projet&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#suivi-et-responsabilité--les-prestataires-de-services-déploient-leurs-propres-contrats-intelligents">Suivi et Responsabilité : Les Prestataires de Services Déploient Leurs Propres Contrats Intelligents&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#déploiement-du-contrat-intelligent-du-prestataire-de-services">Déploiement du Contrat Intelligent du Prestataire de Services&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#suivi-en-temps-réel-et-évaluation-des-performances">Suivi en Temps Réel et Évaluation des Performances&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#révocation-dun-contrat">Révocation d&amp;rsquo;un Contrat&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#paiements-automatisés--les-contrats-intelligents-gèrent-la-compensation">Paiements Automatisés : Les Contrats Intelligents Gèrent la Compensation&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#révision-du-projet-et-libération-du-paiement">Révision du Projet et Libération du Paiement&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#le-programme-daffiliation--encourager-la-croissance-par-les-parrainages">Le Programme d&amp;rsquo;Affiliation : Encourager la Croissance par les Parrainages&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#fonctionnement-du-programme-daffiliation">Fonctionnement du Programme d&amp;rsquo;Affiliation&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#transactions-de-tokens-et-frais-de-taxes">Transactions de Tokens et Frais de Taxes&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#croissance-organique-et-membres-fondateurs">Croissance Organique et Membres Fondateurs&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#transférer-et-vendre-des-parrainages">Transférer et Vendre des Parrainages&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#construire-linfrastructure-pour-le-filtrage-et-la-modération-des-données">Construire l&amp;rsquo;Infrastructure pour le Filtrage et la Modération des Données&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#linterpréteur-de-bytecode--fondation-du-système">L&amp;rsquo;Interpréteur de Bytecode : Fondation du Système&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#pourquoi-un-interpréteur-de-bytecode-">Pourquoi un Interpréteur de Bytecode ?&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#lanalyseur-de-grammaire--associer-les-données-aux-schémas">L&amp;rsquo;Analyseur de Grammaire : Associer les Données aux Schémas&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#construire-lanalyseur-de-grammaire">Construire l&amp;rsquo;Analyseur de Grammaire&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#le-processus-de-correspondance-de-grammaire-implique-plusieurs-étapes-">Le processus de correspondance de grammaire implique plusieurs étapes :&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#arbres-syntaxiques-abstraits-ast--structurer-les-données">Arbres Syntaxiques Abstraits (AST) : Structurer les Données&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#comment-fonctionnent-les-ast">Comment Fonctionnent les AST&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#avantages-de-lutilisation-des-ast">Avantages de l&amp;rsquo;Utilisation des AST&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#le-sélecteur--extraire-des-données-de-last">Le Sélecteur : Extraire des Données de l&amp;rsquo;AST&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#construction-du-sélecteur">Construction du Sélecteur&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#cas-dutilisation-du-sélecteur">Cas d&amp;rsquo;Utilisation du Sélecteur&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#le-compilateur-de-grammaire--conversion-des-schémas-et-scripts-en-bytecode">Le Compilateur de Grammaire : Conversion des Schémas et Scripts en Bytecode&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#comment-fonctionne-le-compilateur-de-grammaire">Comment Fonctionne le Compilateur de Grammaire&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#créer-des-langages-personnalisés">Créer des Langages Personnalisés&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#tout-réunir">Tout Réunir&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#applications-et-cas-dutilisation">Applications et Cas d&amp;rsquo;Utilisation&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#système-de-base-de-données-graphe--favoriser-la-découverte-le-filtrage-et-les-connexions-de-données">Système de Base de Données Graphe : Favoriser la Découverte, le Filtrage et les Connexions de Données&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#introduction-aux-bases-de-données-graphe-dans-linfrastructure-de-legitdao">Introduction aux Bases de Données Graphe dans l&amp;rsquo;Infrastructure de LegitDAO&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#utilisation-de-lanalyse-de-grammaire-pour-la-validation-des-données">Utilisation de l&amp;rsquo;Analyse de Grammaire pour la Validation des Données&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#création-de-schémas-de-relations">Création de Schémas de Relations&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#découvrir-des-itinéraires-de-données">Découvrir des Itinéraires de Données&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#ajouter-des-poids-aux-relations">Ajouter des Poids aux Relations&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#filtrer-les-données-et-les-stocker-de-manière-permanente">Filtrer les Données et les Stocker de Manière Permanente&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#vecteurs-et-similarité--créer-des-liens-entre-les-points-de-données">Vecteurs et Similarité : Créer des Liens entre les Points de Données&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#exemple-1--recommandation-musicale">Exemple 1 : Recommandation Musicale&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#exemple-2--analyse-de-la-gestion-dentreprise">Exemple 2 : Analyse de la Gestion d&amp;rsquo;Entreprise&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#entrée-transpilation-des-données-et-modèles-de-langage-de-grande-taille-llms">Entrée, Transpilation des Données et Modèles de Langage de Grande Taille (LLMs)&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#entrée-de-données-et-transpilation">Entrée de Données et Transpilation&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#génération-de-sorties-avec-les-llms">Génération de Sorties avec les LLMs&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#une-base-de-données-graphe-complète-pour-le-développement-de-lagi">Une Base de Données Graphe Complète pour le Développement de l&amp;rsquo;AGI&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#blockchain--permettre-les-contrats-intelligents-lexécution-et-lintégration-de-la-cryptomonnaie">Blockchain : Permettre les Contrats Intelligents, l&amp;rsquo;Exécution et l&amp;rsquo;Intégration de la Cryptomonnaie&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#créer-des-contrats-intelligents-avec-une-blockchain-personnalisée">Créer des Contrats Intelligents avec une Blockchain Personnalisée&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#le-rôle-de-lanalyseur-de-grammaire-dans-les-contrats-intelligents">Le Rôle de l&amp;rsquo;Analyseur de Grammaire dans les Contrats Intelligents&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#construire-un-ast-à-partir-du-code-du-contrat-intelligent">Construire un AST à partir du Code du Contrat Intelligent&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#pourquoi-les-ast-sont-importants">Pourquoi les AST sont Importants&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#stocker-last-dans-la-base-de-données-graphe">Stocker l&amp;rsquo;AST dans la Base de Données Graphe&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#sélection-et-compilation-des-données-de-contrat-intelligent-avec-le-sélecteur">Sélection et Compilation des Données de Contrat Intelligent avec le Sélecteur&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#compilation-des-données-récupérées-en-bytecode">Compilation des Données Récupérées en Bytecode&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#exécution-des-contrats-intelligents-sur-la-blockchain-de-legitdao">Exécution des Contrats Intelligents sur la Blockchain de LegitDAO&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#exécution-décentralisée-des-contrats-intelligents">Exécution Décentralisée des Contrats Intelligents&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#stockage-des-résultats-dexécution-dans-la-base-de-données-graphe">Stockage des Résultats d&amp;rsquo;Exécution dans la Base de Données Graphe&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#intégration-de-la-cryptomonnaie-dans-la-blockchain">Intégration de la Cryptomonnaie dans la Blockchain&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#transfert-de-cryptomonnaie-dans-le-réseau">Transfert de Cryptomonnaie dans le Réseau&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#utilisation-de-la-cryptomonnaie-avec-les-contrats-intelligents">Utilisation de la Cryptomonnaie avec les Contrats Intelligents&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#faciliter-la-gouvernance-avec-la-cryptomonnaie">Faciliter la Gouvernance avec la Cryptomonnaie&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#les-avantages-de-linfrastructure-blockchain-de-legitdao">Les Avantages de l&amp;rsquo;Infrastructure Blockchain de LegitDAO&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#la-blockchain-comme-moteur-de-linnovation-décentralisée">La Blockchain comme Moteur de l&amp;rsquo;Innovation Décentralisée&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#marketplace-nft--un-hub-décentralisé-pour-le-code-programmable-les-contrats-intelligents-et-le-traitement-des-données">Marketplace NFT : Un Hub Décentralisé pour le Code Programmable, les Contrats Intelligents et le Traitement des Données&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#le-concept-de-nfts-fonctionnels">Le Concept de NFTs Fonctionnels&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#types-de-nfts-disponibles-sur-le-marketplace-de-legitdao">Types de NFTs Disponibles sur le Marketplace de LegitDAO&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#nfts-de-code-de-schéma-de-grammaire">NFTs de Code de Schéma de Grammaire&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#nfts-de-code-de-schéma-de-sélecteur">NFTs de Code de Schéma de Sélecteur&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#nfts-de-schéma-de-langage-de-programmation-personnalisé">NFTs de Schéma de Langage de Programmation Personnalisé&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#nfts-de-code-de-schéma-de-base-de-données-graphe">NFTs de Code de Schéma de Base de Données Graphe&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#nfts-de-code-de-contrat-intelligent">NFTs de Code de Contrat Intelligent&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#nfts-de-résultats-de-traitement-de-vecteurs-et-ditinéraires">NFTs de Résultats de Traitement de Vecteurs et d&amp;rsquo;Itinéraires&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#création-de-nfts--du-code-au-bytecode">Création de NFTs : Du Code au Bytecode&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#compilation-du-code">Compilation du Code&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#hachage-et-création-de-nft">Hachage et Création de NFT&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#mineurs-et-traitement-des-données-dans-le-marketplace-nft">Mineurs et Traitement des Données dans le Marketplace NFT&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#minage-par-gpu-et-traitement-des-données">Minage par GPU et Traitement des Données&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#mise-en-cache-des-données-complexes">Mise en Cache des Données Complexes&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#acheter-vendre-et-échanger-des-nfts-sur-le-marketplace-de-legitdao">Acheter, Vendre et Échanger des NFTs sur le Marketplace de LegitDAO&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#achat-de-nfts">Achat de NFTs&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#vente-de-nfts">Vente de NFTs&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#échange-et-revente-de-nfts">Échange et Revente de NFTs&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#limportance-de-la-décentralisation-dans-le-marketplace-nft">L&amp;rsquo;Importance de la Décentralisation dans le Marketplace NFT&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#marketplace-nft-comme-hub-pour-une-infrastructure-programmable">Marketplace NFT comme Hub pour une Infrastructure Programmable&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#sétendre-à-lactivité-commerciale-réelle--intégration-de-linteropérabilité-blockchain-des-entreprises-et-des-chaînes-dapprovisionnement-complexes">S&amp;rsquo;étendre à l&amp;rsquo;Activité Commerciale Réelle : Intégration de l&amp;rsquo;Interopérabilité Blockchain, des Entreprises et des Chaînes d&amp;rsquo;Approvisionnement Complexes&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#interopérabilité-blockchain--construire-des-ponts-entre-les-réseaux">Interopérabilité Blockchain : Construire des Ponts Entre les Réseaux&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#écriture-dun-langage-de-programmation-pour-la-communication-inter-chaînes">Écriture d&amp;rsquo;un Langage de Programmation pour la Communication Inter-Chaînes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#contrats-intelligents-dépendant-dautres-blockchains">Contrats Intelligents Dépendant d&amp;rsquo;Autres Blockchains&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#fondations-et-acquisition-dentreprises--intégration-de-lactivité-réelle-avec-des-systèmes-décentralisés">Fondations et Acquisition d&amp;rsquo;Entreprises : Intégration de l&amp;rsquo;Activité Réelle avec des Systèmes Décentralisés&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#gestion-des-données-des-entreprises-à-travers-linfrastructure-de-legitdao">Gestion des Données des Entreprises à Travers l&amp;rsquo;Infrastructure de LegitDAO&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#construction-de-chaînes-dapprovisionnement-décentralisées">Construction de Chaînes d&amp;rsquo;Approvisionnement Décentralisées&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#découverte-et-création-de-réseaux-dentreprises">Découverte et Création de Réseaux d&amp;rsquo;Entreprises&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#monnaie-et-transactions-dans-léconomie-décentralisée">Monnaie et Transactions dans l&amp;rsquo;Économie Décentralisée&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#utilisation-de-la-cryptomonnaie-pour-les-paiements-et-transactions">Utilisation de la Cryptomonnaie pour les Paiements et Transactions&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#tokenisation-des-actifs-et-ressources-des-entreprises">Tokenisation des Actifs et Ressources des Entreprises&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#faciliter-les-transactions-entreprises-à-entreprises-e2e">Faciliter les Transactions Entreprises-à-Entreprises (E2E)&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#activité-commerciale-réelle-dans-le-réseau-legitdao">Activité Commerciale Réelle dans le Réseau LegitDAO&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#marchés-décentralisés-pour-les-biens-et-services">Marchés Décentralisés pour les Biens et Services&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#programmes-autonomes-et-opérations-commerciales">Programmes Autonomes et Opérations Commerciales&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#entreprises-réelles-utilisant-la-technologie-décentralisée">Entreprises Réelles Utilisant la Technologie Décentralisée&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#vision-pour-lintégration-commerciale-dans-le-monde-réel">Vision pour l&amp;rsquo;Intégration Commerciale dans le Monde Réel&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#construire-des-programmes-autonomes--lavenir-des-systèmes-intelligents-décentralisés">Construire des Programmes Autonomes : L&amp;rsquo;Avenir des Systèmes Intelligents Décentralisés&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#la-fondamentale--génération-de-bytecode-pour-lexécution-de-programmes-autonomes">La Fondamentale : Génération de Bytecode pour l&amp;rsquo;Exécution de Programmes Autonomes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#analyse-de-lactivité-du-réseau">Analyse de l&amp;rsquo;Activité du Réseau&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#prise-de-décision-et-définition-des-objectifs">Prise de Décision et Définition des Objectifs&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#génération-de-bytecode-pour-lexécution">Génération de Bytecode pour l&amp;rsquo;Exécution&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#gestion-des-portefeuilles-et-acquisition-de-services-et-produits">Gestion des Portefeuilles et Acquisition de Services et Produits&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#gestion-des-portefeuilles-de-cryptomonnaie">Gestion des Portefeuilles de Cryptomonnaie&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#acquisition-de-produits-et-services">Acquisition de Produits et Services&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#intégration-physique--programmes-autonomes-contrôlant-la-robotique-et-les-drones">Intégration Physique : Programmes Autonomes Contrôlant la Robotique et les Drones&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#création-et-contrôle-de-robots-autonomes">Création et Contrôle de Robots Autonomes&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#exemple-concret--un-programme-autonome-de-drone">Exemple Concret : Un Programme Autonome de Drone&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#apprentissage-et-adaptation--analyser-les-données-pour-améliorer-la-performance">Apprentissage et Adaptation : Analyser les Données pour Améliorer la Performance&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#apprentissage-automatique-pour-une-amélioration-continue">Apprentissage Automatique pour une Amélioration Continue&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#boucles-de-rétroaction-pour-des-ajustements-en-temps-réel">Boucles de Rétroaction pour des Ajustements en Temps Réel&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#combinaison-des-données-et-personnalisation-des-expériences-utilisateur">Combinaison des Données et Personnalisation des Expériences Utilisateur&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#intégration-et-analyse-des-données">Intégration et Analyse des Données&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#expériences-et-assistance-personnalisées">Expériences et Assistance Personnalisées&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#vers-un-avenir-dassistants-personnels-complètement-autonomes">Vers un Avenir d&amp;rsquo;Assistants Personnels Complètement Autonomes&lt;/a>
+ &lt;ol>
+ &lt;li>&lt;a href="#programmes-autonomes-en-tant-quassistants-personnels">Programmes Autonomes en Tant qu&amp;rsquo;Assistants Personnels&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#robots-et-drones-comme-extensions-des-programmes-autonomes">Robots et Drones comme Extensions des Programmes Autonomes&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#lavenir-des-programmes-autonomes">L&amp;rsquo;Avenir des Programmes Autonomes&lt;/a>&lt;/li>
+ &lt;/ol>
+ &lt;/li>
+ &lt;li>&lt;a href="#conclusion">Conclusion&lt;/a>&lt;/li>
+ &lt;/ol>
+&lt;/nav>
+&lt;/details>
+
+&lt;h2 id="pionnier-du-chemin-vers-lintelligence-artificielle-générale-agi">Pionnier du Chemin vers l&amp;rsquo;Intelligence Artificielle Générale (AGI)&lt;/h2>
+&lt;p>Ces dernières années, les avancées en intelligence artificielle (IA) ont transformé divers secteurs, de la santé et des finances à l&amp;rsquo;industrie du divertissement et de l&amp;rsquo;éducation. Cependant, le concept d&amp;rsquo;une véritable intelligence artificielle générale (AGI) — un système d&amp;rsquo;IA capable de réaliser n&amp;rsquo;importe quelle tâche intellectuelle qu&amp;rsquo;un humain peut accomplir — reste un défi ambitieux. Alors que l&amp;rsquo;IA d&amp;rsquo;aujourd&amp;rsquo;hui est hautement spécialisée et optimisée pour des tâches spécifiques, l&amp;rsquo;AGI promet un avenir où les machines pourront raisonner, apprendre et résoudre des problèmes dans plusieurs domaines sans nécessiter une formation spécifique à chaque domaine. C&amp;rsquo;est là que LegitDAO entre en jeu.&lt;/p></description></item><item><title>Politique de confidentialité</title><link>/fr/privacy-policy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/privacy-policy/</guid><description>&lt;h4 id="engagement-envers-la-collaboration-open-source-sous-la-licence-mit">Engagement envers la collaboration open source sous la licence MIT&lt;/h4>
+&lt;p>LegitDAO fonctionne en tant que projet open source sous la licence MIT, qui permet aux contributeurs de partager librement leur code tout en garantissant que toute contribution faite au projet reste ouverte et accessible. Lorsque les contributeurs soumettent une demande de tirage (pull request) au dépôt GitHub de LegitDAO, ils reconnaissent que leur code sera publié sous la même licence MIT. Cet engagement favorise un environnement collaboratif où les développeurs peuvent apporter leur expertise, améliorer la fonctionnalité du projet et promouvoir la transparence. En respectant un modèle open source, LegitDAO encourage non seulement l&amp;rsquo;innovation, mais permet également à une communauté diversifiée de contributeurs de participer au développement du projet.&lt;/p></description></item><item><title>Propositions</title><link>/fr/propositions/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/propositions/</guid><description>&lt;p>LegitDAO vise à exploiter les projets open-source existants et à développer de nouveaux outils pour créer une intelligence générale artificielle (AGI). Cet objectif ambitieux invite les contributions de toute personne intéressée par la façon de façonner l’avenir de la technologie. Pour faciliter cela, LegitDAO permet aux individus de soumettre des propositions détaillant leurs idées et suggestions. Chaque proposition est enregistrée sur une blockchain, garantissant qu’elle est immuable et transparente. Une fois soumises, les propositions sont soumises au vote des détenteurs de tokens de LegitDAO, permettant à la communauté d’avoir un mot à dire direct dans le processus de développement.&lt;/p></description></item><item><title>Steve Rodrigue</title><link>/fr/authors/steve-rodrigue/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/fr/authors/steve-rodrigue/</guid><description>&lt;p>Steve Rodrigue est un ingénieur logiciel chevronné avec plus de 25 ans d’expérience dans divers domaines, y compris le développement de jeux vidéo, la conception de sites Web, les produits fintech, la modélisation de l’IA et les contrats intelligents. Tout au long de sa carrière, il a combiné ses compétences professionnelles avec des projets personnels, repoussant continuellement les limites de la technologie.&lt;/p></description></item></channel></rss>
