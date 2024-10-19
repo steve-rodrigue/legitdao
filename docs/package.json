@@ -1,9 +1,9 @@
 {
-  "name": "hugoplate",
+  "name": "legitdao",
   "description": "hugo tailwindcss boilerplate",
-  "version": "1.17.0",
+  "version": "0.1",
   "license": "MIT",
-  "author": "zeon.studio",
+  "author": "LegitDAO",
   "scripts": {
     "dev": "hugo server",
     "build": "hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic",
