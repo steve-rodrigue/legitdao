@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Smart Contracts on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</title>
+    <link>//localhost:1313/categories/smart-contracts/</link>
+    <description>Recent content in Smart Contracts on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 19 Oct 2024 05:00:00 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/categories/smart-contracts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tokenomics of the LegitDAO ecosystem</title>
+      <link>//localhost:1313/blog/post-1/</link>
+      <pubDate>Sat, 19 Oct 2024 05:00:00 +0000</pubDate>
+      <guid>//localhost:1313/blog/post-1/</guid>
+      <description>&lt;h2 id=&#34;founders&#34;&gt;Founders&lt;/h2&gt;&#xA;&lt;p&gt;In the LegitDAO ecosystem, the founders are the individuals who originally conceived the project and provided the necessary resources to launch it. They were responsible to plan the initial development of the technology, the tokenomics, and initiate the initial promotion of the venture in order to form the initial LegitDAO community.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

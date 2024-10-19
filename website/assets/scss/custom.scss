@@ -1,0 +1,29 @@
+// Add your own custom styles here
+
+.content :is(:where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *))) {
+    border-left-width: 1px;
+}
+
+.withborder {
+    border: 2px solid #000000;
+}
+
+.withborder:is(.dark *) {
+    border: 2px solid #cf9521;
+}
+
+.imageswitcher .dark {
+    display: none;
+}
+
+.imageswitcher .light:is(.dark *) {
+    display: none;
+}
+
+.imageswitcher .light {
+    display: block;
+}
+
+.imageswitcher .dark:is(.dark *) {
+    display: block;
+}

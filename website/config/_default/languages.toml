@@ -1,0 +1,13 @@
+################ English language ##################
+[en]
+languageName = "En"
+languageCode = "en-us"
+contentDir = "content/english"
+weight = 1
+
+################ Rench language ##################
+[fr]
+languageName = "Fr"
+languageCode = "fr-can"
+contentDir = "content/french"
+weight = 1

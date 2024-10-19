@@ -1,0 +1,82 @@
+############# English navigation ##############
+
+# main menu
+[[main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[main]]
+name = "Team"
+url = "/authors"
+weight = 2
+
+[[main]]
+name = "Blog"
+url = "/blog"
+weight = 3
+
+[[main]]
+weight = 4
+name = "Development"
+
+    [[main]]
+    weight = 1
+    parent = "Development"
+    name = "Propositions"
+    url = "/propositions"
+
+    [[main]]
+    weight = 2
+    parent = "Development"
+    name = "Roadmap"
+    url = "/roadmap"
+
+    [[main]]
+    weight = 3
+    parent = "Development"
+    name = "Changelog"
+    url = "/changelog"
+
+[[main]]
+name = "About"
+weight = 5
+
+    [[main]]
+    parent = "About"
+    name = "Who we are"
+    url = "/about"
+    weight = 1
+
+    [[main]]
+    parent = "About"
+    name = "Mission"
+    url = "/mission"
+    weight = 2
+
+
+# footer menu
+[[footer]]
+name = "About"
+url = "/about"
+weight = 1
+
+[[footer]]
+name = "Mission"
+url = "/mission"
+weight = 2
+
+[[footer]]
+name = "Propositions"
+url = "/propositions"
+weight = 3
+
+[[footer]]
+name = "Contact us"
+url = "/contact"
+weight = 4
+
+[[footer]]
+name = "Privacy Policy"
+url = "/privacy-policy"
+weight = 5

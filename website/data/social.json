@@ -1,0 +1,29 @@
+{
+  "main": [
+    {
+      "name": "telegram",
+      "icon": "fab fa-telegram",
+      "link": "https://t.me/legitdao"
+    },
+    {
+      "name": "twitter",
+      "icon": "fab fa-twitter",
+      "link": "https://x.com/LEGIT_DAO_"
+    },
+    {
+      "name": "instagram",
+      "icon": "fab fa-instagram",
+      "link": "https://www.instagram.com/legit.dao"
+    },
+    {
+      "name": "facebook",
+      "icon": "fab fa-facebook",
+      "link": "https://www.facebook.com/legitdao"
+    },
+    {
+      "name": "github",
+      "icon": "fab fa-github",
+      "link": "https://github.com/steve-rodrigue/legitdao"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+############# French navigation ##############
+
+# main menu
+[[main]]
+name = "Accueil"
+url = "/fr"
+weight = 1
+
+[[main]]
+name = "Équipe"
+url = "/authors"
+weight = 2
+
+[[main]]
+name = "Blog"
+url = "/blog"
+weight = 3
+
+[[main]]
+name = "Développement"
+weight = 4
+
+    [[main]]
+    weight = 1
+    parent = "Développement"
+    name = "Propositions"
+    url = "/propositions"
+
+    [[main]]
+    weight = 2
+    parent = "Développement"
+    name = "Feuille de route"
+    url = "/roadmap"
+
+    [[main]]
+    weight = 3
+    parent = "Développement"
+    name = "Journal des modifications"
+    url = "/changelog"
+
+[[main]]
+name = "À Propos"
+weight = 5
+
+    [[main]]
+    parent = "À Propos"
+    name = "Qui sommes-nous?"
+    url = "/about"
+    weight = 1
+
+    [[main]]
+    parent = "À Propos"
+    name = "Mission"
+    url = "/mission"
+    weight = 2
+
+
+# footer menu
+[[footer]]
+name = "À propos"
+url = "/about"
+weight = 1
+
+[[footer]]
+name = "Mission"
+url = "/mission"
+weight = 2
+
+[[footer]]
+name = "Propositions"
+url = "/propositions"
+weight = 3
+
+[[footer]]
+name = "Contact-nous"
+url = "/contact"
+weight = 4
+
+[[footer]]
+name = "Politique de confidentialité"
+url = "/privacy-policy"
+weight = 5

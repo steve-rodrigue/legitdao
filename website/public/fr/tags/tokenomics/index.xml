@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tokenomics on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</title>
+    <link>//localhost:1313/fr/tags/tokenomics/</link>
+    <description>Recent content in Tokenomics on LegitDAO: a decentralized autonomous organization (DAO) building the necessary tools to develop an artificial general intelligence (AGI)</description>
+    <generator>Hugo</generator>
+    <language>fr-can</language>
+    <lastBuildDate>Sat, 19 Oct 2024 05:00:00 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/fr/tags/tokenomics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tokenomics of the LegitDAO ecosystem</title>
+      <link>//localhost:1313/fr/blog/post-1/</link>
+      <pubDate>Sat, 19 Oct 2024 05:00:00 +0000</pubDate>
+      <guid>//localhost:1313/fr/blog/post-1/</guid>
+      <description>&lt;h2 id=&#34;founders&#34;&gt;Founders&lt;/h2&gt;&#xA;&lt;p&gt;In the LegitDAO ecosystem, the founders represents the people that first initiated the idea behind the project and put the necessary resources in order to kick-start the project.  It represents people that were able to build the technology, understand the finance and can market and sell the idea of its venture.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
