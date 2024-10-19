@@ -49,18 +49,24 @@ jobs:
           go version
 
       - name: Setup Project
-        run: cd docs && npm run project-setup
+        run: |
+          cd docs
+          npm run docs/project-setup
 
       - name: Install npm dependencies
-        run: cd docs && npm install
+        run: |
+          cd docs
+          npm install
 
       - name: Publish to GitHub Pages
-        run: cd docs && npm run build
+        run: |
+          cd docs
+          npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./docs/public
 
   # Deployment job
   deploy:
