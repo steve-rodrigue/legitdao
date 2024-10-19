@@ -9,7 +9,6 @@ author: "Steve Rodrigue"
 tags: ["tokenomics", "smart-contracts"]
 draft: false
 ---
-## Introduction
 In the world of decentralized organizations, the structure and governance of the system play a pivotal role in its success. LegitDAO, a decentralized autonomous organization (DAO), comprises several essential components, including the founding members, the affiliate network, and the DAO smart contract itself. This article delves into each of these elements, outlining their functions, interactions, and contributions to the overall ecosystem. 
 
 ## Founders

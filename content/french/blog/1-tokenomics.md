@@ -9,7 +9,6 @@ author: "Steve Rodrigue"
 tags: ["tokenomique", "smart-contracts"]
 draft: false
 ---
-## Introduction
 Dans l'écosystème de LegitDAO, les fondateurs sont les individus qui ont initialement conçu le projet et fourni les ressources nécessaires pour le lancer. Ils ont été responsables de la planification du développement initial de la technologie, de l'établissement de la tokenomique, et de la promotion du projet pour former la communauté initiale de soutiens à LegitDAO.
 
 ## Fondateurs
