@@ -10,9 +10,12 @@ The changelog serves as a comprehensive record of all updates made to the LegitD
 
 An entry is added for each day that there is a modification in the LegitDAO ecosystem. The individual making the modification should include their name along with the details of the change in the section for the current day. If a section for the current day does not exist, the person making the modification is responsible for creating one.
 
+## Sathurday, October 21th, 2024
+1. Steve Rodrigue: Changed the author section for the [team](/team) section
+
 ## Sathurday, October 19th, 2024
 1. Steve Rodrigue: I launched the first website of LegitDAO
-2. Steve Rodrigue: I [added myself](/authors/steve-rodrigue/) in the author's section
+2. Steve Rodrigue: I [added myself](/team/steve-rodrigue/) in the author's section
 3. Steve Rodrigue: I explained the [tokenomics of the smart-contract](/blog/1-tokenomics/) we will deploy on the BNB Chain
 4. Steve Rodrigue: I created the [propositions section](/propositions)
 5. Steve Rodrigue: I created the [roadmap](/roadmap) section
