@@ -1589,13 +1589,14 @@ func calculateTreeValue(
 	outputReferred := referredCalculation
 	outputFounder := founderCalculation
 
-	// add the direct referred value to the owner:
-	amountToAdd := (amount * levelToPercent[level]) / clevelDivider
-	outputReferred[owner] += amountToAdd
-
 	// find the parent:
 	parentAddress := findParentAddressIfAny(owner, data)
 	if parentAddress != "" {
+		// add the direct referred value to the owner:
+		amountToAdd := (amount * levelToPercent[level]) / clevelDivider
+		outputReferred[parentAddress] += amountToAdd
+
+		// continue next level:
 		return calculateTreeValue(
 			amount,
 			parentAddress,
