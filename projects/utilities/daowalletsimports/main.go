@@ -1417,18 +1417,6 @@ func main() {
 	// parse the data:
 	dataMap := parseData(data)
 
-	// calculate tht total amount:
-	total := 0
-	for _, oneTree := range dataMap {
-		casted, err := strconv.Atoi(oneTree.units)
-		if err != nil {
-			panic(err)
-		}
-
-		// add the units to the total:
-		total += casted
-	}
-
 	// make the units uint64:
 	updated := map[string]treeUint{}
 	for address, oneTree := range dataMap {
