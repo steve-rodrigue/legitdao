@@ -1541,7 +1541,7 @@ func main() {
 			strings.ToLower("13B7fD960C3c105c0a80f05a2430783345A7c8dC"),
 		}
 	*/
-	fmt.Printf("\ntotal: %v\n", egalizedTree[strings.ToLower("13B7fD960C3c105c0a80f05a2430783345A7c8dC")])
+	fmt.Printf("\ntotal: %v\n", egalizedTree[strings.ToLower("1c0370b8711059cb73937b407fb18cf7bdb04f00")])
 
 }
 
@@ -1568,7 +1568,16 @@ func calculateTreeValue(
 		outputReferred[owner] = (data[oneReferralAddress].units * levelToPercent[level]) / 10000
 
 		// calculate the sub-referral:
-		retReferred, retFounder := calculateTreeValue(owner, data[oneReferralAddress], data, levelToPercent, founders, level+1, referredCalculation, founderCalculation)
+		retReferred, retFounder := calculateTreeValue(
+			oneReferralAddress,
+			data[oneReferralAddress],
+			data,
+			levelToPercent,
+			founders,
+			level+1,
+			referredCalculation,
+			founderCalculation,
+		)
 
 		// referred:
 		for addr, oneValue := range retReferred {
@@ -1591,25 +1600,39 @@ func calculateTreeValue(
 		}
 	}
 
-	// if there is a remaining, separate it among founders:
-	amountInTree := len(outputReferred)
+	additionalFounder := splitToFounder(tree.units, outputReferred, levelToPercent, founders)
+	for oneAddress, oneValue := range additionalFounder {
+		outputFounder[oneAddress] = oneValue
+	}
+
+	return outputReferred, outputFounder
+}
+
+func splitToFounder(
+	amountUints uint64,
+	referred map[string]uint64,
+	levelToPercent map[uint8]uint64,
+	founders []string,
+) map[string]uint64 {
+	output := map[string]uint64{}
+	amountInTree := len(referred)
 	remainingLevels := len(levelToPercent) - amountInTree
 	for i := 0; i < remainingLevels; i++ {
 		newLevel := uint8(amountInTree + i)
-		value := (tree.units * levelToPercent[newLevel]) / 10000
+		value := (amountUints * levelToPercent[newLevel]) / 10000
 		partForEach := value / uint64(len(founders))
 		for _, oneFounderAddress := range founders {
-			if _, ok := outputFounder[oneFounderAddress]; ok {
-				outputFounder[oneFounderAddress] += partForEach
+			if _, ok := output[oneFounderAddress]; ok {
+				output[oneFounderAddress] += partForEach
 				continue
 			}
 
-			outputFounder[oneFounderAddress] = partForEach
+			output[oneFounderAddress] = partForEach
 		}
 
 	}
 
-	return outputReferred, outputFounder
+	return output
 }
 
 // parseData fills a map of tree structs based on the provided data
