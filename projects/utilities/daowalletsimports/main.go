@@ -1451,8 +1451,6 @@ func main() {
 	// calculate the referral amount and build the final tree:
 	treeWithReferrals := map[string]treeFinal{}
 	for address, oneTree := range updated {
-		referredCalculation, founderCalculation := calculateTreeValue(address, oneTree, updated, levelToPercent, founders, 0, map[string]uint64{}, map[string]uint64{})
-
 		if _, ok := treeWithReferrals[address]; ok {
 			treeWithReferrals[address] = treeFinal{
 				units:     oneTree.units,
@@ -1460,6 +1458,8 @@ func main() {
 				top:       treeWithReferrals[address].top,
 				referrals: oneTree.referrals,
 			}
+
+			continue
 		}
 
 		if _, ok := treeWithReferrals[address]; !ok {
@@ -1470,38 +1470,38 @@ func main() {
 				referrals: oneTree.referrals,
 			}
 		}
+	}
 
+	for address, oneTree := range treeWithReferrals {
+		// execute the referral: calculation:
+		referredCalculation, founderCalculation := calculateTreeValue(
+			address,
+			oneTree,
+			treeWithReferrals,
+			levelToPercent,
+			founders,
+			0,
+			map[string]uint64{},
+			map[string]uint64{},
+		)
+
+		// referrals:
 		for oneAddress, oneValue := range referredCalculation {
-			if _, ok := treeWithReferrals[oneAddress]; !ok {
-				treeWithReferrals[oneAddress] = treeFinal{
-					referred: oneValue,
-				}
-
-				continue
-			}
-
-			treeWithReferrals[address] = treeFinal{
-				units:     treeWithReferrals[address].units,
-				referred:  treeWithReferrals[address].referred + oneValue,
-				top:       treeWithReferrals[address].top,
-				referrals: treeWithReferrals[address].referrals,
+			treeWithReferrals[oneAddress] = treeFinal{
+				units:     treeWithReferrals[oneAddress].units,
+				referred:  treeWithReferrals[oneAddress].referred + oneValue,
+				top:       treeWithReferrals[oneAddress].top,
+				referrals: treeWithReferrals[oneAddress].referrals,
 			}
 		}
 
+		// founders:
 		for oneAddress, oneValue := range founderCalculation {
-			if _, ok := treeWithReferrals[oneAddress]; !ok {
-				treeWithReferrals[oneAddress] = treeFinal{
-					referred: oneValue,
-				}
-
-				continue
-			}
-
-			treeWithReferrals[address] = treeFinal{
-				units:     treeWithReferrals[address].units,
-				referred:  treeWithReferrals[address].referred,
-				top:       treeWithReferrals[address].top + oneValue,
-				referrals: treeWithReferrals[address].referrals,
+			treeWithReferrals[oneAddress] = treeFinal{
+				units:     treeWithReferrals[oneAddress].units,
+				referred:  treeWithReferrals[oneAddress].referred,
+				top:       treeWithReferrals[oneAddress].top + oneValue,
+				referrals: treeWithReferrals[oneAddress].referrals,
 			}
 		}
 
@@ -1536,19 +1536,20 @@ func main() {
 			strings.ToLower("8A85c533693a87837380d9225d226e334663d104"),
 			strings.ToLower("EF626c6425A2b077c23c2d747FCfE65777F66B10"),
 			strings.ToLower("ceaE30276B9fD5FA44366167e64728180eb3962c"),
-			strings.ToLower("1349DCDd92BA65Cf2234eD8c61C72DdF1f95400E"),
+			strings.ToLower("1349DCDd92BA65Cf2234eD8c61C72DdF1f95400E"),c
 			strings.ToLower("acd745EB1F708C323C2167966fcA4503430705E1"),
 			strings.ToLower("13B7fD960C3c105c0a80f05a2430783345A7c8dC"),
 		}
 	*/
-	fmt.Printf("\ntotal: %v\n", egalizedTree[strings.ToLower("1c0370b8711059cb73937b407fb18cf7bdb04f00")])
+
+	fmt.Printf("\ntotal: %d\n", egalizedTree[strings.ToLower("13B7fD960C3c105c0a80f05a2430783345A7c8dC")].top/100000000)
 
 }
 
 func calculateTreeValue(
 	owner string,
-	tree treeUint,
-	data map[string]treeUint,
+	tree treeFinal,
+	data map[string]treeFinal,
 	levelToPercent map[uint8]uint64,
 	founders []string,
 	level uint8,
@@ -1559,13 +1560,18 @@ func calculateTreeValue(
 		return referredCalculation, founderCalculation
 	}
 
+	// if we already made the calculation for this owner:
+	if _, ok := referredCalculation[owner]; ok {
+		return referredCalculation, founderCalculation
+	}
+
 	// calculate the referral levels:
-	outputReferred := map[string]uint64{}
-	outputFounder := map[string]uint64{}
+	outputReferred := referredCalculation
+	outputFounder := founderCalculation
 	for _, oneReferralAddress := range tree.referrals {
 
 		// add the direct referred value to the owner:
-		outputReferred[owner] = (data[oneReferralAddress].units * levelToPercent[level]) / 10000
+		outputReferred[owner] += (data[oneReferralAddress].units * levelToPercent[level]) / 10000
 
 		// calculate the sub-referral:
 		retReferred, retFounder := calculateTreeValue(
@@ -1579,30 +1585,13 @@ func calculateTreeValue(
 			founderCalculation,
 		)
 
-		// referred:
-		for addr, oneValue := range retReferred {
-			if _, ok := outputReferred[addr]; ok {
-				outputReferred[addr] += oneValue
-				continue
-			}
-
-			outputReferred[addr] = oneValue
-		}
-
-		// founder:
-		for addr, oneValue := range retFounder {
-			if _, ok := outputFounder[addr]; ok {
-				outputFounder[addr] += oneValue
-				continue
-			}
-
-			outputFounder[addr] = oneValue
-		}
+		outputReferred = retReferred
+		outputFounder = retFounder
 	}
 
 	additionalFounder := splitToFounder(tree.units, outputReferred, levelToPercent, founders)
 	for oneAddress, oneValue := range additionalFounder {
-		outputFounder[oneAddress] = oneValue
+		outputFounder[oneAddress] += oneValue
 	}
 
 	return outputReferred, outputFounder
@@ -1617,6 +1606,10 @@ func splitToFounder(
 	output := map[string]uint64{}
 	amountInTree := len(referred)
 	remainingLevels := len(levelToPercent) - amountInTree
+	if remainingLevels <= 0 {
+		return output
+	}
+
 	for i := 0; i < remainingLevels; i++ {
 		newLevel := uint8(amountInTree + i)
 		value := (amountUints * levelToPercent[newLevel]) / 10000
