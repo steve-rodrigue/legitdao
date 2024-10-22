@@ -1470,14 +1470,14 @@ func main() {
 	}
 
 	// compound the total:
-	updatedTotal := uint64(0)
+	total := uint64(0)
 	for _, oneTree := range updated {
-		updatedTotal += oneTree.units + oneTree.top + oneTree.referred
+		total += oneTree.units + oneTree.top + oneTree.referred
 	}
 
 	// calculate the egalized tree:
 	egalizedTree := map[string]treeUint{}
-	divider := uint64(float64(updatedTotal) / float64(10000000000000000))
+	divider := uint64(float64(total) / float64(10000000000000000))
 	for address, oneTree := range updated {
 		egalizedTree[address] = treeUint{
 			units:     uint64(oneTree.units / divider),
@@ -1487,7 +1487,7 @@ func main() {
 		}
 	}
 
-	updatedTotal = 0
+	updatedTotal := uint64(0)
 	for _, oneTree := range egalizedTree {
 		updatedTotal += oneTree.units + oneTree.top + oneTree.referred
 	}
