@@ -2002,6 +2002,9 @@ input#nav-toggle:checked ~ #nav-menu {
 .inline-flex {
   display: inline-flex;
 }
+.table {
+  display: table;
+}
 .hidden {
   display: none;
 }
@@ -2144,6 +2147,9 @@ input#nav-toggle:checked ~ #nav-menu {
 .py-\[2\.5px\] {
   padding-top: 2.5px;
   padding-bottom: 2.5px;
+}
+.pb-0 {
+  padding-bottom: 0px;
 }
 .pb-16 {
   padding-bottom: 4rem;

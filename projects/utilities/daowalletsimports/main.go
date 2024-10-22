@@ -1517,7 +1517,7 @@ referrals:
 
 	totalWithCents := uint64(0)
 	for _, oneTree := range totalWithCentsTree {
-		totalWithCents += oneTree.units + oneTree.referred
+		totalWithCents += oneTree.units
 	}
 
 	// compound the total referred:
@@ -1527,9 +1527,9 @@ referrals:
 	}
 
 	// compound the total referred:
-	totalReferredWithFoundersCents := uint64(0)
+	totalFoundersCents := uint64(0)
 	for _, oneTree := range totalWithCentsTree {
-		totalReferredWithFoundersCents += oneTree.referred + oneTree.top
+		totalFoundersCents += oneTree.top
 	}
 
 	// add the 15M to the founders:
@@ -1549,29 +1549,30 @@ referrals:
 		totalFounderWithCents += oneTree.top
 	}
 
-	totalBackToDAOWithCents := totalEmissionWithCents - (totalWithCents + totalFounderWithCents)
+	totalBackToDAOWithCents := totalEmissionWithCents - (totalWithCents + totalFounderWithCents + totalReferredWithCents)
 
 	fmt.Printf("\ntotal include cents, the token is divisible in 1/100.000.000\n------\n")
 	fmt.Printf("\ntotal to contributors: %d\n", totalWithCents)
 	fmt.Printf("\ntotal back to DAO: %d\n", totalBackToDAOWithCents)
 	fmt.Printf("\ntotal founders: %d \n", totalFounderWithCents)
-	fmt.Printf("\ntotal referred: %d \n", totalReferredWithFoundersCents)
-	fmt.Printf("\ntotal emission: %d \n", totalBackToDAOWithCents+totalWithCents+totalFounderWithCents)
-	fmt.Printf("\nreferring percentage: %f \n", float64(totalReferredWithFoundersCents)/float64(totalWithCents))
+	fmt.Printf("\ntotal referred: %d \n", totalFoundersCents)
+	fmt.Printf("\ntotal emission: %d \n", totalBackToDAOWithCents+totalWithCents+totalReferredWithCents+totalFounderWithCents)
+	fmt.Printf("\nreferring percentage: %f \n\n", float64(totalFoundersCents+totalReferredWithCents)/float64(totalWithCents))
 
-	/*
+	for oneAddress, oneTree := range totalWithCentsTree {
+		referralListStr := "-"
+		if len(oneTree.referrals) > 0 {
+			referralListStr = "<ol>"
+			for _, oneReferral := range oneTree.referrals {
+				referralListStr = fmt.Sprintf("%s<li>%s</li>", referralListStr, oneReferral)
+			}
 
-		founders := []string{
-			strings.ToLower("8A85c533693a87837380d9225d226e334663d104"),
-			strings.ToLower("EF626c6425A2b077c23c2d747FCfE65777F66B10"),
-			strings.ToLower("ceaE30276B9fD5FA44366167e64728180eb3962c"),
-			strings.ToLower("1349DCDd92BA65Cf2234eD8c61C72DdF1f95400E"),c
-			strings.ToLower("acd745EB1F708C323C2167966fcA4503430705E1"),
-			strings.ToLower("13B7fD960C3c105c0a80f05a2430783345A7c8dC"),
+			referralListStr = fmt.Sprintf("%s%s", referralListStr, "</ol>")
+
 		}
-	*/
 
-	//fmt.Printf("\ntotal: %d\n", totalWithCentsTree[strings.ToLower("13B7fD960C3c105c0a80f05a2430783345A7c8dC")].top/100000000)
+		fmt.Printf("| %s | %s | %d | %d | %d |\n", oneAddress, referralListStr, oneTree.units, oneTree.referred, oneTree.top)
+	}
 
 }
 
@@ -1708,6 +1709,7 @@ func parseData(data string) map[string]tree {
 			referrals = append(referrals, line)
 		}
 
+		address = strings.TrimSuffix(address, ",")
 		if address == "" || units == "" {
 			continue
 		}
@@ -1715,12 +1717,13 @@ func parseData(data string) map[string]tree {
 		cleaned := []string{}
 		for _, oneReferral := range referrals {
 			trimmed := strings.TrimSpace(oneReferral)
+			trimmed = strings.TrimSuffix(trimmed, ",")
 			if trimmed != "" {
-				cleaned = append(cleaned, oneReferral)
+				cleaned = append(cleaned, strings.ToLower(trimmed))
 			}
 		}
 
-		result[address] = tree{
+		result[strings.ToLower(address)] = tree{
 			units:     units,
 			referrals: cleaned,
 		}
