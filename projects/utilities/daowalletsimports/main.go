@@ -13,11 +13,6 @@ type tree struct {
 
 type treeUint struct {
 	units     uint64
-	referrals []string
-}
-
-type treeFinal struct {
-	units     uint64
 	referred  uint64
 	top       uint64
 	referrals []string
@@ -1445,39 +1440,18 @@ func main() {
 		updated[address] = treeUint{
 			units:     uint64(casted),
 			referrals: oneTree.referrals,
+			top:       0,
+			referred:  0,
 		}
 	}
 
 	// calculate the referral amount and build the final tree:
-	treeWithReferrals := map[string]treeFinal{}
 	for address, oneTree := range updated {
-		if _, ok := treeWithReferrals[address]; ok {
-			treeWithReferrals[address] = treeFinal{
-				units:     oneTree.units,
-				referred:  treeWithReferrals[address].referred,
-				top:       treeWithReferrals[address].top,
-				referrals: oneTree.referrals,
-			}
-
-			continue
-		}
-
-		if _, ok := treeWithReferrals[address]; !ok {
-			treeWithReferrals[address] = treeFinal{
-				units:     oneTree.units,
-				referred:  0,
-				top:       0,
-				referrals: oneTree.referrals,
-			}
-		}
-	}
-
-	for address, oneTree := range treeWithReferrals {
 		// execute the referral: calculation:
 		referredCalculation, founderCalculation := calculateTreeValue(
 			address,
 			oneTree,
-			treeWithReferrals,
+			updated,
 			levelToPercent,
 			founders,
 			0,
@@ -1487,21 +1461,21 @@ func main() {
 
 		// referrals:
 		for oneAddress, oneValue := range referredCalculation {
-			treeWithReferrals[oneAddress] = treeFinal{
-				units:     treeWithReferrals[oneAddress].units,
-				referred:  treeWithReferrals[oneAddress].referred + oneValue,
-				top:       treeWithReferrals[oneAddress].top,
-				referrals: treeWithReferrals[oneAddress].referrals,
+			updated[oneAddress] = treeUint{
+				units:     updated[oneAddress].units,
+				referred:  updated[oneAddress].referred + oneValue,
+				top:       updated[oneAddress].top,
+				referrals: updated[oneAddress].referrals,
 			}
 		}
 
 		// founders:
 		for oneAddress, oneValue := range founderCalculation {
-			treeWithReferrals[oneAddress] = treeFinal{
-				units:     treeWithReferrals[oneAddress].units,
-				referred:  treeWithReferrals[oneAddress].referred,
-				top:       treeWithReferrals[oneAddress].top + oneValue,
-				referrals: treeWithReferrals[oneAddress].referrals,
+			updated[oneAddress] = treeUint{
+				units:     updated[oneAddress].units,
+				referred:  updated[oneAddress].referred,
+				top:       updated[oneAddress].top + oneValue,
+				referrals: updated[oneAddress].referrals,
 			}
 		}
 
@@ -1509,15 +1483,15 @@ func main() {
 
 	// compound the total:
 	updatedTotal := uint64(0)
-	for _, oneTree := range treeWithReferrals {
+	for _, oneTree := range updated {
 		updatedTotal += oneTree.units + oneTree.top + oneTree.referred
 	}
 
 	// calculate the egalized tree:
-	egalizedTree := map[string]treeFinal{}
+	egalizedTree := map[string]treeUint{}
 	divider := uint64(float64(updatedTotal) / float64(10000000000000000))
-	for address, oneTree := range treeWithReferrals {
-		egalizedTree[address] = treeFinal{
+	for address, oneTree := range updated {
+		egalizedTree[address] = treeUint{
 			units:     uint64(oneTree.units / divider),
 			referred:  uint64(oneTree.referred / divider),
 			top:       uint64(oneTree.top / divider),
@@ -1548,8 +1522,8 @@ func main() {
 
 func calculateTreeValue(
 	owner string,
-	tree treeFinal,
-	data map[string]treeFinal,
+	tree treeUint,
+	data map[string]treeUint,
 	levelToPercent map[uint8]uint64,
 	founders []string,
 	level uint8,
