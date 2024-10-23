@@ -10,6 +10,9 @@ La feuille de route sert de registre complet de toutes les mises à jour apport�
 
 Une entrée est ajoutée pour chaque jour où il y a une modification dans l'écosystème de LegitDAO. La personne effectuant la modification doit inclure son nom ainsi que les détails du changement dans la section du jour actuel. Si une section pour le jour actuel n'existe pas, la personne effectuant la modification est responsable d'en créer une.
 
+## Sathurday, October 22th, 2024
+1. Steve Rodrigue: Je viens de créer le [billet expliquant la distribution des tokens pour le DAO](/fr/blog/2-daotokdistribution).
+
 ## Sathurday, October 21th, 2024
 1. Steve Rodrigue: Jai changé la section team pour la section [équipe](/fr/team).
 
