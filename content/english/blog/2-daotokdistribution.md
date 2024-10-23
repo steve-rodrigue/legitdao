@@ -1,7 +1,7 @@
 ---
 title: "LegitDAO Token Distribution"
 meta_title: "DAO Token Distribution"
-description: "This blog post explains the the initial distribution of the DAO token"
+description: "This blog post explains the initial distribution of the DAO token"
 date: 2024-10-22T05:00:00Z
 image: "/images/blogs/tokendistribution.png"
 categories: ["Tokenomics", "Token", "DAO"]
@@ -33,8 +33,8 @@ Additionally, the founders receive **15%** of the total emissions at the time of
 - **Total earned through referrals**: 35,450,478,550,332
 - **Total emission**: 10,000,000,000,000,000
 
-## Calculation program
-You can also examine the program I developed to calculate and generate the initial distribution process [sur notre github](https://github.com/steve-rodrigue/legitdao/blob/main/projects/utilities/daowalletsimports/main.go).
+## Distribution Calculation Program
+You can also examine the program I developed to calculate and generate the initial distribution process [on our github](https://github.com/steve-rodrigue/legitdao/blob/main/projects/utilities/daowalletsimports/main.go).
 
 
 |      Wallet      |      Wallets Referred      |      Contribution      |      Referral      |      Founder      |

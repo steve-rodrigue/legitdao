@@ -33,7 +33,7 @@ De plus, les fondateurs reçoivent **15%** des émissions totales au moment de l
 - **Total gagné grâce aux parrainages** : 35 450 478 550 332
 - **Émission totale** : 10 000 000 000 000 000
 
-## Calculation program
+## Programme du calcul de distribution
 Vous pouvez également examiner le programme que j’ai développé pour calculer et générer le processus de distribution initial [sur notre github](https://github.com/steve-rodrigue/legitdao/blob/main/projects/utilities/daowalletsimports/main.go).
 
 
