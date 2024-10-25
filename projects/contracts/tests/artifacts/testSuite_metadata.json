@@ -14,36 +14,23 @@
 			},
 			{
 				"inputs": [],
-				"name": "checkPublicPropertiesSuccess",
+				"name": "testPublicPropertiesSuccess",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
 				"inputs": [],
-				"name": "checkSenderAndValue",
+				"name": "testReceive",
 				"outputs": [],
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
 				"inputs": [],
-				"name": "checkSuccess",
+				"name": "testRegisterBuyOrder",
 				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "checkSuccess2",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "pure",
+				"stateMutability": "payable",
 				"type": "function"
 			}
 		],
@@ -56,10 +43,13 @@
 			"kind": "user",
 			"methods": {
 				"beforeAll()": {
-					"notice": "'beforeAll' runs before all other tests More special functions are: 'beforeEach', 'beforeAll', 'afterEach' & 'afterAll'"
+					"notice": "#sender: account-0 #value: 1000000000000"
 				},
-				"checkSenderAndValue()": {
-					"notice": "Custom Transaction Context: https://remix-ide.readthedocs.io/en/latest/unittesting.html#customization #sender: account-1 #value: 100"
+				"testReceive()": {
+					"notice": "#sender: account-0 #value: 1000000000000"
+				},
+				"testRegisterBuyOrder()": {
+					"notice": "#sender: account-0 #value: 1000000000000"
 				}
 			},
 			"version": 1
@@ -258,11 +248,19 @@
 			]
 		},
 		"erc-20/LegitDAOCurrency.sol": {
-			"keccak256": "0xaa975e25baa88003daeb429e72318e87db167990110fdabe9ae340c814bc62a4",
+			"keccak256": "0xa4029774bd50ea05c316e031c5dfc06dc85215eea1f2c88cffd7b6c3f4455f8f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b38a4d3f861e4a6d52e9dcaea8ccefd7bdf7365869faf2ab273d615fcdf5ecb7",
-				"dweb:/ipfs/QmNkNs9jJkKCccWs8TqkWqVjaFAJ5ceYBD25R98zwobdCn"
+				"bzz-raw://22d440a8b877dd9771292b155a2ff5ad7d0235ae75580d5f5d07d223e03189ae",
+				"dweb:/ipfs/Qmf83TsjneoEMcg88oxLTmfLgB1XHycqQ9pzGbrNqpYhym"
+			]
+		},
+		"hardhat/console.sol": {
+			"keccak256": "0xf2560b5386574153057104d19a9e68a32ee912cf23c0c8df1fe9a0607f42d543",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a63166e036b040826baa513772451a79925daa304b38749100efb089ac07cdc2",
+				"dweb:/ipfs/QmUtMTxUFKU6a5oFXsEJnTPvb3QPb7GDDmSv5yZ1jFHDwR"
 			]
 		},
 		"remix_accounts.sol": {
@@ -282,11 +280,11 @@
 			]
 		},
 		"tests/LegitDAOCurrency_test.sol": {
-			"keccak256": "0xa493580bb2fd2c56a91f967aa9e2c96b83c9040a6c0621912a901fa080e5d85d",
+			"keccak256": "0x3acfc08b410fd0c1069bd4ca93745c6668be57f2cc569024d88115ccc18fdba6",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://c5cabd98755bbe7f34d1f5bd14a0b2210e031e050110ba12c54fbcebb005a44f",
-				"dweb:/ipfs/Qmf6pkwJ9DTtxDRMvN5BEoZmUqA7nvQL3gndUfUdSdZ3aU"
+				"bzz-raw://00ed0e3ccf03cb6ce70a816dd0102ac2391b74e03bfdd01063868aa8d017317f",
+				"dweb:/ipfs/QmRc7cGraawcE92fToqr1rxEhgVmn9jgGATrCxw1T2DyKD"
 			]
 		}
 	},

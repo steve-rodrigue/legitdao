@@ -76,7 +76,7 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
         _mint(msg.sender, 10000000 * 10 ** decimals());
 
         // mint 90M to the contract
-        _mint(address(this), 9000000 * 10**decimals());
+        _mint(address(this), 9000000 * 10 **decimals());
 
         // set properties:
         initialPricePerBNB = _initialPricePerBNB;
@@ -90,7 +90,7 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
     }
 
     receive() external payable nonReentrant {
-        registerBuyOrder(maxPrice, payable(msg.sender));
+       //registerBuyOrder(maxPrice, payable(msg.sender));
     }
 
     // buy tokens with bnb

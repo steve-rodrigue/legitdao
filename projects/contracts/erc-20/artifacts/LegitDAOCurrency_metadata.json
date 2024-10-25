@@ -1235,11 +1235,11 @@
 			]
 		},
 		"erc-20/LegitDAOCurrency.sol": {
-			"keccak256": "0xaa975e25baa88003daeb429e72318e87db167990110fdabe9ae340c814bc62a4",
+			"keccak256": "0xa4029774bd50ea05c316e031c5dfc06dc85215eea1f2c88cffd7b6c3f4455f8f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b38a4d3f861e4a6d52e9dcaea8ccefd7bdf7365869faf2ab273d615fcdf5ecb7",
-				"dweb:/ipfs/QmNkNs9jJkKCccWs8TqkWqVjaFAJ5ceYBD25R98zwobdCn"
+				"bzz-raw://22d440a8b877dd9771292b155a2ff5ad7d0235ae75580d5f5d07d223e03189ae",
+				"dweb:/ipfs/Qmf83TsjneoEMcg88oxLTmfLgB1XHycqQ9pzGbrNqpYhym"
 			]
 		}
 	},
