@@ -12,10 +12,11 @@ type tree struct {
 }
 
 type treeUint struct {
-	units     uint64
-	referred  uint64
-	top       uint64
-	referrals []string
+	units       uint64
+	referred    uint64
+	referredTop uint64
+	top         uint64
+	referrals   []string
 }
 
 const clevelDivider = 10000
@@ -109,7 +110,7 @@ referrals:
 units: 112400000
 referrals:
 ----
-20) 8de7aa0a77134b3e5e09f3586ad6769f79ea8b2d
+20) 2009d4cffe6ef87ea0019fef3edc62ffd211731d
 units: 14050000
 referrals:
 ----
@@ -239,7 +240,8 @@ c531e47f882a34543cc77e92ffbba93d3ea11117,
 b2e9113d7ac34f7d39662b0e8ddc769bdec9cbf7,
 3023138cb3aeeae67c4033015a39b56af582e3fc,
 7be8c96a98cb2fe2fd6c59edd2a83cebb3233ba2,
-871d583deb3083993b28487beb934eef155e0118
+871d583deb3083993b28487beb934eef155e0118,
+78a607231617D6E0e3719ed3e127e5084f6CB1b6
 ----
 50) 178132f6c553ce96d4b47ec224a5c37e76be39dd
 units: 240000000
@@ -330,7 +332,7 @@ referrals:
 ----
 69) adc0b7a58ba5fbd9e8a6980350b39c52704a2f6a
 units: 126450000
-referrals: 8de7aa0a77134b3e5e09f3586ad6769f79ea8b2d
+referrals: 2009d4cffe6ef87ea0019fef3edc62ffd211731d
 ----
 70) d0a26322abfaa561da11713e76af4e5611b9a4fd
 units: 31506000
@@ -373,7 +375,7 @@ referrals: ec931d7bef828d5beadac291490a71fae80a401b,
 ----
 79) 7412c8b906815c25c9031b8b3b9f4805015ac7f2
 units: 28662000
-referrals: 82cd4d648248322bf99d8cd587a63e77fd50b841
+referrals: e674661FDb5bcA205752EA96F7D7Dca631a006C0
 ----
 80) 69e1181e26fab42ab0f73797aa8e8b8dc77628cf
 units: 240000000
@@ -436,7 +438,7 @@ e8c762ae04480c230ee51f7caacf3c3c6a98a5ac,
 1c0370b8711059cb73937b407fb18cf7bdb04f00,
 78da7fca531d4b6710d616cdd63d77bc80e7fd32,
 82094dfcd0e9d8c57c89a4ffd5491f7b16833fce,
-4888ad1efed510667745edcc3e5b8fd4f40b2752,
+F6CEDBD5DCc702fa7E2afa4f2eBBfa436F28812E,
 7c4e6b55f58d5396b82d9128a705f14a36f4eb76,
 7946c0c8807b8458f32dcf6aad0ad6807907e6c5,
 a6e26dbef099a1a4c99dd4c90159776c1dbf490b,
@@ -576,7 +578,7 @@ units: 177600000
 referrals: 16ce7d09d38b8e5dca13980cf9d4bce2d2244c77,
 b4536dc4950b53e3c16fb85c5a56f9be239a7b6f,
 deda2f75187f96965eb24fd53123f42a5ef342a8,
-445bef61a9353db1813002375a305245dcbf367c,
+Cee382F4fF237942366a811D9ED596850E46A050,
 b863769e618825a4650bfb5ae8bf022bb92ad7e6,
 7245aa3377401c1a0482219053edc8545d65920f,
 41e0d6fd4f722f39b3168e2cac4da2e0a2b8fe6b,
@@ -680,13 +682,13 @@ referrals:
 units: 28100000
 referrals: 5b5d95d32f55f08480704077888d713d50c8f18f
 ----
-135) 91b91476849b46e0b6335c94302307f3e3348c85
+135) 4DC9930821b5D073407a36CA435a7965e3c08f3F
 units: 267000000
 referrals:
 ----
 136) 21a7619492f3d5aa58345556863026bba112db56
 units: 117480000
-referrals:
+referrals: 03fd9c6a9fd55eea203d2f1e5e6e33ecc42298a6
 ----
 137) 365d913c0a29d709fe3e649a1376951661b96fd1
 units: 267000000
@@ -708,7 +710,7 @@ referrals:
 units: 58080000
 referrals:
 ----
-142) 789ab82821d9efb4511e3a7f75820037b560b768
+142) 5620Df18BaA8fB97E809f05b3D59f9641C964ED0
 units: 52652400
 referrals:
 ----
@@ -834,7 +836,7 @@ referrals:
 units: 296000000
 referrals:
 ----
-167) 4888ad1efed510667745edcc3e5b8fd4f40b2752
+167) F6CEDBD5DCc702fa7E2afa4f2eBBfa436F28812E
 units: 150960000
 referrals:
 ----
@@ -883,11 +885,11 @@ referrals:
 units: 140500000
 referrals:
 ----
-179) 82cd4d648248322bf99d8cd587a63e77fd50b841
+179) e674661FDb5bcA205752EA96F7D7Dca631a006C0
 units: 28071900
 referrals:
 ----
-180) b6165e06be0cf63bd008c98000f933e365b09f08
+180) 68638d183B99095740BdE4Eb21f6742DDbd585b4
 units: 51142000
 referrals:
 ----
@@ -1118,7 +1120,7 @@ referrals:
 units: 59200000
 referrals: 072a9b89f4462d3c2f9183e82027b42299b74fd9,
 d0a26322abfaa561da11713e76af4e5611b9a4fd,
-352edba41626f7a6c6641d71ba94a5e28d49b7a9,
+330Da067eA9b7B4dD5f640CF3812Fe3F1212c2C4,
 91e0c71217225a4870a6ef35a7ca0b674941a746,
 899530f3464a37920674b536384c299c6a09eeee,
 48e36BdBBc54219136FDd20685ccC73166Fe8324,
@@ -1135,7 +1137,7 @@ referrals:
 units: 272289000
 referrals: 5db0ce4be877074f838ec85eb196784ee529df15,
 cec4df3865be446e9e8d2fd9cb9e182f698c6e1b,
-91b91476849b46e0b6335c94302307f3e3348c85
+4DC9930821b5D073407a36CA435a7965e3c08f3F
 ----
 236) bd793d8e9a131b9d31d8b3695676c0a408c0fdc4
 units: 133500000
@@ -1204,7 +1206,7 @@ referrals:
 250) abaeca5fd546ccfcaebb6fa1b69a6c6bdc9b44ec
 units: 31472000
 referrals: 7412c8b906815c25c9031b8b3b9f4805015ac7f2,
-b6165e06be0cf63bd008c98000f933e365b09f08
+68638d183B99095740BdE4Eb21f6742DDbd585b4
 ----
 251) eec9aed9d7d5430dbee4f6425c5974a6dce5dd78
 units: 24000000
@@ -1246,9 +1248,9 @@ referrals:
 units: 5624000
 referrals:
 ----
-261) 352edba41626f7a6c6641d71ba94a5e28d49b7a9
+261) 330Da067eA9b7B4dD5f640CF3812Fe3F1212c2C4
 units: 73425000
-referrals: 789ab82821d9efb4511e3a7f75820037b560b768
+referrals: 5620Df18BaA8fB97E809f05b3D59f9641C964ED0
 ----
 262) c64c8e600a35d3786cf0b13a46744e010617b080
 units: 2696000
@@ -1365,7 +1367,7 @@ referrals:
 units: 267000000
 referrals: ebacba195accc94e6ac9b34207f3916c41119329
 ----
-286) 445bef61a9353db1813002375a305245dcbf367c
+286) Cee382F4fF237942366a811D9ED596850E46A050
 units: 20720000
 referrals: 96bad93f26c64e72f7b22e3dee731ca51e84c78b,
 12ee88a73ab1d6609863f6c863fc26b017627542
@@ -1409,6 +1411,15 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 ----
 `
 
+	founderInitialShareWithCents := map[string]uint64{
+		strings.ToLower("acd745EB1F708C323C2167966fcA4503430705E1"): 333333333333333,
+		strings.ToLower("1349DCDd92BA65Cf2234eD8c61C72DdF1f95400E"): 150000000000000,
+		strings.ToLower("ceaE30276B9fD5FA44366167e64728180eb3962c"): 200000000000000,
+		strings.ToLower("EF626c6425A2b077c23c2d747FCfE65777F66B10"): 150000000000000,
+		strings.ToLower("8A85c533693a87837380d9225d226e334663d104"): 333333333333333,
+		strings.ToLower("13B7fD960C3c105c0a80f05a2430783345A7c8dC"): 333333333333334,
+	}
+
 	founders := []string{
 		strings.ToLower("8A85c533693a87837380d9225d226e334663d104"),
 		strings.ToLower("EF626c6425A2b077c23c2d747FCfE65777F66B10"),
@@ -1440,10 +1451,11 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 		}
 
 		updated[address] = treeUint{
-			units:     uint64(casted),
-			referrals: oneTree.referrals,
-			top:       0,
-			referred:  0,
+			units:       uint64(casted),
+			referrals:   oneTree.referrals,
+			top:         0,
+			referred:    0,
+			referredTop: 0,
 		}
 	}
 
@@ -1451,10 +1463,11 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 	for _, oneAddress := range founders {
 		if _, ok := updated[oneAddress]; !ok {
 			updated[oneAddress] = treeUint{
-				units:     0,
-				referrals: []string{},
-				top:       0,
-				referred:  0,
+				units:       0,
+				referrals:   []string{},
+				top:         0,
+				referred:    0,
+				referredTop: 0,
 			}
 		}
 	}
@@ -1478,20 +1491,22 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 			// referrals:
 			for oneAddress, oneValue := range referredCalculation {
 				updated[oneAddress] = treeUint{
-					units:     updated[oneAddress].units,
-					referred:  updated[oneAddress].referred + oneValue,
-					top:       updated[oneAddress].top,
-					referrals: updated[oneAddress].referrals,
+					units:       updated[oneAddress].units,
+					referred:    updated[oneAddress].referred + oneValue,
+					top:         updated[oneAddress].top,
+					referredTop: updated[oneAddress].referredTop,
+					referrals:   updated[oneAddress].referrals,
 				}
 			}
 
 			// founders:
 			for oneAddress, oneValue := range founderCalculation {
 				updated[oneAddress] = treeUint{
-					units:     updated[oneAddress].units,
-					referred:  updated[oneAddress].referred,
-					top:       updated[oneAddress].top + oneValue,
-					referrals: updated[oneAddress].referrals,
+					units:       updated[oneAddress].units,
+					referred:    updated[oneAddress].referred,
+					top:         updated[oneAddress].top,
+					referredTop: updated[oneAddress].referredTop + oneValue,
+					referrals:   updated[oneAddress].referrals,
 				}
 			}
 		}
@@ -1506,7 +1521,18 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 	// compound the total:
 	total := uint64(0)
 	for _, oneTree := range updated {
-		total += oneTree.units + oneTree.top + oneTree.referred
+		total += oneTree.units + oneTree.top + oneTree.referred + +oneTree.referredTop
+	}
+
+	// add the 15M to the founders:
+	for oneAddress, oneValue := range founderInitialShareWithCents {
+		updated[oneAddress] = treeUint{
+			units:       updated[oneAddress].units,
+			referred:    updated[oneAddress].referred,
+			top:         oneValue,
+			referrals:   updated[oneAddress].referrals,
+			referredTop: updated[oneAddress].referredTop,
+		}
 	}
 
 	// calculate the total with cents:
@@ -1515,16 +1541,17 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 	multiplier := uint64(float64(100000) * ratio)
 	for address, oneTree := range updated {
 		totalWithCentsTree[address] = treeUint{
-			units:     oneTree.units * multiplier,
-			referred:  oneTree.referred * multiplier,
-			top:       oneTree.top * multiplier,
-			referrals: oneTree.referrals,
+			units:       oneTree.units * multiplier,
+			referred:    oneTree.referred * multiplier,
+			top:         oneTree.top,
+			referrals:   oneTree.referrals,
+			referredTop: oneTree.referredTop * multiplier,
 		}
 	}
 
-	totalWithCents := uint64(0)
+	totalUnitsWithCents := uint64(0)
 	for _, oneTree := range totalWithCentsTree {
-		totalWithCents += oneTree.units
+		totalUnitsWithCents += oneTree.units
 	}
 
 	// compound the total referred:
@@ -1533,38 +1560,29 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 		totalReferredWithCents += oneTree.referred
 	}
 
-	// compound the total referred:
-	totalFoundersCents := uint64(0)
-	for _, oneTree := range totalWithCentsTree {
-		totalFoundersCents += oneTree.top
-	}
-
-	// add the 15M to the founders:
-	partPerFounder := uint64(totalEmissionWithCents * founderShare / len(founders))
-	for _, oneAddress := range founders {
-		totalWithCentsTree[oneAddress] = treeUint{
-			units:     totalWithCentsTree[oneAddress].units,
-			referred:  totalWithCentsTree[oneAddress].referred,
-			top:       totalWithCentsTree[oneAddress].top + partPerFounder,
-			referrals: totalWithCentsTree[oneAddress].referrals,
-		}
-	}
-
 	// compound the total for founders:
 	totalFounderWithCents := uint64(0)
 	for _, oneTree := range totalWithCentsTree {
 		totalFounderWithCents += oneTree.top
 	}
 
-	totalBackToDAOWithCents := totalEmissionWithCents - (totalWithCents + totalFounderWithCents + totalReferredWithCents)
+	// compound the total for referred founders:
+	totalReferredFounderWithCents := uint64(0)
+	for _, oneTree := range totalWithCentsTree {
+		totalReferredFounderWithCents += oneTree.referredTop
+	}
+
+	totalBackToDAOWithCents := totalEmissionWithCents - (totalUnitsWithCents + totalFounderWithCents + totalReferredFounderWithCents + totalReferredWithCents)
 
 	fmt.Printf("\ntotal include cents, the token is divisible in 1/100.000.000\n------\n")
-	fmt.Printf("\ntotal to contributors: %d\n", totalWithCents)
+	fmt.Printf("\ntotal to contributors: %d\n", totalUnitsWithCents)
 	fmt.Printf("\ntotal back to DAO: %d\n", totalBackToDAOWithCents)
 	fmt.Printf("\ntotal founders: %d \n", totalFounderWithCents)
-	fmt.Printf("\ntotal referred: %d \n", totalFoundersCents)
-	fmt.Printf("\ntotal emission: %d \n", totalBackToDAOWithCents+totalWithCents+totalReferredWithCents+totalFounderWithCents)
-	fmt.Printf("\nreferring percentage: %f \n\n", float64(totalFoundersCents+totalReferredWithCents)/float64(totalWithCents))
+	fmt.Printf("\ntotal overflow referred by founders: %d \n", totalReferredFounderWithCents)
+	fmt.Printf("\ntotal referred: %d \n", totalReferredWithCents)
+	fmt.Printf("\ntotal emission: %d \n", totalBackToDAOWithCents+totalUnitsWithCents+totalReferredWithCents+totalFounderWithCents+totalReferredFounderWithCents)
+	fmt.Printf("\nreferring percentage: %f \n\n", float64(totalReferredWithCents)/float64(totalUnitsWithCents))
+	fmt.Printf("\nfounder referring overflow percentage: %f \n\n", float64(totalReferredFounderWithCents)/float64(totalUnitsWithCents))
 
 	for oneAddress, oneTree := range totalWithCentsTree {
 		referralListStr := "-"
@@ -1578,7 +1596,8 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 
 		}
 
-		fmt.Printf("| %s | %s | %d | %d | %d |\n", oneAddress, referralListStr, oneTree.units, oneTree.referred, oneTree.top)
+		total := oneTree.units + oneTree.referred + oneTree.referredTop + oneTree.top
+		fmt.Printf("| %s | %s | %d | %d | %d | %d | %d |\n", oneAddress, referralListStr, oneTree.units, oneTree.referred, oneTree.referredTop, oneTree.top, total)
 	}
 
 }
