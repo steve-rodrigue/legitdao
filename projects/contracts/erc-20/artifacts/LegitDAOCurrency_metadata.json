@@ -381,6 +381,13 @@
 			},
 			{
 				"inputs": [],
+				"name": "cancelSellOrder",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "decimals",
 				"outputs": [
 					{
@@ -560,6 +567,24 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amountOfTokens",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pricePerToken",
+						"type": "uint256"
+					}
+				],
+				"name": "sellToMarket",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -1037,11 +1062,11 @@
 			]
 		},
 		"erc-20/LegitCurrency.sol": {
-			"keccak256": "0x68115df95ada48683f95e9118f94d16f8f18736a6d6dc00490777d76ab388d45",
+			"keccak256": "0x7021cd6e8ecdf11c1255606178ff97769a18f8b77df697be8297e26c659bd648",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://64831049cc295e820c6426d71aa69876c74cba2a664648e42ae33bdaa4c13d88",
-				"dweb:/ipfs/QmRtG53gs3r79U8uL9HqF97RHv4Z2wUYbiJMxH5bbZCqD8"
+				"bzz-raw://f533466db47af85117bfe0aa22ee57382a040a6db465b2a96d8aecb2ef4416f6",
+				"dweb:/ipfs/QmW7zhZRAjXMA7pErWNhaoBYeFuRrcpSvmTefifqMEr3wq"
 			]
 		}
 	},

@@ -16,6 +16,11 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 /// @custom:security-contact stev.rodr@gmail.com
 contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard {
 
+    struct MarketOrder {
+        uint256 amount;
+        uint256 pricePerUnit;
+    }
+
      // using SafeMath for uint256 type
     using SafeMath for uint256;
 
@@ -24,6 +29,12 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
 
    // array to keep track of addresses (for iterating purposes)
     address[] public userAddresses;
+
+    // represents the sell book
+    mapping(address => MarketOrder) sellBook;
+
+    // represents the buy book
+    mapping(address => MarketOrder) buyBook;
 
     // initial tokens per 1 BNB
     uint256 public initialPricePerBNB;
@@ -75,17 +86,49 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
             // fetch the address:
             address currentAddress = userAddresses[i];
 
-            // fetch the balance for that address:
-            uint256 currentBalance = balances[currentAddress];
+            // fetch the token balance for that address:
+            uint256 currentBalance = balanceOf(currentAddress);
 
             // calculate the ratio to assign:
             uint256 ratio =  currentBalance.div(totalSupply);
 
-            // update the balance:
+            // update the bnb balance share:
             balances[currentAddress] = ratio.mul(msg.value);
         }
 
         // BNB's are set to the contract address
+    }
+
+    // sell tokens to the market
+    function sellToMarket(uint256 amountOfTokens, uint256 pricePerToken) external {
+        // ensure there are enough tokens for sale:
+        require(balanceOf(msg.sender) >= amountOfTokens, "Not enough tokens in contract");
+
+        // if there is a previous sell order entry, cancel it:
+        if (sellBook[msg.sender].amount > 0) {
+            _cancelSellOrder();
+        }
+
+        // register the sell order in the book:
+        sellBook[msg.sender] = MarketOrder(amountOfTokens, pricePerToken);
+
+        // transfer the tokens to the contract:
+        _transfer(msg.sender, address(this), amountOfTokens);
+    }
+
+    function _cancelSellOrder() private {
+        // fetch the amount:
+        uint256 amount = sellBook[msg.sender].amount;
+
+        // delete the book for that address:
+        delete sellBook[msg.sender];
+
+        // transfer the tokens to the contract:
+        _transfer(address(this), msg.sender, amount);
+    }
+
+    function cancelSellOrder() external {
+       _cancelSellOrder();
     }
 
     // returns the balance of BNB on the contract:
