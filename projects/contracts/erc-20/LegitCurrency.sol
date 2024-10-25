@@ -36,6 +36,9 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
     // represents the buy book
     mapping(address => MarketOrder) buyBook;
 
+    // represents the address payable mapping
+    mapping(address => address payable) refundAddress;
+
     // initial tokens per 1 BNB
     uint256 public initialPricePerBNB;
 
@@ -99,9 +102,9 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
         // BNB's are set to the contract address
     }
 
-    // sell tokens to the market
-    function sellToMarket(uint256 amountOfTokens, uint256 pricePerToken) external {
-        // ensure there are enough tokens for sale:
+    // registers a sell order
+    function registerSellOrder(uint256 amountOfTokens, uint256 pricePerToken) external {
+        // ensure the sender has enough tokens for sale:
         require(balanceOf(msg.sender) >= amountOfTokens, "Not enough tokens in contract");
 
         // if there is a previous sell order entry, cancel it:
@@ -116,11 +119,43 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
         _transfer(msg.sender, address(this), amountOfTokens);
     }
 
+    function registerBuyOrder(uint256 requestedPrice, address payable refundTo) payable external {
+        require(msg.value > 0, "Send BNB to register buy order");
+
+        // if there is a previous buy order entry, cancel it:
+        if (buyBook[msg.sender].amount > 0) {
+           _cancelBuyOrder();
+        }
+
+        // add the value to the book:
+        buyBook[msg.sender] = MarketOrder(msg.value, requestedPrice);
+        refundAddress[msg.sender] = refundTo;
+
+        // the BNB value is now transfered to the contract
+    }
+
+    function _cancelBuyOrder() public payable {
+        // fetch the amount:
+        uint256 amount = buyBook[msg.sender].amount;
+
+        // ensurce there is enough bnb in the contract:
+        require(address(this).balance >= amount, "Insufficient BNB balance in contract");
+
+        // delete the entry from the book:
+        delete buyBook[msg.sender];
+
+        // transfer the tokens to the contract:
+        refundAddress[msg.sender].transfer(amount);
+
+        // delete the entry from the refund address:
+        delete refundAddress[msg.sender];
+    }
+
     function _cancelSellOrder() private {
         // fetch the amount:
         uint256 amount = sellBook[msg.sender].amount;
 
-        // delete the book for that address:
+        // delete the entry from the book:
         delete sellBook[msg.sender];
 
         // transfer the tokens to the contract:
