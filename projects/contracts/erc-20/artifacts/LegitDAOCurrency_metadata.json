@@ -1044,7 +1044,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"erc-20/LegitCurrency.sol": "LegitDAOCurrency"
+			"erc-20/LegitDAOCurrency.sol": "LegitDAOCurrency"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -1234,12 +1234,12 @@
 				"dweb:/ipfs/QmVUSvooZKEdEdap619tcJjTLcAuH6QBdZqAzWwnAXZAWJ"
 			]
 		},
-		"erc-20/LegitCurrency.sol": {
-			"keccak256": "0xc7ecdaa3d9a4837671541fad90e9fa6114c9a99247269a19365d58cf88f17983",
+		"erc-20/LegitDAOCurrency.sol": {
+			"keccak256": "0xaa975e25baa88003daeb429e72318e87db167990110fdabe9ae340c814bc62a4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://dac5b8faed9a2881e52acade193728dc414e0745f1a57d2820c54b2dd6c06eaa",
-				"dweb:/ipfs/QmQLgiqaw6YedHmfogi5ahagk3ZKkAmT6puwhnzbjcgdEi"
+				"bzz-raw://b38a4d3f861e4a6d52e9dcaea8ccefd7bdf7365869faf2ab273d615fcdf5ecb7",
+				"dweb:/ipfs/QmNkNs9jJkKCccWs8TqkWqVjaFAJ5ceYBD25R98zwobdCn"
 			]
 		}
 	},
