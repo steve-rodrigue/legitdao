@@ -603,7 +603,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "pricePerToken",
+						"name": "requestedPricePerToken",
 						"type": "uint256"
 					}
 				],
@@ -702,25 +702,6 @@
 					}
 				],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "userAddresses",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -1087,11 +1068,11 @@
 			]
 		},
 		"erc-20/LegitCurrency.sol": {
-			"keccak256": "0x6a615ed4c221f2b75d149f28cd713ffc9ee9edddb6f4c217a9a53997c242ce76",
+			"keccak256": "0x2961c62f99d70f1ce3fe05f0880d3d77e345b0b243b913ed9299ccc931425f8c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d2da127b7faa1b7e89c6822a564f6d63becedd2805edb4846b338fed2c532ef6",
-				"dweb:/ipfs/QmepWstDoBxxvyWcWGs2XvLV9f6b19DBBi6stY4kcJbFTA"
+				"bzz-raw://92724d3413370177d97d8322fda1e46f5102dfc28caaf2269df1389f668d5c2b",
+				"dweb:/ipfs/QmQJMtNc7iPjKfAb7atem2uuwWkg9wkqSK23x3Xf8Ghvth"
 			]
 		}
 	},

@@ -27,14 +27,23 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
     // mapping of users to ther balance:
    mapping(address => uint256) public balances;
 
-   // array to keep track of addresses (for iterating purposes)
-    address[] public userAddresses;
+   // addresses of token holders for iterating purposes
+    address[] private addressesOfTokenHolders;
 
     // represents the sell book
     mapping(address => MarketOrder) sellBook;
 
+    // represents the current sell price
+    uint256 currentSellPrice;
+
     // represents the buy book
     mapping(address => MarketOrder) buyBook;
+
+    // represents the addresses of buy book
+    address[] private addressOfBuyBook;
+
+    // represents the current sell price
+    uint256 currentBuyPrice;
 
     // represents the address payable mapping
     mapping(address => address payable) refundAddress;
@@ -63,6 +72,8 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
 
         // set properties:
         initialPricePerBNB = _initialPricePerBNB;
+        currentSellPrice = initialPricePerBNB;
+        currentBuyPrice = 0;
         priceIncrement = _priceIncrement;
         totalBNBReceived = 0;
 
@@ -85,9 +96,9 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
 
        // calculate the share of bnb for each token holder:
        uint256 totalSupply = totalSupply();
-       for (uint256 i = 0; i < userAddresses.length; i++) {
+       for (uint256 i = 0; i < addressesOfTokenHolders.length; i++) {
             // fetch the address:
-            address currentAddress = userAddresses[i];
+            address currentAddress = addressesOfTokenHolders[i];
 
             // fetch the token balance for that address:
             uint256 currentBalance = balanceOf(currentAddress);
@@ -99,11 +110,14 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
             balances[currentAddress] = ratio.mul(msg.value);
         }
 
+        // add the address to the array:
+        addressesOfTokenHolders.push(msg.sender);
+
         // BNB's are set to the contract address
     }
 
     // registers a sell order
-    function registerSellOrder(uint256 amountOfTokens, uint256 pricePerToken) external {
+    function registerSellOrder(uint256 amountOfTokens, uint256 requestedPricePerToken) external {
         // ensure the sender has enough tokens for sale:
         require(balanceOf(msg.sender) >= amountOfTokens, "Not enough tokens in contract");
 
@@ -112,14 +126,69 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
             _cancelSellOrder();
         }
 
+        // if there is tokens to buy lower than the price per token:
+        uint256 remaining = _sellFromBuyBook(amountOfTokens, requestedPricePerToken);
+
+        // if the cell price is lower than the current sell price, change it:
+        if (requestedPricePerToken <= currentSellPrice) {
+            currentSellPrice = requestedPricePerToken;
+        }
+
         // register the sell order in the book:
-        sellBook[msg.sender] = MarketOrder(amountOfTokens, pricePerToken);
+        sellBook[msg.sender] = MarketOrder(remaining, requestedPricePerToken);
 
         // transfer the tokens to the contract:
-        _transfer(msg.sender, address(this), amountOfTokens);
+        _transfer(msg.sender, address(this), remaining);
     }
 
-    function registerBuyOrder(uint256 requestedPrice, address payable refundTo) payable external {
+    // sells tokens for bnb
+    function _sellFromBuyBook(uint256 amountOfTokens, uint256 requestedPricePerToken) private returns(uint256) {
+        if (currentBuyPrice > requestedPricePerToken) {
+            return amountOfTokens;
+        }
+
+        uint256 remaining = 0;
+        uint256 amountTransferInBNB = 0;
+        for (uint256 i = 0; i < addressOfBuyBook.length; i++) {
+            address addr = addressOfBuyBook[i];
+            MarketOrder memory order = buyBook[addr];
+            if (order.pricePerUnit > requestedPricePerToken) {
+                continue;
+            }
+
+            // add the bnb value:
+            amountTransferInBNB = amountTransferInBNB.add(amountOfTokens);
+
+            // find the price:
+            uint256 price = amountOfTokens.mul(order.pricePerUnit);
+
+            // deduct the price from the remaining:
+            remaining = remaining.sub(price);
+
+            if (remaining <= 0) {
+                // delete the entry from the book:
+                delete addressOfBuyBook[i];
+
+                // delete the address from the book order:
+                delete buyBook[addr];
+
+                // delete the address from the refund address:
+                delete refundAddress[addr];
+
+                // returns 0 as remaining:
+                return 0;
+            }
+        }
+
+         // transfer the amount:
+        refundAddress[msg.sender].transfer(amountTransferInBNB);
+
+        // return the remaining:
+        return remaining;
+    }
+
+    // buy tokens with bnb
+    function registerBuyOrder(uint256 requestedPrice, address payable refundTo) payable public {
         require(msg.value > 0, "Send BNB to register buy order");
 
         // if there is a previous buy order entry, cancel it:
@@ -127,9 +196,31 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
            _cancelBuyOrder();
         }
 
-        // add the value to the book:
-        buyBook[msg.sender] = MarketOrder(msg.value, requestedPrice);
-        refundAddress[msg.sender] = refundTo;
+        // find the amount of tokens:
+        (uint256 amountOfNewTokens, uint256 amountRemaining) = _calculateAmountOfNewTokens(msg.value, requestedPrice);
+
+        // if there is new tokens to assign:
+        if (amountOfNewTokens > 0) {
+            // transfer the new tokens:
+            _transfer(address(this), msg.sender, amountOfNewTokens);
+        }
+
+        // if there is a remaining value:
+        if (amountRemaining > 0) {
+            // add the value to the book:
+            buyBook[msg.sender] = MarketOrder(amountRemaining, requestedPrice);
+
+            // add the refund address:
+            refundAddress[msg.sender] = refundTo;
+
+            // add the address to the buy book:
+            addressOfBuyBook.push(msg.sender);
+
+            // change the buy price if lower than the current one:
+            if (currentBuyPrice <= requestedPrice) {
+                currentBuyPrice = requestedPrice;
+            }
+        }
 
         // the BNB value is now transfered to the contract
     }
@@ -193,7 +284,7 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
 
     function _calculateAmountOfTokens(uint256 _value) private view returns (uint256) {
         // calculate the initial price:
-        uint256 price = totalBNBReceived.mul(priceIncrement);
+        uint256 price = _priceOfNewTokens();
 
         // if the value is smaller than the price:
         if (_value <= price) {
@@ -208,5 +299,32 @@ contract LegitDAOCurrency is ERC20, ERC20Burnable, ERC20Permit, ReentrancyGuard 
 
         // return the amount + 1:
         return amount + 1;
+    }
+
+    function _calculateAmountOfNewTokens(uint256 _value, uint256 _requestedPrice) private view returns (uint256, uint256) {
+        // calculate the initial price:
+        uint256 price = _priceOfNewTokens();
+        if (price > _requestedPrice) {
+            return (0, _value);
+        }
+
+        // if the value is smaller than the price:
+        if (_value <= price) {
+            uint256 value = _value.div(price);
+            return (value, _value % price);
+        }
+
+        // calculate the remaining bnb:
+        uint256 remainingBNB = _value.sub(price);
+
+        // calculate the remaining amount:
+        (uint256 amount, uint256 remaining) = _calculateAmountOfNewTokens(remainingBNB, _requestedPrice);
+
+        // return the amount + 1:
+        return (amount + 1, remaining);
+    }
+
+    function _priceOfNewTokens() private view returns(uint256) {
+        return totalBNBReceived.mul(priceIncrement);
     }
 }
