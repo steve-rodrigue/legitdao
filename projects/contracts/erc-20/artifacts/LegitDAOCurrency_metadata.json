@@ -16,6 +16,16 @@
 						"internalType": "uint256",
 						"name": "_priceIncrement",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_buyTaxPercentage",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_sellTaxPercentage",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -263,10 +273,41 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "_cancelBuyOrder",
-				"outputs": [],
-				"stateMutability": "payable",
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "addressOfBuyBook",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "addressesOfTokenHolders",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -387,10 +428,80 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "buyBook",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pricePerUnit",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "buyTaxPercentage",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "cancelBuyOrder",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "cancelSellOrder",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "currentMarketBuyPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "currentMarketSellPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -579,6 +690,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "refundAddress",
+				"outputs": [
+					{
+						"internalType": "address payable",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "requestedPrice",
 						"type": "uint256"
@@ -610,6 +740,43 @@
 				"name": "registerSellOrder",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "sellBook",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pricePerUnit",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "sellTaxPercentage",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -1068,11 +1235,11 @@
 			]
 		},
 		"erc-20/LegitCurrency.sol": {
-			"keccak256": "0x2961c62f99d70f1ce3fe05f0880d3d77e345b0b243b913ed9299ccc931425f8c",
+			"keccak256": "0xc7ecdaa3d9a4837671541fad90e9fa6114c9a99247269a19365d58cf88f17983",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://92724d3413370177d97d8322fda1e46f5102dfc28caaf2269df1389f668d5c2b",
-				"dweb:/ipfs/QmQJMtNc7iPjKfAb7atem2uuwWkg9wkqSK23x3Xf8Ghvth"
+				"bzz-raw://dac5b8faed9a2881e52acade193728dc414e0745f1a57d2820c54b2dd6c06eaa",
+				"dweb:/ipfs/QmQLgiqaw6YedHmfogi5ahagk3ZKkAmT6puwhnzbjcgdEi"
 			]
 		}
 	},
