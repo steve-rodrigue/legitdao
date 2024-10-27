@@ -228,7 +228,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "DividendDepositInBNB",
+				"name": "DepositCollateral",
 				"type": "event"
 			},
 			{
@@ -247,7 +247,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "DividendInBNBWithdrawn",
+				"name": "DepositDividend",
 				"type": "event"
 			},
 			{
@@ -282,6 +282,44 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "WithdrawnCollateral",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "WithdrawnDividend",
+				"type": "event"
+			},
+			{
 				"inputs": [],
 				"name": "DOMAIN_SEPARATOR",
 				"outputs": [
@@ -292,6 +330,24 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sendTo",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "offerAddress",
+						"type": "address"
+					}
+				],
+				"name": "acceptOffer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -362,6 +418,25 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "collateral",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "decimals",
 				"outputs": [
@@ -372,6 +447,20 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "depositCollateral",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "depositDividend",
+				"outputs": [],
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -466,6 +555,30 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "offers",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "pricePerToken",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountOfToken",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "owner",
 						"type": "address"
 					},
@@ -506,6 +619,37 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pricePerToken",
+						"type": "uint256"
+					}
+				],
+				"name": "registerOffer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "pricePerToken",
+						"type": "uint256"
+					}
+				],
+				"name": "registerOfferWithDeposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "symbol",
 				"outputs": [
@@ -520,7 +664,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "totalDividendsInBNB",
+				"name": "totalDividends",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -610,7 +754,55 @@
 						"type": "uint256"
 					}
 				],
-				"name": "withdrawBNBDividend",
+				"name": "withdrawCollateral",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sendTo",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdrawDividend",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "holder",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "sendTo",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdrawDividendToAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawOffer",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -949,11 +1141,27 @@
 			]
 		},
 		"erc-20/CurrencyFounder.sol": {
-			"keccak256": "0xbc49022bcac0becc0bfec12d26c15b69813430864552d8e183d15bdf529faed3",
+			"keccak256": "0xcb586935c41ab0f2441990d59576d899404b0c2e1a20c9aa95484dcb9516985c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://59ce6efdffb5682d1bd1f9754c4cdd55c3660cd2e439801152253b23627cd5b6",
-				"dweb:/ipfs/QmXEbzN2Xw5xwmCYxKHwYJrZQ56NPuiELhd3K9Bq5XBAtF"
+				"bzz-raw://50e74e86c7f2af6b900c7fb1b64e5f34b078d900a362b13ac78ba4569830a8e2",
+				"dweb:/ipfs/QmcvC7EWGHcdpr8u6rYauyaU2NcYfcYDFKyGy35DWr4kjK"
+			]
+		},
+		"erc-20/abstracts/Dividendable.sol": {
+			"keccak256": "0x11e548071c9991653dd2e133d66ef62887f2054604f77eefc5eef31bb467033d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b513e84135f3c1d9ba209325c2c27770b4f613a62b4a4321516676eed117ddfc",
+				"dweb:/ipfs/QmWHiPMHu8Snpj3V7ZXaqCeWj3Mafd5KnppKxwNcBW1JMu"
+			]
+		},
+		"erc-20/abstracts/IDividendable.sol": {
+			"keccak256": "0xef7a1207dbe50b3d74359eadf5a8ac672bbb8ae09d16c0bbc71633d84c421b4e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f4f373b588afeb402a5f75e5581cddcf3773d60e8ae18f3271df58daf8f3fdbb",
+				"dweb:/ipfs/QmW4NykrMT7NrVeuhcaefC7aJ1bF6bwv3GumQqYc7wYLjs"
 			]
 		}
 	},
