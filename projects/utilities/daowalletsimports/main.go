@@ -21,7 +21,6 @@ type treeUint struct {
 
 const clevelDivider = 10000
 const totalEmissionWithCents = 10000000000000000
-const founderShare = 0.15
 
 func main() {
 	data := `
@@ -1399,7 +1398,7 @@ units: 26700000
 units: 23384000
 referrals: c9e24327b2bd18dd62d870a993a273c16c895cf6
 ----
-293) 79edb79baecbc493157512fdc8771821548c637e
+293) acd745EB1F708C323C2167966fcA4503430705E1
 units: 296000
 referrals: 61fc83ad0743fee0ca0b98aba94a7a9d0e50718a
 ----
@@ -1513,9 +1512,9 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 	}
 
 	// compound the total units without referrals or top:
-	totalWithoutReferrals := uint64(0)
+	totalContribution := uint64(0)
 	for _, oneTree := range updated {
-		totalWithoutReferrals += oneTree.units
+		totalContribution += oneTree.units
 	}
 
 	// compound the total:
@@ -1536,39 +1535,79 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 	}
 
 	// calculate the total with cents:
-	totalWithCentsTree := map[string]treeUint{}
-	ratio := float64(totalWithoutReferrals) / float64(total)
-	multiplier := uint64(float64(100000) * ratio)
+	totalWithRatioMul := map[string]treeUint{}
+	precision := float64(100000)
+	ratio := uint64((float64(totalContribution) / float64(total)) * precision)
 	for address, oneTree := range updated {
-		totalWithCentsTree[address] = treeUint{
-			units:       oneTree.units * multiplier,
-			referred:    oneTree.referred * multiplier,
+		totalWithRatioMul[address] = treeUint{
+			units:       (oneTree.units * ratio),
+			referred:    (oneTree.referred * ratio),
 			top:         oneTree.top,
 			referrals:   oneTree.referrals,
-			referredTop: oneTree.referredTop * multiplier,
+			referredTop: (oneTree.referredTop * ratio),
+		}
+	}
+
+	// calculate the referral amount and build the final tree:
+	for _, oneTree := range updated {
+		// for each referral:
+		for _, oneReferralAddress := range oneTree.referrals {
+			// execute the referral: calculation:
+			referredCalculation, founderCalculation := calculateTreeValue(
+				updated[oneReferralAddress].units,
+				oneReferralAddress,
+				updated,
+				levelToPercent,
+				founders,
+				0,
+				map[string]uint64{},
+				map[string]uint64{},
+			)
+
+			// referrals:
+			for oneAddress, oneValue := range referredCalculation {
+				updated[oneAddress] = treeUint{
+					units:       updated[oneAddress].units,
+					referred:    updated[oneAddress].referred + oneValue,
+					top:         updated[oneAddress].top,
+					referredTop: updated[oneAddress].referredTop,
+					referrals:   updated[oneAddress].referrals,
+				}
+			}
+
+			// founders:
+			for oneAddress, oneValue := range founderCalculation {
+				updated[oneAddress] = treeUint{
+					units:       updated[oneAddress].units,
+					referred:    updated[oneAddress].referred,
+					top:         updated[oneAddress].top,
+					referredTop: updated[oneAddress].referredTop + oneValue,
+					referrals:   updated[oneAddress].referrals,
+				}
+			}
 		}
 	}
 
 	totalUnitsWithCents := uint64(0)
-	for _, oneTree := range totalWithCentsTree {
+	for _, oneTree := range totalWithRatioMul {
 		totalUnitsWithCents += oneTree.units
 	}
 
 	// compound the total referred:
 	totalReferredWithCents := uint64(0)
-	for _, oneTree := range totalWithCentsTree {
+	for _, oneTree := range totalWithRatioMul {
 		totalReferredWithCents += oneTree.referred
 	}
 
 	// compound the total for founders:
 	totalFounderWithCents := uint64(0)
-	for _, oneTree := range totalWithCentsTree {
+	for _, oneTree := range totalWithRatioMul {
 		totalFounderWithCents += oneTree.top
 	}
 
 	// compound the total for referred founders:
 	totalReferredFounderWithCents := uint64(0)
-	for _, oneTree := range totalWithCentsTree {
+	for _, oneTree := range totalWithRatioMul {
 		totalReferredFounderWithCents += oneTree.referredTop
 	}
 
@@ -1584,7 +1623,7 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 	fmt.Printf("\nreferring percentage: %f \n\n", float64(totalReferredWithCents)/float64(totalUnitsWithCents))
 	fmt.Printf("\nfounder referring overflow percentage: %f \n\n", float64(totalReferredFounderWithCents)/float64(totalUnitsWithCents))
 
-	for oneAddress, oneTree := range totalWithCentsTree {
+	for oneAddress, oneTree := range totalWithRatioMul {
 		referralListStr := "-"
 		if len(oneTree.referrals) > 0 {
 			referralListStr = "<ol>"
@@ -1599,7 +1638,6 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 		total := oneTree.units + oneTree.referred + oneTree.referredTop + oneTree.top
 		fmt.Printf("| %s | %s | %d | %d | %d | %d | %d |\n", oneAddress, referralListStr, oneTree.units, oneTree.referred, oneTree.referredTop, oneTree.top, total)
 	}
-
 }
 
 func calculateTreeValue(
