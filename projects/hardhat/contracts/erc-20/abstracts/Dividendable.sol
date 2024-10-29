@@ -123,17 +123,6 @@ abstract contract Dividendable is IDividendable, ERC20, ERC20Permit, ReentrancyG
         return _dividendAmount(msg.sender);
     }
 
-    // method overloads:
-    function transfer(address to, uint256 value) public virtual override returns (bool) {
-        uint256 balance = balanceOf(msg.sender);
-        uint256 withdrawnInBNB = _calculateAmountBasedOnToken(value, balance, accountsDividendsWithdrawn[msg.sender]);
-
-        accountsDividendsWithdrawn[to] += withdrawnInBNB;
-        accountsDividendsWithdrawn[msg.sender] -= withdrawnInBNB;
-
-        return super.transfer(to, value);
-    }
-
      function withdrawDividendToAddress(address holder, address sendTo, uint256 amount) public nonReentrant {
         require(amount > 0, "Amount must be greater than zero");
         require(totalDividends > 0, "Contract has no dividend to pay");
@@ -185,5 +174,16 @@ abstract contract Dividendable is IDividendable, ERC20, ERC20Permit, ReentrancyG
         require(downScaleSuccess, "retValue / SCALE overflows");
 
         return retValueDownScaled;
+    }
+
+    // method overloads:
+    function transfer(address to, uint256 value) public virtual override returns (bool) {
+        uint256 balance = balanceOf(msg.sender);
+        uint256 withdrawnInBNB = _calculateAmountBasedOnToken(value, balance, accountsDividendsWithdrawn[msg.sender]);
+
+        accountsDividendsWithdrawn[to] += withdrawnInBNB;
+        accountsDividendsWithdrawn[msg.sender] -= withdrawnInBNB;
+
+        return super.transfer(to, value);
     }
 }
