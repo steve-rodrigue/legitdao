@@ -10,6 +10,15 @@ La feuille de route sert de registre complet de toutes les mises à jour apport�
 
 Une entrée est ajoutée pour chaque jour où il y a une modification dans l'écosystème de LegitDAO. La personne effectuant la modification doit inclure son nom ainsi que les détails du changement dans la section du jour actuel. Si une section pour le jour actuel n'existe pas, la personne effectuant la modification est responsable d'en créer une.
 
+
+## Mardi 29 octobre 2024
+Pascal Germain : [Je me suis ajouté](/fr/team/pascal-germain/) dans la section des auteurs
+Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/lloyd-brown/) dans la section des auteurs
+Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/kyle-grant/) dans la section des auteurs
+Pascal Germain : Je viens de créer le [Contribuer à LegitDAO : un guide étape par étape](/fr/blog/4-contributetolegitdao).
+Pascal Germain : Je viens de créer le [billet expliquant la distribution des tokens pour le DAO](/fr/blog/2-daotokdistribution).
+Pascal Germain : J'ai soumis la pull request pour les configurations du nœud BSC et de Docker au dépôt.
+
 ## Sathurday, October 22th, 2024
 1. Steve Rodrigue: Je viens de créer le [billet expliquant la distribution des tokens pour le DAO](/fr/blog/2-daotokdistribution).
 
