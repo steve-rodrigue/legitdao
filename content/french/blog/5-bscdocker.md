@@ -6,7 +6,7 @@ date: 2024-10-29T05:00:00Z
 image: "/images/blogs/docker-bsc.jpg"
 categories: ["DAO", "Dev Ops"]
 author: "Pascal Germain"
-tags: ["Dev Ops", "Docker"]
+tags: ["dev-ops", "docker"]
 draft: false
 ---
 Dans ce guide, nous allons vous montrer comment configurer et exécuter un **nœud Binance Smart Chain (BSC)** en utilisant Docker et Docker Compose. Cette configuration est spécifiquement adaptée au projet LegitDAO afin d'assurer une interaction efficace avec la blockchain, avec persistance des données, redémarrages automatiques et prise en charge des WebSockets.
