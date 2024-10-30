@@ -91,9 +91,8 @@ contract Affiliates is IAffiliates, ERC721, Ownable {
             transferAmount = paymentBook[msg.sender];
         }
 
-        IERC20 token = IERC20(currencyAddress);
-        bool success = token.transferFrom(address(this), sendTo, transferAmount);
-        require(success, "Token transfer failed");
+        // transfer the value:
+        _transferCurrencyValue(sendTo, transferAmount);
 
         // adjust the book:
         paymentBook[msg.sender] -= transferAmount;
@@ -115,12 +114,10 @@ contract Affiliates is IAffiliates, ERC721, Ownable {
     }
 
     function registerOffer(uint256 tokenId, uint256 price) public {
-        require(currencyAddress != address(0), "currency contract address has not been set");
         require(price > 0, "price must be greater than zero");
 
-        IERC20 token = IERC20(currencyAddress);
-        bool success = token.transferFrom(msg.sender, address(this), price);
-        require(success, "Token transfer failed");
+        // transfer the value:
+        _transferCurrencyValue(msg.sender, price);
 
         uint256 offerPrice = offersByAddressTokenIdPrice[msg.sender][tokenId];
         if (offerPrice > 0) {
@@ -150,15 +147,13 @@ contract Affiliates is IAffiliates, ERC721, Ownable {
 
     // accept a registered offer:
     function acceptOffer(address sendTo, uint256 tokenId) public {
-        require(currencyAddress != address(0), "currency contract address has not been set");
         address owner = _ownerOf(tokenId);
         require(owner == msg.sender, "current address is not the owner of that tokenId");
 
         uint256 offerPrice = getOfferForToken(tokenId);
-        
-        IERC20 token = IERC20(currencyAddress);
-        bool success = token.transferFrom(address(this), sendTo, offerPrice);
-        require(success, "Token transfer failed");
+
+        // transfer the value:
+        _transferCurrencyValue(sendTo, offerPrice);
 
         _deleteOffer(owner, tokenId);
 
@@ -171,11 +166,19 @@ contract Affiliates is IAffiliates, ERC721, Ownable {
         return offerererTokenIds[msg.sender];
     }
 
+    function _transferCurrencyValue(address sendTo, uint256 amount) private {
+        require(currencyAddress != address(0), "currency contract address has not been set");
+        require(amount > 0, "amount must be greater than zero(0");
+
+        IERC20 token = IERC20(currencyAddress);
+        bool success = token.transferFrom(address(this), sendTo, amount);
+        require(success, "Token transfer failed");
+    }
+
     // receive a payment to the affiliate it and split it among its parent.
     // if there is no 7 levels, send the remaining to the founders contract:
     function _receivePayment(address child, uint256 amount, uint256 level, uint256 totalPaid) private {
         require(amount > 0, "amount must be greater than zero");
-        require(currencyAddress != address(0), "currency contract address has not been set");
         require(levelRatios[level] > 0, "the level must be greater tahn zero");
         require(amount <= totalPaid, "the amount cannot exceed the total paid");
 
@@ -230,14 +233,11 @@ contract Affiliates is IAffiliates, ERC721, Ownable {
     }
 
     function _withdrawOffer(address from, uint256 tokenId) private {
-        require(currencyAddress != address(0), "currency contract address has not been set");
-        
         uint256 offerPrice = offersByAddressTokenIdPrice[from][tokenId];
         require(offerPrice > 0, "no offer registered from the provided address");
 
-        IERC20 token = IERC20(currencyAddress);
-        bool success = token.transferFrom(address(this), msg.sender, offerPrice);
-        require(success, "Token transfer failed");
+        // transfer the value:
+        _transferCurrencyValue(msg.sender, offerPrice);
         
         _deleteOffer(from, tokenId);
 

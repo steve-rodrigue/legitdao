@@ -6,13 +6,12 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
-import "./abstracts/Dividendable.sol";
+import "./../abstracts/Founder.sol";
 
 /// @custom:security-contact stev.rodr@gmail.com
-contract DAOFounder is Dividendable {
+contract DAOFounder is Founder {
     constructor()
-        ERC20("LegitDAO Founder", "LEGIT-FDR")
-        ERC20Permit("LegitDAO Founder")
+        Founder("LegitDAO Founder", "LEGIT-FDR")
     {
 
         // mint equally:
@@ -22,9 +21,5 @@ contract DAOFounder is Dividendable {
         _mint(address(0x1349DCDd92BA65Cf2234eD8c61C72DdF1f95400E), 16666666 * 10 ** decimals());
         _mint(address(0xacd745EB1F708C323C2167966fcA4503430705E1), 16666666 * 10 ** decimals());
         _mint(msg.sender, 16666670 * 10 ** decimals());
-    }
-
-    receive() external payable nonReentrant {
-         depositDividend();
     }
 }
