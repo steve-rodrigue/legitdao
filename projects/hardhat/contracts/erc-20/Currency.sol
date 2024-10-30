@@ -13,17 +13,13 @@ contract Currency is ICurrency, ERC20, ERC20Permit, Ownable, ReentrancyGuard {
 
     uint256 public taxRate; // 25 for 0,25%
     uint256 public basisPoints; // 10000 if we put 25 in taxRate, to return 0,25%
+    uint256 public tokenPrice;  // price per token in wei
+    uint256 public priceIncreaseRate;  // rate of price increase per BNB received
 
     struct Offer {
         uint256 pricePerToken;
         uint256 amountOfToken;
     }
-
-    // price per token in wei
-    uint256 public tokenPrice;  
-
-    // rate of price increase per BNB received
-    uint256 public priceIncreaseRate; 
 
     // track total BNB received
     uint256 public totalBNBReceived; 
@@ -41,9 +37,9 @@ contract Currency is ICurrency, ERC20, ERC20Permit, Ownable, ReentrancyGuard {
     address founderAddress;
 
     constructor(
-        uint256 _initialPrice, 
-        uint256 _priceIncreaseRate,
-        uint256 _taxRate,
+        uint256 _initialPrice,  // price per token in wei
+        uint256 _priceIncreaseRate, // increase price in wei after each 1 bnb transfers
+        uint256 _taxRate, // percent * basisPoints (ex: 25 for 0,25% if basisPoints is 10000)
         uint256 _basisPoints
     )
         ERC20("LegitDAO Currency", "LEGIT-CURR")

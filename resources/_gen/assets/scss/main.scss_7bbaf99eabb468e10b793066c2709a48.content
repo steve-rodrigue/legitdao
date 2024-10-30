@@ -994,3 +994,83 @@
 
 .imageswitcher .dark:is(.dark *) {
   display: block; }
+
+#marketcontainer {
+  height: 900px;
+  margin: 0;
+  padding: 0; }
+
+.marketplaces {
+  margin-bottom: 20px; }
+
+.marketplaces .container {
+  display: flex;
+  justify-content: space-between;
+  /* Ensures space between the two panels */
+  gap: 20px;
+  /* Optional gap between left and right panels */
+  margin-bottom: 20px; }
+
+/* Left and Right panel styling */
+.marketplaces .container .left {
+  flex: 1;
+  /* Takes up equal space as .right */ }
+
+.marketplaces .container .right {
+  flex: 1;
+  /* Takes up equal space as .left */ }
+
+.marketplaces .tokenpurchased {
+  font-weight: bold;
+  color: #6f5c92;
+  /* Adjust color as desired */ }
+
+.marketplaces .depositdividend {
+  font-weight: bold;
+  color: #357960;
+  /* Adjust color as desired */ }
+
+.marketplaces .withdrawndividend {
+  font-weight: bold;
+  color: #f5625d;
+  /* Adjust color as desired */ }
+
+.marketplaces .depositcollateral {
+  font-weight: bold;
+  color: #4A90E2;
+  /* Adjust color as desired */ }
+
+.marketplaces .withdrawncollateral {
+  font-weight: bold;
+  color: #f4bd1a;
+  /* Adjust color as desired */ }
+
+.marketplaces table input {
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  text-align: center; }
+
+.marketplaces .form-input {
+  width: 100px;
+  padding: 5px;
+  margin: 5px; }
+
+.marketplaces .form-input::placeholder .dark:is(.dark *) {
+  color: #ffffff; }
+
+.marketplaces .c {
+  border-color: #4A90E2; }
+
+.marketplaces .btn-danger {
+  border-color: #f5625d; }
+
+.marketplaces .btn-danger:hover {
+  background-color: #f5625d; }
+
+.marketplaces th, .marketplaces td {
+  text-align: center;
+  /* Center content horizontally */
+  vertical-align: middle;
+  /* Center content vertically */
+  padding-top: 5px;
+  padding-bottom: 5px; }

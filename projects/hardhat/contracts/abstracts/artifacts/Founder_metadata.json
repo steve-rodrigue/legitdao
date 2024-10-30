@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.26+commit.8a97fa7a"
+		"version": "0.8.28+commit.7893614a"
 	},
 	"language": "Solidity",
 	"output": {
@@ -1117,8 +1117,7 @@
 			"enabled": true,
 			"runs": 200
 		},
-		"remappings": [],
-		"viaIR": true
+		"remappings": []
 	},
 	"sources": {
 		"@openzeppelin/contracts/access/Ownable.sol": {
@@ -1290,19 +1289,19 @@
 			]
 		},
 		"abstracts/Founder.sol": {
-			"keccak256": "0xc1e0f187b30d30fb6c0eab77d472c9afbd2edfd0f42fd796a3782da397995006",
+			"keccak256": "0x4d4ba51a5784486b84818c36593a47ea91a403998ab9968da2239ed5a9e47097",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4a1f280f695c5c8d728d571806a190c681d10c687a7f3a91207fe23e2f47ad09",
-				"dweb:/ipfs/QmQF3Lhj858Be8wU5ykpyReegAiMgvumHniKoQkb1M788R"
+				"bzz-raw://a3e03b0ec0e80c66ee4a3f206ce30cbac7af02b2c5419baa593e1fdd1d0672f7",
+				"dweb:/ipfs/QmenwACofGrjT5pP6KVePS2nYEMmjnDDwgcyJB4GMGA4YN"
 			]
 		},
 		"interfaces/IFounder.sol": {
-			"keccak256": "0x278dbaab1091da193ae7e92f2550751da777221e07cfc87882c566f80c53ec54",
+			"keccak256": "0x955492a1b6f14b03e2060d044ba5713921616ea71a1c13ea779658e33b1ebf30",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://84eb75dab18240961ccac1b7737923922035cb240133832258239945ad885c34",
-				"dweb:/ipfs/QmaJJy6Wevcwg1mjdFQK4U6JFfWbUVvdF2c1Y7589JMdYR"
+				"bzz-raw://a80bff99a7e7f04e6e4c8aa1a7104b88300cbdeb7893bc0bbe07bdd272d15d18",
+				"dweb:/ipfs/QmYJGd9pjjRm7yPzffmFaq2oyC9Gg7dyECh3SFuPZ7pabf"
 			]
 		}
 	},

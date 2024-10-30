@@ -12,12 +12,22 @@ url = "/team"
 weight = 2
 
 [[main]]
-name = "Blog"
-url = "/blog"
+name = "Marketplaces"
+url = "/marketplaces"
 weight = 3
+    [[main]]
+    weight = 1
+    parent = "Marketplaces"
+    name = "Currency Founders"
+    url = "/marketplaces/currency-founders"
 
 [[main]]
+name = "Blog"
+url = "/blog"
 weight = 4
+
+[[main]]
+weight = 5
 name = "Development"
 
     [[main]]
@@ -40,7 +50,7 @@ name = "Development"
 
 [[main]]
 name = "About"
-weight = 5
+weight = 6
 
     [[main]]
     parent = "About"

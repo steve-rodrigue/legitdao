@@ -837,6 +837,56 @@ select {
     max-width: 1536px;
   }
 }
+.form-input,.form-textarea,.form-select,.form-multiselect {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #fff;
+  border-color: #6b7280;
+  border-width: 1px;
+  border-radius: 0px;
+  padding-top: 0.5rem;
+  padding-right: 0.75rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  --tw-shadow: 0 0 #0000;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus, .form-multiselect:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: #2563eb;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  border-color: #2563eb;
+}
+.form-input::-moz-placeholder, .form-textarea::-moz-placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+.form-input::placeholder,.form-textarea::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+.form-input::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+.form-input::-webkit-date-and-time-value {
+  min-height: 1.5em;
+  text-align: inherit;
+}
+.form-input::-webkit-datetime-edit {
+  display: inline-flex;
+}
+.form-input::-webkit-datetime-edit,.form-input::-webkit-datetime-edit-year-field,.form-input::-webkit-datetime-edit-month-field,.form-input::-webkit-datetime-edit-day-field,.form-input::-webkit-datetime-edit-hour-field,.form-input::-webkit-datetime-edit-minute-field,.form-input::-webkit-datetime-edit-second-field,.form-input::-webkit-datetime-edit-millisecond-field,.form-input::-webkit-datetime-edit-meridiem-field {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .row {
   --bs-gutter-x: 2rem;
   --bs-gutter-y: 0;
@@ -906,6 +956,41 @@ main {
   .container {
     max-width: 1320px;
   }
+}
+.form-input {
+  width: 100%;
+  border-radius: 0.25rem;
+  border-color: transparent;
+  --tw-bg-opacity: 1;
+  background-color: rgb(246 246 246 / var(--tw-bg-opacity));
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(4 4 4 / var(--tw-text-opacity));
+  border-radius: 6px;
+}
+.form-input::-moz-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(113 113 113 / var(--tw-text-opacity));
+}
+.form-input::placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(113 113 113 / var(--tw-text-opacity));
+}
+.form-input:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(18 18 18 / var(--tw-border-opacity));
+  --tw-ring-color: transparent;
+}
+.form-input:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(62 62 62 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 34 34 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(232 189 88 / var(--tw-text-opacity));
 }
 .social-icons > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -3168,6 +3253,89 @@ input#nav-toggle:checked ~ #nav-menu {
 
 .imageswitcher .dark:is(.dark *) {
   display: block; }
+
+#marketcontainer {
+  height: 900px;
+  margin: 0;
+  padding: 0; }
+
+.marketplaces {
+  margin-bottom: 20px; }
+
+.marketplaces .container {
+  display: flex;
+  justify-content: space-between;
+  /* Ensures space between the two panels */
+  gap: 20px;
+  /* Optional gap between left and right panels */
+  margin-bottom: 20px; }
+
+/* Left and Right panel styling */
+.marketplaces .container .left {
+  flex: 1;
+  /* Takes up equal space as .right */ }
+
+.marketplaces .container .right {
+  flex: 1;
+  /* Takes up equal space as .left */ }
+
+.marketplaces .tokenpurchased {
+  font-weight: bold;
+  color: #6f5c92;
+  /* Adjust color as desired */ }
+
+.marketplaces .depositdividend {
+  font-weight: bold;
+  color: #357960;
+  /* Adjust color as desired */ }
+
+.marketplaces .withdrawndividend {
+  font-weight: bold;
+  color: #f5625d;
+  /* Adjust color as desired */ }
+
+.marketplaces .depositcollateral {
+  font-weight: bold;
+  color: #4A90E2;
+  /* Adjust color as desired */ }
+
+.marketplaces .withdrawncollateral {
+  font-weight: bold;
+  color: #f4bd1a;
+  /* Adjust color as desired */ }
+
+.marketplaces table input {
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  text-align: center; }
+
+.marketplaces .form-input {
+  width: 100px;
+  padding: 5px;
+  margin: 5px; }
+
+.marketplaces .form-input::-moz-placeholder .dark:is(.dark *) {
+  color: #ffffff; }
+
+.marketplaces .form-input::placeholder .dark:is(.dark *) {
+  color: #ffffff; }
+
+.marketplaces .c {
+  border-color: #4A90E2; }
+
+.marketplaces .btn-danger {
+  border-color: #f5625d; }
+
+.marketplaces .btn-danger:hover {
+  background-color: #f5625d; }
+
+.marketplaces th, .marketplaces td {
+  text-align: center;
+  /* Center content horizontally */
+  vertical-align: middle;
+  /* Center content vertically */
+  padding-top: 5px;
+  padding-bottom: 5px; }
 
 @media (min-width: 540px) {
 

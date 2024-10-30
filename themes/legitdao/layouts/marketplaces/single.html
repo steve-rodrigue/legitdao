@@ -1,0 +1,187 @@
+{{ define "main" }}
+  <section class="section pt-7">
+    <div class="container">
+      <div class="row justify-center">
+        <article class="lg:col-10">
+          <h1 class="h2 mb-4">
+            {{ .Title }}
+          </h1>
+
+          <div class="content mb-10">
+            {{ .Content }}
+          </div>
+
+          <div id="marketcontainer"></div>
+          <div class="content mb-10 marketplaces">
+            <div class="left">
+              <h2>Balance</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="text-align:center">BNB</th>
+                    <th style="text-align:center">Tokens</th>
+                    <th style="text-align:center">Dividends (BNB)</th>
+                    <th style="text-align:center">Claim Dividends</th>
+                    <th style="text-align:center">Make Offer</th>
+                    <th style="text-align:center">My Offer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>12.4356</td>
+                    <td>4,234,212.4356</td>
+                    <td>
+                      1.3245
+                    </td>
+                    <td>
+                      <form action="post">
+                        <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                        <input type="submit" value="Claim" class="btn btn-outline-primary" />
+                      </form>
+                    </td>
+                    <td>
+                      <form action="post">
+                        <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                        <input type="submit" value="Make Offer" class="btn btn-outline-primary" />
+                      </form>
+                    </td>
+                    <td>
+                      <form action="post">
+                        <input type="text" placeholder="amount" class="form-input form-input-danger" value="45" readonly />
+                        <input type="submit" value="Withdraw" class="btn btn-outline-primary btn-danger" />
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="container">
+              <div class="left">
+                <h2>Market Offers</h2>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="text-align:center">Price/Token (BNB)</th>
+                      <th style="text-align:center">Amount</th>
+                      <th style="text-align:center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>0.0250</td>
+                      <td>200</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0248</td>
+                      <td>299</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0247</td>
+                      <td>555</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0246</td>
+                      <td>323</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0245</td>
+                      <td>121</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0244</td>
+                      <td>299</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0243</td>
+                      <td>20004</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0242</td>
+                      <td>349870</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0.0241</td>
+                      <td>32345</td>
+                      <td>
+                        <form action="post">
+                          <input type="text" placeholder="amount" class="form-input form-input-outline-primary" />
+                          <input type="submit" value="Buy" class="btn btn-outline-primary" />
+                        </form>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                
+              </div>
+              <div class="right">
+                <h2>Realtime Events:</h2>
+                <ol>
+                  <li><span class="tokenpurchased">TokensPurchased:</span> 123 BNB spent, 11 tokens received</li>
+                  <li><span class="depositdividend">DepositDividend:</span> 0xfAd..08 was paid 120 LEGIT-CURR</li>
+                  <li><span class="withdrawndividend">WithdrawnDividend:</span> 0xfAd..08 withdrew 120 LEGIT-CURR</li>
+                  <li><span class="depositcollateral">DepositCollateral:</span> 0xfAd..08 deposited 120 LEGIT-CURR</li>
+                  <li><span class="withdrawncollateral">WithdrawnCollateral:</span> 0xfAd..08 withdrew 120 LEGIT-CURR</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          
+
+          {{ if .Params.include_js }}
+            <!-- <script src="{{ .Params.include_js | relURL }}"></script> -->
+          {{ end }}
+        </article>
+      </div>
+    </div>
+  </section>
+
+{{ end }}
