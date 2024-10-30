@@ -6,7 +6,7 @@ date: 2024-10-29T05:00:00Z
 image: "/images/blogs/contribute-legitdao.jpg"
 categories: ["Développement", "DAO"]
 author: "Pascal Germain"
-tags: ["LegitDAO", "Contribuer", "gitHub"]
+tags: ["Contribute", "Github"]
 draft: false
 ---
 
