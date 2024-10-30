@@ -3,6 +3,14 @@
 pragma solidity ^0.8.26;
 
 interface IFounder {
+    // set contracts:
+    function setCurrencyAddress(address currAddr) external;
+
+    // dividends:
+    function depositDividend(uint256 amount) external;
+    function withdrawDividend(address sendTo, uint256 amount) external;
+    function dividendAmount() external view returns (uint256);
+
     // marketplace:
     function registerOfferWithDeposit(uint256 pricePerToken, uint256 amountOfTokens) external;
     function registerOffer(uint256 amount, uint256 pricePerToken) external;
@@ -10,11 +18,6 @@ interface IFounder {
     function acceptOffer(address sendTo, address offerAddress) external;
     function depositCollateral(uint256 amount) external;
     function withdrawCollateral(address sendTo, uint256 amount) external;
-
-    // dividends:
-    function depositDividend(uint256 amount) external;
-    function withdrawDividend(address sendTo, uint256 amount) external;
-    function dividendAmount() external view returns (uint256);
 
     // events:
     event CurrencyAddressSet(address indexed currencyAddress);

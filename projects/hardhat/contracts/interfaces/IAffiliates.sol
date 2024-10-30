@@ -5,7 +5,7 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 interface IAffiliates {
-    // owner only:
+    // set contracts:
     function setCurrencyAddress(address currAddr) external;
     function setFounderAddress(address fdrAddress) external;
 
