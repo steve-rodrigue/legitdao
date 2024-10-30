@@ -21,6 +21,12 @@ weight = 3
     name = "Fondateurs (Monnaie)"
     url = "/marketplaces/currency-founders"
 
+    [[main]]
+    weight = 2
+    parent = "Marketplaces"
+    name = "Système de Parainnage Multi-niveau"
+    url = "/marketplaces/referrals"
+
 [[main]]
 name = "Blog"
 url = "/blog"

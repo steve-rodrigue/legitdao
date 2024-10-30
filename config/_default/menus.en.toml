@@ -21,6 +21,12 @@ weight = 3
     name = "Currency Founders"
     url = "/marketplaces/currency-founders"
 
+    [[main]]
+    weight = 2
+    parent = "Marketplaces"
+    name = "Multi-tier Referral System"
+    url = "/marketplaces/referrals"
+
 [[main]]
 name = "Blog"
 url = "/blog"
