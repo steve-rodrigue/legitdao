@@ -12,17 +12,17 @@ Une entrée est ajoutée pour chaque jour où il y a une modification dans l'éc
 
 
 ## Mardi 29 octobre 2024
-Pascal Germain : [Je me suis ajouté](/fr/team/pascal-germain/) dans la section des auteurs
-Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/lloyd-brown/) dans la section des auteurs
-Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/kyle-grant/) dans la section des auteurs
-Pascal Germain : Je viens de créer le [Contribuer à LegitDAO : un guide étape par étape](/fr/blog/4-contributetolegitdao).
-Pascal Germain : Je viens de créer le [billet expliquant la distribution des tokens pour le DAO](/fr/blog/2-daotokdistribution).
-Pascal Germain : J'ai soumis la pull request pour les configurations du nœud BSC et de Docker au dépôt.
+1. Pascal Germain : [Je me suis ajouté](/fr/team/pascal-germain/) dans la section des auteurs
+2. Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/lloyd-brown/) dans la section des auteurs
+3. Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/kyle-grant/) dans la section des auteurs
+4. Pascal Germain : Je viens de créer le [Contribuer à LegitDAO : un guide étape par étape](/fr/blog/4-contributetolegitdao).
+5. Pascal Germain: Je viens de créer [Configurer un nœud Binance Smart Chain (BSC) pour LegitDAO avec Docker](/blog/5-bscdocker).
+6. Pascal Germain : J'ai soumis la pull request pour les configurations du nœud BSC et de Docker au dépôt.
 
-## Sathurday, October 22th, 2024
+## Mardi, October 22th, 2024
 1. Steve Rodrigue: Je viens de créer le [billet expliquant la distribution des tokens pour le DAO](/fr/blog/2-daotokdistribution).
 
-## Sathurday, October 21th, 2024
+## Lundi, October 21th, 2024
 1. Steve Rodrigue: Jai changé la section team pour la section [équipe](/fr/team).
 
 ## Samedi 19 octobre 2024

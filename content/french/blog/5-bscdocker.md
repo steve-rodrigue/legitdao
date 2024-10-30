@@ -1,5 +1,5 @@
 ---
-title: "Configurer un nœud Binance Smart Chain (BSC) pour LegitDAO avec Docker"
+title: "Configurer un noeud Binance Smart Chain (BSC) pour LegitDAO avec Docker"
 meta_title: "Configuration d'un nœud BSC pour LegitDAO avec Docker"
 description: "Un guide étape par étape sur la configuration d'un nœud Binance Smart Chain (BSC) en utilisant Docker et Docker Compose pour le projet LegitDAO."
 date: 2024-10-29T05:00:00Z
@@ -11,13 +11,11 @@ draft: false
 ---
 
 # Configurer un nœud Binance Smart Chain (BSC) pour LegitDAO avec Docker
-
 Dans ce guide, nous allons vous montrer comment configurer et exécuter un **nœud Binance Smart Chain (BSC)** en utilisant Docker et Docker Compose. Cette configuration est spécifiquement adaptée au projet LegitDAO afin d'assurer une interaction efficace avec la blockchain, avec persistance des données, redémarrages automatiques et prise en charge des WebSockets.
 
 Pour plus d'informations sur la manière de contribuer et de cloner LegitDAO, consultez notre [Guide pour contribuer à LegitDAO](/4-contributetolegitdao). Ce post se concentre sur la tâche spécifique d'ajout du **nœud Binance Smart Chain** au projet LegitDAO en utilisant Docker.
 
 ## Structure du projet
-
 Voici un aperçu de la structure des dossiers pour la configuration du nœud BSC :
 
 ```plaintext
@@ -30,12 +28,9 @@ bsc-node/
 └── README.md                 # Documentation du projet (ce fichier)
 ```
 
----
-
 ## Décomposition de la configuration
 
 ### Dockerfile
-
 Le `Dockerfile` est le script qui construit l'image Docker pour le nœud BSC. Voici un aperçu de ses fonctionnalités :
 
 ```Dockerfile
@@ -92,12 +87,9 @@ services:
   - `./config:/bsc` : Mappe le fichier `config.toml` local dans le conteneur pour que les modifications de configuration soient prises en compte.
 - **Politique de redémarrage** : Le `restart: always` garantit que le nœud redémarre automatiquement en cas de panne.
 
----
-
 ## Installation et utilisation
 
 ### Étape 1 : Cloner le dépôt
-
 Si ce n'est pas déjà fait, clonez le dépôt où cette configuration est hébergée :
 
 ```bash
@@ -106,7 +98,6 @@ cd bsc-node
 ```
 
 ### Étape 2 : Mettre à jour `config.toml` (optionnel)
-
 Vous pouvez modifier le fichier `config.toml` situé dans le répertoire `config/` pour l'adapter à vos besoins. Par défaut, la configuration se synchronise avec le réseau principal de la Binance Smart Chain et utilise le mode de synchronisation `snap` pour une synchronisation plus rapide.
 
 Exemple de `config.toml` :
@@ -118,7 +109,6 @@ SyncMode = "snap"  # Utilise le mode de synchronisation "snap" pour une synchron
 ```
 
 ### Étape 3 : Construire et démarrer le nœud BSC
-
 Utilisez Docker Compose pour construire et démarrer le nœud BSC. Cette commande va créer l'image et démarrer le conteneur :
 
 ```bash
@@ -131,7 +121,6 @@ Docker Compose va :
 - Persister les données blockchain dans le dossier `bscdata/`.
 
 ### Étape 4 : Surveiller la progression de la synchronisation
-
 Vous pouvez surveiller la progression de la synchronisation en vérifiant les logs. Exécutez la commande suivante pour afficher les logs :
 
 ```bash
@@ -141,7 +130,6 @@ docker logs -f bsc-node
 Les logs montreront que le nœud recherche des pairs et se synchronise avec la Binance Smart Chain.
 
 ### Étape 5 : Interagir avec le nœud
-
 Une fois que le nœud fonctionne, vous pouvez interagir avec lui en utilisant les commandes suivantes :
 
 - **Obtenir le numéro de bloc actuel** :
@@ -155,14 +143,11 @@ Une fois que le nœud fonctionne, vous pouvez interagir avec lui en utilisant le
   ```
 
 ### Étape 6 : Arrêter le nœud
-
 Pour arrêter le nœud, appuyez sur `Ctrl + C` dans le terminal ou utilisez :
 
 ```bash
 docker-compose down
 ```
-
----
 
 ## Dépannage
 
@@ -179,17 +164,7 @@ SyncMode = "snap"
 Cache = 4096  # Augmentez la taille du cache pour une synchronisation plus rapide
 ```
 
----
-
 ## Ressources supplémentaires
-
 - [Documentation Binance Smart Chain](https://docs.bnbchain.org/)
 - [Documentation Docker](https://docs.docker.com/)
 - [Documentation Docker Compose](https://docs.docker.com/compose/)
-
----
-
-Cette configuration fournit un moyen facile de faire fonctionner un nœud Binance Smart Chain en utilisant Docker. Suivez les étapes, et vous aurez un nœud entièrement fonctionnel avec persistance des données blockchain. Si vous avez besoin d'aide, n'hésitez pas à poser des questions ou à consulter les ressources mentionnées ci-dessus.
-
----
-

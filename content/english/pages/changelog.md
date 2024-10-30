@@ -19,11 +19,11 @@ An entry is added for each day that there is a modification in the LegitDAO ecos
 5. Pascal Germain: I just created the [Setting Up a Binance Smart Chain (BSC) Node for LegitDAO Using Docker](/blog/5-bscdocker).
 6. Pascal Germain: I submitted the pull request for the docker and BSC node configs to repo
 
-## Sathurday, October 22th, 2024
+## Tuesday, October 22th, 2024
 1. Steve Rodrigue: I just created the [token distribution post for the DAO](/blog/2-daotokdistribution).
 
 
-## Sathurday, October 21th, 2024
+## Monday, October 21th, 2024
 1. Steve Rodrigue: Changed the author section for the [team](/team) section
 
 ## Sathurday, October 19th, 2024

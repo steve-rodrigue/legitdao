@@ -12,13 +12,11 @@ draft: false
 
 
 # Setting Up a Binance Smart Chain (BSC) Node for LegitDAO Using Docker
-
 In this guide, we'll show you how to configure and run a **Binance Smart Chain (BSC) node** using Docker and Docker Compose. This setup is specifically tailored for the LegitDAO project to ensure efficient blockchain interaction with persistence, automatic restarts, and WebSocket support.
 
 For more general information on how to contribute and clone LegitDAO, refer to our [Contributing to LegitDAO Guide](/4-contributetolegitdao). This post focuses on the specific task of adding the **Binance Smart Chain Node** to the LegitDAO project using Docker.
 
 ## Project Structure
-
 Here’s a look at the project folder structure for the BSC node setup:
 
 ```plaintext
@@ -31,12 +29,9 @@ bsc-node/
 └── README.md                 # Project documentation (this file)
 ```
 
----
-
 ## Configuration Breakdown
 
 ### Dockerfile
-
 The `Dockerfile` is the script that builds the Docker image for the BSC node. Here’s an overview of its functionality:
 
 ```Dockerfile
@@ -68,7 +63,6 @@ ENTRYPOINT ["geth", "--config", "/bsc/config.toml", "--datadir", "/bscdata", "--
 - **Node Start Command**: It starts the BSC node with the necessary configuration, exposing HTTP and WebSocket endpoints for client connections.
 
 ### Docker Compose Configuration
-
 The `docker-compose.yml` defines the BSC node as a service. It maps ports, persists data, and ensures the container restarts automatically if it stops.
 
 ```yaml
@@ -93,12 +87,9 @@ services:
   - `./config:/bsc`: Maps the local `config.toml` file into the container so configuration changes are reflected.
 - **Restart Policy**: The `restart: always` ensures the node is automatically restarted in case of a failure.
 
----
-
 ## Setup and Usage
 
 ### Step 1: Clone the Repository
-
 If you haven't already, clone the repository where this setup is hosted:
 
 ```bash
@@ -107,7 +98,6 @@ cd bsc-node
 ```
 
 ### Step 2: Update `config.toml` (Optional)
-
 You can modify the `config.toml` file located in the `config/` directory to suit your needs. By default, the setup syncs with the Binance Smart Chain Mainnet and uses the `snap` sync mode for faster synchronization.
 
 Example `config.toml`:
@@ -119,7 +109,6 @@ SyncMode = "snap"  # Use "snap" sync mode for faster synchronization
 ```
 
 ### Step 3: Build and Run the BSC Node
-
 Use Docker Compose to build and start the BSC node. This command will create the image and start the container:
 
 ```bash
@@ -132,7 +121,6 @@ Docker Compose will:
 - Persist blockchain data in the `bscdata/` folder.
 
 ### Step 4: Monitor Sync Progress
-
 You can monitor the sync progress by checking the logs. Run the following command to view the logs:
 
 ```bash
@@ -142,7 +130,6 @@ docker logs -f bsc-node
 The logs will show the node searching for peers and syncing with the Binance Smart Chain.
 
 ### Step 5: Interact with the Node
-
 Once the node is running, you can interact with it using the following commands:
 
 - **Get the Current Block Number**:
@@ -156,14 +143,11 @@ Once the node is running, you can interact with it using the following commands:
   ```
 
 ### Step 6: Stop the Node
-
 To stop the node, press `Ctrl + C` in the terminal or use:
 
 ```bash
 docker-compose down
 ```
-
----
 
 ## Troubleshooting
 
@@ -180,18 +164,9 @@ SyncMode = "snap"
 Cache = 4096  # Increase the cache size for faster synchronization
 ```
 
----
-
 ## Additional Resources
-
 - [Binance Smart Chain Documentation](https://docs.bnbchain.org/)
 - [Docker Documentation](https://docs.docker.com/)
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 
----
-
 This setup provides an easy way to run a Binance Smart Chain node using Docker. Follow the steps, and you'll have a fully functional node up and running with persistent blockchain data. If you need help, feel free to ask questions or refer to the resources linked above.
-
----
-
-Now the title and description both reflect the use of **Docker** in the setup! Let me know if you need any other changes!
