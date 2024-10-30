@@ -1,7 +1,7 @@
 ---
 title: Pascal Germain
 email: pgermain1973@gmail.com
-image: "/images/authors/pascal_germain.png"
+image: "/images/authors/pascal_germain.jpg"
 description:  Over 30 years of experience in information technology, his expertise covers industries such as mining, aeronautics, manufacturing, and the public sector, with a focus on automation and system optimization. In 2016, he shifted his focus to digital marketing, blockchain, and e-commerce. Now fully dedicated to developing a platform designed to disrupt industry standards, he is a strong advocate for community-driven efforts and shared rewards. He will assist LegitDAO by contributing his expertise to key DevOps tasks, supporting the technical foundation of the project.
 
 social:

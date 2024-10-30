@@ -1,7 +1,7 @@
 ---
 title: Kyle Grant
 email: grant250lgt@gmail.com
-image: "/images/authors/kyle-grant.jpg"
+image: "/images/authors/kyle_grant.jpg"
 description: Kyle has 5 years experience in cryptocurrency community building, and social media marketing. He thrives on crafting compelling narratives that resonate with audiences.
 
 social:
