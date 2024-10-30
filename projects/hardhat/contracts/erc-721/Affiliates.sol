@@ -7,7 +7,9 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 
-contract Affiliates is ERC721, Ownable {
+import "../interfaces/IAffiliates.sol";
+
+contract Affiliates is IAffiliates, ERC721, Ownable {
 
     // using Math for uint256 type
     using Math for uint256;
@@ -47,17 +49,6 @@ contract Affiliates is ERC721, Ownable {
 
     // erc-20 founder address:
     address public founderAddress = address(0);
-
-
-    // events:
-    event CurrencyAddressSet(address indexed currencyAddress);
-    event FounderAddressSet(address indexed currencyAddress);
-    event PaymentReceived(address indexed user, uint256 shareAmount, uint256 totalAmount);
-    event PaymentClaimed(address indexed user, uint256 amount);
-    event RegisterReferral(address indexed owner, address indexed referral);
-    event RegisterOffer(address indexed user, uint256 tokenId, uint256 amount);
-    event WithdrawOffer(address indexed user, uint256 tokenId);
-    event AcceptOffer(address indexed user, uint256 tokenId, uint256 price);
 
     constructor()
         ERC721("LegitDAO Affiliates", "LEGIT-AFF")
@@ -199,7 +190,7 @@ contract Affiliates is ERC721, Ownable {
         if (parent == address(0)) {
             // calculate the remaining:
             uint256 remaining = amount - totalPaid;
-            
+
             //change the payment in the book:
             paymentBook[founderAddress] = remaining;
 
