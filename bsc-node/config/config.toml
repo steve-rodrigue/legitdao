@@ -1,0 +1,3 @@
+[Eth]
+NetworkId = 56  # BSC Mainnet
+SyncMode = "snap"  

@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  bsc-node:
+    build: .
+    container_name: bsc-node
+    ports:
+      - "8545:8545"  # HTTP RPC port
+      - "30303:30303"  # P2P port
+      - "8546:8546"  # WebSocket port
+    volumes:
+      - ./bscdata:/bscdata  # External volume to persist blockchain data
+      - ./config:/bsc  # Config folder with config.toml
+    restart: always  # Automatically restart the container if it stops
