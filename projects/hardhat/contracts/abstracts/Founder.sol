@@ -5,7 +5,6 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/utils/math/Math.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./../interfaces/IFounder.sol";
 
@@ -16,9 +15,6 @@ abstract contract Founder is IFounder, ERC20, ERC20Permit, Ownable, ReentrancyGu
         uint256 pricePerToken;
         uint256 amountOfToken;
     }
-
-     // using Math for uint256 type
-    using Math for uint256;
 
     uint256 private constant SCALE = 1e18;
     
@@ -55,8 +51,7 @@ abstract contract Founder is IFounder, ERC20, ERC20Permit, Ownable, ReentrancyGu
         require(amountOfTokens > 0, "amountOfTokens must be greater than zero");
 
         // find the amount:
-        (bool success, uint256 amount) = pricePerToken.tryMul(amountOfTokens);
-        require(success, "pricePerToken * amountOfTokens overflows");
+        uint256 amount = pricePerToken * amountOfTokens;
         
         depositCollateral(amount);
         registerOffer(amountOfTokens, pricePerToken);
@@ -209,20 +204,13 @@ abstract contract Founder is IFounder, ERC20, ERC20Permit, Ownable, ReentrancyGu
         require(tokenTotalAmount > 0, "tokenTotalAmount cannot be zero");
 
         // Calculate the scaled ratio to prevent truncation
-        (bool balanceSuccess,  uint256 scaled) = tokenAmount.tryMul(SCALE);
-        require(balanceSuccess, "tokenAmount * SCALE overflows");
+        uint256 scaled = tokenAmount * SCALE;
 
-        (bool success,  uint256 scaledRatio) = scaled.tryDiv(tokenTotalAmount);
-        require(success, "scaled / tokenTotalAmount overflows");
+        uint256 scaledRatio = scaled / tokenTotalAmount;
         
         // Calculate the dividend by applying the ratio to the total dividends
-        (bool retValueSuccess, uint256 retValue) = value.tryMul(scaledRatio);
-        require(retValueSuccess, "value * scaledRatio overflows");
-
-        (bool downScaleSuccess, uint256 retValueDownScaled) = retValue.tryDiv(SCALE);
-        require(downScaleSuccess, "retValue / SCALE overflows");
-
-        return retValueDownScaled;
+        uint256 retValue = value * scaledRatio;
+        return retValue / SCALE;
     }
 
     // method overloads:

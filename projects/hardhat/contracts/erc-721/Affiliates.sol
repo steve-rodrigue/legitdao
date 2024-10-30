@@ -5,14 +5,10 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/math/Math.sol";
 
 import "../interfaces/IAffiliates.sol";
 
 contract Affiliates is IAffiliates, ERC721, Ownable {
-
-    // using Math for uint256 type
-    using Math for uint256;
 
     struct Tree {
         address addr;
@@ -202,16 +198,13 @@ contract Affiliates is IAffiliates, ERC721, Ownable {
         }
 
         // find the scaled amount:
-        (bool scaledSuccess,  uint256 scaled) = levelRatios[level].tryMul(amount);
-        require(scaledSuccess, "levelRatios[level] * amount overflows");
+        uint256 scaled = levelRatios[level] * amount;
 
         // descale the amount:
-        (bool descaledSuccess,  uint256 descaled) = scaled.tryDiv(DESCALE);
-        require(descaledSuccess, "scaled / DESCALE overflows");
+        uint256 descaled = scaled / DESCALE;
 
         // find the payment total:
-        (bool paymentSuccess,  uint256 payment) = paymentBook[parent].tryAdd(descaled);
-        require(paymentSuccess, "paymentBook[parent] + descaled overflows");
+        uint256 payment = paymentBook[parent] + descaled;
 
         //change the payment in the book:
         paymentBook[parent] = payment;
