@@ -9,8 +9,6 @@ author: "Pascal Germain"
 tags: ["LegitDAO", "Blockchain", "Binance Smart Chain", "Docker"]
 draft: false
 ---
-
-# Configurer un nœud Binance Smart Chain (BSC) pour LegitDAO avec Docker
 Dans ce guide, nous allons vous montrer comment configurer et exécuter un **nœud Binance Smart Chain (BSC)** en utilisant Docker et Docker Compose. Cette configuration est spécifiquement adaptée au projet LegitDAO afin d'assurer une interaction efficace avec la blockchain, avec persistance des données, redémarrages automatiques et prise en charge des WebSockets.
 
 Pour plus d'informations sur la manière de contribuer et de cloner LegitDAO, consultez notre [Guide pour contribuer à LegitDAO](/4-contributetolegitdao). Ce post se concentre sur la tâche spécifique d'ajout du **nœud Binance Smart Chain** au projet LegitDAO en utilisant Docker.
