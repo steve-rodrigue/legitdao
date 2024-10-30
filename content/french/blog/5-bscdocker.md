@@ -17,7 +17,7 @@ Pour plus d'informations sur la manière de contribuer et de cloner LegitDAO, co
 Voici un aperçu de la structure des dossiers pour la configuration du nœud BSC :
 
 ```plaintext
-bsc-node/
+projects/infrastructure/blockchains/bsc/
 ├── bscdata/                  # Répertoire pour stocker les données blockchain (persistées en dehors du conteneur)
 ├── config/
 │   └── config.toml           # Fichier de configuration du nœud BSC

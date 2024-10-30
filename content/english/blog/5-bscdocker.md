@@ -17,7 +17,7 @@ For more general information on how to contribute and clone LegitDAO, refer to o
 Here’s a look at the project folder structure for the BSC node setup:
 
 ```plaintext
-bsc-node/
+projects/infrastructure/blockchains/bsc/
 ├── bscdata/                  # Directory to store blockchain data (persisted outside the container)
 ├── config/
 │   └── config.toml           # BSC node configuration file
