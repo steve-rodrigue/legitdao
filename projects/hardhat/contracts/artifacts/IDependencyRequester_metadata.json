@@ -1,0 +1,196 @@
+{
+	"compiler": {
+		"version": "0.8.28+commit.7893614a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "identifier",
+						"type": "uint256"
+					}
+				],
+				"name": "isRequestAdditionPositive",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "identifier",
+						"type": "uint256"
+					}
+				],
+				"name": "isRequestRemovalPositive",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "identifier",
+						"type": "uint256"
+					}
+				],
+				"name": "isRequestUpgradePositive",
+				"outputs": [
+					{
+						"internalType": "contract IDependencyRequester",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "dependencyKey",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "dependencyAddress",
+						"type": "address"
+					}
+				],
+				"name": "requestAddition",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "dependencyKey",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "dependencyAddress",
+						"type": "address"
+					}
+				],
+				"name": "requestRemoval",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "contract IDependencyRequester",
+						"name": "upgradedDependency",
+						"type": "address"
+					}
+				],
+				"name": "requestUpgradeDependencyRequester",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"custom:security-contact": "stev.rodr@gmail.com",
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"IDependencyRequester.sol": "IDependencyRequester"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"IDependencyRequester.sol": {
+			"keccak256": "0x151f264734e6dae6c9d9324e58ce3e0b05ccd9335521fd33481c23dcc6cc3422",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b8b868d5c4ed71dbd75872c81a36457518443eb9669d813e1c0f042754d55354",
+				"dweb:/ipfs/QmbTGc9TnuCWVzyDLFY9vb6dEEKBHc4GDV55R5fMpfj64z"
+			]
+		}
+	},
+	"version": 1
+}

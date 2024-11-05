@@ -1,0 +1,2780 @@
+{
+	"id": "d8259274e1b9c799409e1233cf5a33a8",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.28",
+	"solcLongVersion": "0.8.28+commit.7893614a",
+	"input": {
+		"language": "Solidity",
+		"settings": {
+			"optimizer": {
+				"enabled": true,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		},
+		"sources": {
+			"ILegitDAO.sol": {
+				"content": "// SPDX-License-Identifier: MIT\n// Compatible with OpenZeppelin Contracts ^5.0.0\npragma solidity ^0.8.26;\n\nimport \"./IDependencyRequester.sol\";\n\ninterface ILegitDAO {\n    function getDependencyKeys() external view returns (string[] memory);\n    function getDependencyAddress(string memory keyname) external view returns (address);\n    function getPendingAprovalDependencyKeys() external view returns (string[] memory);\n    function addDependencyRequester(IDependencyRequester dependencyAddress) external;\n    function requestDependencyAddition(string memory dependencyKey, address contractAddress) external;\n    function requestDependencyRemoval(string memory dependencyKey, address contractAddress) external;\n    function requestUpgradeDependencyRequester(IDependencyRequester upgradedDependencyRequester) external;\n    function updateDependencies() external;\n    function callFunction(string memory dependencyKey, string memory functionSignature, bytes memory data) external returns (bytes memory);\n\n    // events:\n    event DependencyRequesterAdded(IDependencyRequester indexed contractAddress);\n    event DependencyRequesterUpgradeRequested(IDependencyRequester indexed contractInstance);\n    event DependencyRequesterUpgraded(IDependencyRequester indexed contractInstance);\n    event DependencyRequesterUpgradeFailed(IDependencyRequester indexed contractAddress);\n    event DependencyAdditionRequested(string dependencyKey, address indexed contractAddress);\n    event DependencyAdded(string dependencyKey, address indexed contractAddress);\n    event DependencyAdditionFailed(string dependencyKey, address indexed contractAddress);\n    event DependencyRemovalRequested(string dependencyKey, address indexed contractAddress);\n    event DependencyRemoved(string dependencyKey, address indexed contractAddress);\n    event DependencyRemovalFailed(string dependencyKey, address indexed contractAddress);\n}"
+			},
+			"IDependencyRequester.sol": {
+				"content": "// SPDX-License-Identifier: MIT\n// Compatible with OpenZeppelin Contracts ^5.0.0\npragma solidity ^0.8.26;\n\n/// @custom:security-contact stev.rodr@gmail.com\ninterface IDependencyRequester {\n    // function that requests a dependency addition\n    function requestAddition(string memory dependencyKey, address dependencyAddress) external returns(uint256);\n\n    // function that requests a dependency removal\n    function requestRemoval(string memory dependencyKey, address dependencyAddress) external returns(uint256);\n\n    // function that requests an upgrade for itself\n    function requestUpgradeDependencyRequester(IDependencyRequester upgradedDependency) external returns(uint256);\n\n    // function that verifies if a request addition was positive:\n    function isRequestAdditionPositive(uint256 identifier) external view returns(address, bool, bool);\n\n     // function that verifies if a request removal was positive:\n    function isRequestRemovalPositive(uint256 identifier) external view returns(bool, bool);\n\n    // function that verifies if a request for upgrade was positive:\n    function isRequestUpgradePositive(uint256 identifier) external view returns(IDependencyRequester, bool, bool);\n\n}"
+			}
+		}
+	},
+	"output": {
+		"contracts": {
+			"IDependencyRequester.sol": {
+				"IDependencyRequester": {
+					"abi": [
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "identifier",
+									"type": "uint256"
+								}
+							],
+							"name": "isRequestAdditionPositive",
+							"outputs": [
+								{
+									"internalType": "address",
+									"name": "",
+									"type": "address"
+								},
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								},
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "identifier",
+									"type": "uint256"
+								}
+							],
+							"name": "isRequestRemovalPositive",
+							"outputs": [
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								},
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "identifier",
+									"type": "uint256"
+								}
+							],
+							"name": "isRequestUpgradePositive",
+							"outputs": [
+								{
+									"internalType": "contract IDependencyRequester",
+									"name": "",
+									"type": "address"
+								},
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								},
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"internalType": "address",
+									"name": "dependencyAddress",
+									"type": "address"
+								}
+							],
+							"name": "requestAddition",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"internalType": "address",
+									"name": "dependencyAddress",
+									"type": "address"
+								}
+							],
+							"name": "requestRemoval",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "contract IDependencyRequester",
+									"name": "upgradedDependency",
+									"type": "address"
+								}
+							],
+							"name": "requestUpgradeDependencyRequester",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"custom:security-contact": "stev.rodr@gmail.com",
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"isRequestAdditionPositive(uint256)": "4f6e1b27",
+							"isRequestRemovalPositive(uint256)": "b986f179",
+							"isRequestUpgradePositive(uint256)": "2ad51b96",
+							"requestAddition(string,address)": "1d59a3aa",
+							"requestRemoval(string,address)": "07ec4043",
+							"requestUpgradeDependencyRequester(address)": "16c1076f"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.28+commit.7893614a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"identifier\",\"type\":\"uint256\"}],\"name\":\"isRequestAdditionPositive\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"identifier\",\"type\":\"uint256\"}],\"name\":\"isRequestRemovalPositive\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"identifier\",\"type\":\"uint256\"}],\"name\":\"isRequestUpgradePositive\",\"outputs\":[{\"internalType\":\"contract IDependencyRequester\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"dependencyAddress\",\"type\":\"address\"}],\"name\":\"requestAddition\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"dependencyAddress\",\"type\":\"address\"}],\"name\":\"requestRemoval\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IDependencyRequester\",\"name\":\"upgradedDependency\",\"type\":\"address\"}],\"name\":\"requestUpgradeDependencyRequester\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"custom:security-contact\":\"stev.rodr@gmail.com\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"IDependencyRequester.sol\":\"IDependencyRequester\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"IDependencyRequester.sol\":{\"keccak256\":\"0x151f264734e6dae6c9d9324e58ce3e0b05ccd9335521fd33481c23dcc6cc3422\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b8b868d5c4ed71dbd75872c81a36457518443eb9669d813e1c0f042754d55354\",\"dweb:/ipfs/QmbTGc9TnuCWVzyDLFY9vb6dEEKBHc4GDV55R5fMpfj64z\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			},
+			"ILegitDAO.sol": {
+				"ILegitDAO": {
+					"abi": [
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": false,
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"indexed": true,
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyAdded",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": false,
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"indexed": true,
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyAdditionFailed",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": false,
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"indexed": true,
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyAdditionRequested",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": false,
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"indexed": true,
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyRemovalFailed",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": false,
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"indexed": true,
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyRemovalRequested",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": false,
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"indexed": true,
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyRemoved",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": true,
+									"internalType": "contract IDependencyRequester",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyRequesterAdded",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": true,
+									"internalType": "contract IDependencyRequester",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "DependencyRequesterUpgradeFailed",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": true,
+									"internalType": "contract IDependencyRequester",
+									"name": "contractInstance",
+									"type": "address"
+								}
+							],
+							"name": "DependencyRequesterUpgradeRequested",
+							"type": "event"
+						},
+						{
+							"anonymous": false,
+							"inputs": [
+								{
+									"indexed": true,
+									"internalType": "contract IDependencyRequester",
+									"name": "contractInstance",
+									"type": "address"
+								}
+							],
+							"name": "DependencyRequesterUpgraded",
+							"type": "event"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "contract IDependencyRequester",
+									"name": "dependencyAddress",
+									"type": "address"
+								}
+							],
+							"name": "addDependencyRequester",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"internalType": "string",
+									"name": "functionSignature",
+									"type": "string"
+								},
+								{
+									"internalType": "bytes",
+									"name": "data",
+									"type": "bytes"
+								}
+							],
+							"name": "callFunction",
+							"outputs": [
+								{
+									"internalType": "bytes",
+									"name": "",
+									"type": "bytes"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "string",
+									"name": "keyname",
+									"type": "string"
+								}
+							],
+							"name": "getDependencyAddress",
+							"outputs": [
+								{
+									"internalType": "address",
+									"name": "",
+									"type": "address"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "getDependencyKeys",
+							"outputs": [
+								{
+									"internalType": "string[]",
+									"name": "",
+									"type": "string[]"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "getPendingAprovalDependencyKeys",
+							"outputs": [
+								{
+									"internalType": "string[]",
+									"name": "",
+									"type": "string[]"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "requestDependencyAddition",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "string",
+									"name": "dependencyKey",
+									"type": "string"
+								},
+								{
+									"internalType": "address",
+									"name": "contractAddress",
+									"type": "address"
+								}
+							],
+							"name": "requestDependencyRemoval",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "contract IDependencyRequester",
+									"name": "upgradedDependencyRequester",
+									"type": "address"
+								}
+							],
+							"name": "requestUpgradeDependencyRequester",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "updateDependencies",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"addDependencyRequester(address)": "0bcfc717",
+							"callFunction(string,string,bytes)": "a7fee722",
+							"getDependencyAddress(string)": "22418460",
+							"getDependencyKeys()": "ec4c2e5d",
+							"getPendingAprovalDependencyKeys()": "be6552e6",
+							"requestDependencyAddition(string,address)": "80719893",
+							"requestDependencyRemoval(string,address)": "fbe332dc",
+							"requestUpgradeDependencyRequester(address)": "16c1076f",
+							"updateDependencies()": "6e5ecdff"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.28+commit.7893614a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyAdditionFailed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyAdditionRequested\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyRemovalFailed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyRemovalRequested\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"contract IDependencyRequester\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyRequesterAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"contract IDependencyRequester\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"DependencyRequesterUpgradeFailed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"contract IDependencyRequester\",\"name\":\"contractInstance\",\"type\":\"address\"}],\"name\":\"DependencyRequesterUpgradeRequested\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"contract IDependencyRequester\",\"name\":\"contractInstance\",\"type\":\"address\"}],\"name\":\"DependencyRequesterUpgraded\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"contract IDependencyRequester\",\"name\":\"dependencyAddress\",\"type\":\"address\"}],\"name\":\"addDependencyRequester\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"functionSignature\",\"type\":\"string\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"callFunction\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"keyname\",\"type\":\"string\"}],\"name\":\"getDependencyAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getDependencyKeys\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPendingAprovalDependencyKeys\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"requestDependencyAddition\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"dependencyKey\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"}],\"name\":\"requestDependencyRemoval\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IDependencyRequester\",\"name\":\"upgradedDependencyRequester\",\"type\":\"address\"}],\"name\":\"requestUpgradeDependencyRequester\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"updateDependencies\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"ILegitDAO.sol\":\"ILegitDAO\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"IDependencyRequester.sol\":{\"keccak256\":\"0x151f264734e6dae6c9d9324e58ce3e0b05ccd9335521fd33481c23dcc6cc3422\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b8b868d5c4ed71dbd75872c81a36457518443eb9669d813e1c0f042754d55354\",\"dweb:/ipfs/QmbTGc9TnuCWVzyDLFY9vb6dEEKBHc4GDV55R5fMpfj64z\"]},\"ILegitDAO.sol\":{\"keccak256\":\"0xd353783bb34e8c6027d738ac9cf06ae442364cffab397cedc5f857d444f00859\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cbb1637cdfd4253967ccb96180fe5ea0ee6338b7b71ab80f4f0c20c3cd336bf4\",\"dweb:/ipfs/QmWA76eqcgNcefTztNBcE93mZaH1NtUWPehzqYBpp9c2Eh\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"IDependencyRequester.sol": {
+				"ast": {
+					"absolutePath": "IDependencyRequester.sol",
+					"exportedSymbols": {
+						"IDependencyRequester": [
+							61
+						]
+					},
+					"id": 62,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"^",
+								"0.8",
+								".26"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "81:24:0"
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "IDependencyRequester",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"documentation": {
+								"id": 2,
+								"nodeType": "StructuredDocumentation",
+								"src": "107:49:0",
+								"text": "@custom:security-contact stev.rodr@gmail.com"
+							},
+							"fullyImplemented": false,
+							"id": 61,
+							"linearizedBaseContracts": [
+								61
+							],
+							"name": "IDependencyRequester",
+							"nameLocation": "166:20:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "1d59a3aa",
+									"id": 11,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "requestAddition",
+									"nameLocation": "254:15:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 7,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 4,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "284:13:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 11,
+												"src": "270:27:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 3,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "270:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 6,
+												"mutability": "mutable",
+												"name": "dependencyAddress",
+												"nameLocation": "307:17:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 11,
+												"src": "299:25:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 5,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "299:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "269:56:0"
+									},
+									"returnParameters": {
+										"id": 10,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 9,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 11,
+												"src": "343:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 8,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "343:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "342:9:0"
+									},
+									"scope": 61,
+									"src": "245:107:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "07ec4043",
+									"id": 20,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "requestRemoval",
+									"nameLocation": "418:14:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 16,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 13,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "447:13:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 20,
+												"src": "433:27:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 12,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "433:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 15,
+												"mutability": "mutable",
+												"name": "dependencyAddress",
+												"nameLocation": "470:17:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 20,
+												"src": "462:25:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 14,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "462:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "432:56:0"
+									},
+									"returnParameters": {
+										"id": 19,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 18,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 20,
+												"src": "506:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 17,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "506:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "505:9:0"
+									},
+									"scope": 61,
+									"src": "409:106:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "16c1076f",
+									"id": 28,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "requestUpgradeDependencyRequester",
+									"nameLocation": "582:33:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 24,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 23,
+												"mutability": "mutable",
+												"name": "upgradedDependency",
+												"nameLocation": "637:18:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 28,
+												"src": "616:39:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 22,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 21,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"616:20:0"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "616:20:0"
+													},
+													"referencedDeclaration": 61,
+													"src": "616:20:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "615:41:0"
+									},
+									"returnParameters": {
+										"id": 27,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 26,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 28,
+												"src": "674:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 25,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "674:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "673:9:0"
+									},
+									"scope": 61,
+									"src": "573:110:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "4f6e1b27",
+									"id": 39,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "isRequestAdditionPositive",
+									"nameLocation": "764:25:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 31,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 30,
+												"mutability": "mutable",
+												"name": "identifier",
+												"nameLocation": "798:10:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 39,
+												"src": "790:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 29,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "790:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "789:20:0"
+									},
+									"returnParameters": {
+										"id": 38,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 33,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 39,
+												"src": "832:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 32,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "832:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 35,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 39,
+												"src": "841:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 34,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "841:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 37,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 39,
+												"src": "847:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 36,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "847:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "831:21:0"
+									},
+									"scope": 61,
+									"src": "755:98:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "b986f179",
+									"id": 48,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "isRequestRemovalPositive",
+									"nameLocation": "934:24:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 42,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 41,
+												"mutability": "mutable",
+												"name": "identifier",
+												"nameLocation": "967:10:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 48,
+												"src": "959:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 40,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "959:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "958:20:0"
+									},
+									"returnParameters": {
+										"id": 47,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 44,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 48,
+												"src": "1001:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 43,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "1001:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 46,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 48,
+												"src": "1007:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 45,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "1007:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1000:12:0"
+									},
+									"scope": 61,
+									"src": "925:88:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "2ad51b96",
+									"id": 60,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "isRequestUpgradePositive",
+									"nameLocation": "1097:24:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 51,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 50,
+												"mutability": "mutable",
+												"name": "identifier",
+												"nameLocation": "1130:10:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 60,
+												"src": "1122:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 49,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "1122:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1121:20:0"
+									},
+									"returnParameters": {
+										"id": 59,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 54,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 60,
+												"src": "1164:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 53,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 52,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"1164:20:0"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "1164:20:0"
+													},
+													"referencedDeclaration": 61,
+													"src": "1164:20:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 56,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 60,
+												"src": "1186:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 55,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "1186:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 58,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 60,
+												"src": "1192:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 57,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "1192:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1163:34:0"
+									},
+									"scope": 61,
+									"src": "1088:110:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 62,
+							"src": "156:1045:0",
+							"usedErrors": [],
+							"usedEvents": []
+						}
+					],
+					"src": "81:1120:0"
+				},
+				"id": 0
+			},
+			"ILegitDAO.sol": {
+				"ast": {
+					"absolutePath": "ILegitDAO.sol",
+					"exportedSymbols": {
+						"IDependencyRequester": [
+							61
+						],
+						"ILegitDAO": [
+							180
+						]
+					},
+					"id": 181,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 63,
+							"literals": [
+								"solidity",
+								"^",
+								"0.8",
+								".26"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "81:24:1"
+						},
+						{
+							"absolutePath": "IDependencyRequester.sol",
+							"file": "./IDependencyRequester.sol",
+							"id": 64,
+							"nameLocation": "-1:-1:-1",
+							"nodeType": "ImportDirective",
+							"scope": 181,
+							"sourceUnit": 62,
+							"src": "107:36:1",
+							"symbolAliases": [],
+							"unitAlias": ""
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "ILegitDAO",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 180,
+							"linearizedBaseContracts": [
+								180
+							],
+							"name": "ILegitDAO",
+							"nameLocation": "155:9:1",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "ec4c2e5d",
+									"id": 70,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getDependencyKeys",
+									"nameLocation": "180:17:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 65,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "197:2:1"
+									},
+									"returnParameters": {
+										"id": 69,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 68,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 70,
+												"src": "223:15:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+													"typeString": "string[]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 66,
+														"name": "string",
+														"nodeType": "ElementaryTypeName",
+														"src": "223:6:1",
+														"typeDescriptions": {
+															"typeIdentifier": "t_string_storage_ptr",
+															"typeString": "string"
+														}
+													},
+													"id": 67,
+													"nodeType": "ArrayTypeName",
+													"src": "223:8:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+														"typeString": "string[]"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "222:17:1"
+									},
+									"scope": 180,
+									"src": "171:69:1",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "22418460",
+									"id": 77,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getDependencyAddress",
+									"nameLocation": "254:20:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 73,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 72,
+												"mutability": "mutable",
+												"name": "keyname",
+												"nameLocation": "289:7:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 77,
+												"src": "275:21:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 71,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "275:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "274:23:1"
+									},
+									"returnParameters": {
+										"id": 76,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 75,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 77,
+												"src": "321:7:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 74,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "321:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "320:9:1"
+									},
+									"scope": 180,
+									"src": "245:85:1",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "be6552e6",
+									"id": 83,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getPendingAprovalDependencyKeys",
+									"nameLocation": "344:31:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 78,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "375:2:1"
+									},
+									"returnParameters": {
+										"id": 82,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 81,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 83,
+												"src": "401:15:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+													"typeString": "string[]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 79,
+														"name": "string",
+														"nodeType": "ElementaryTypeName",
+														"src": "401:6:1",
+														"typeDescriptions": {
+															"typeIdentifier": "t_string_storage_ptr",
+															"typeString": "string"
+														}
+													},
+													"id": 80,
+													"nodeType": "ArrayTypeName",
+													"src": "401:8:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+														"typeString": "string[]"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "400:17:1"
+									},
+									"scope": 180,
+									"src": "335:83:1",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "0bcfc717",
+									"id": 89,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "addDependencyRequester",
+									"nameLocation": "432:22:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 87,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 86,
+												"mutability": "mutable",
+												"name": "dependencyAddress",
+												"nameLocation": "476:17:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 89,
+												"src": "455:38:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 85,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 84,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"455:20:1"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "455:20:1"
+													},
+													"referencedDeclaration": 61,
+													"src": "455:20:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "454:40:1"
+									},
+									"returnParameters": {
+										"id": 88,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "503:0:1"
+									},
+									"scope": 180,
+									"src": "423:81:1",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "80719893",
+									"id": 96,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "requestDependencyAddition",
+									"nameLocation": "518:25:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 94,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 91,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "558:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 96,
+												"src": "544:27:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 90,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "544:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 93,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "581:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 96,
+												"src": "573:23:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 92,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "573:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "543:54:1"
+									},
+									"returnParameters": {
+										"id": 95,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "606:0:1"
+									},
+									"scope": 180,
+									"src": "509:98:1",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "fbe332dc",
+									"id": 103,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "requestDependencyRemoval",
+									"nameLocation": "621:24:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 101,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 98,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "660:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 103,
+												"src": "646:27:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 97,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "646:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 100,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "683:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 103,
+												"src": "675:23:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 99,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "675:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "645:54:1"
+									},
+									"returnParameters": {
+										"id": 102,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "708:0:1"
+									},
+									"scope": 180,
+									"src": "612:97:1",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "16c1076f",
+									"id": 109,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "requestUpgradeDependencyRequester",
+									"nameLocation": "723:33:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 107,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 106,
+												"mutability": "mutable",
+												"name": "upgradedDependencyRequester",
+												"nameLocation": "778:27:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 109,
+												"src": "757:48:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 105,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 104,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"757:20:1"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "757:20:1"
+													},
+													"referencedDeclaration": 61,
+													"src": "757:20:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "756:50:1"
+									},
+									"returnParameters": {
+										"id": 108,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "815:0:1"
+									},
+									"scope": 180,
+									"src": "714:102:1",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "6e5ecdff",
+									"id": 112,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "updateDependencies",
+									"nameLocation": "830:18:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 110,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "848:2:1"
+									},
+									"returnParameters": {
+										"id": 111,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "859:0:1"
+									},
+									"scope": 180,
+									"src": "821:39:1",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "a7fee722",
+									"id": 123,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "callFunction",
+									"nameLocation": "874:12:1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 119,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 114,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "901:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 123,
+												"src": "887:27:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 113,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "887:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 116,
+												"mutability": "mutable",
+												"name": "functionSignature",
+												"nameLocation": "930:17:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 123,
+												"src": "916:31:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 115,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "916:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 118,
+												"mutability": "mutable",
+												"name": "data",
+												"nameLocation": "962:4:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 123,
+												"src": "949:17:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bytes_memory_ptr",
+													"typeString": "bytes"
+												},
+												"typeName": {
+													"id": 117,
+													"name": "bytes",
+													"nodeType": "ElementaryTypeName",
+													"src": "949:5:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bytes_storage_ptr",
+														"typeString": "bytes"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "886:81:1"
+									},
+									"returnParameters": {
+										"id": 122,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 121,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 123,
+												"src": "986:12:1",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bytes_memory_ptr",
+													"typeString": "bytes"
+												},
+												"typeName": {
+													"id": 120,
+													"name": "bytes",
+													"nodeType": "ElementaryTypeName",
+													"src": "986:5:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bytes_storage_ptr",
+														"typeString": "bytes"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "985:14:1"
+									},
+									"scope": 180,
+									"src": "865:135:1",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "a16907e9030f7a27dd100153173e6b01401f940d851e6f7095937f2773e561b2",
+									"id": 128,
+									"name": "DependencyRequesterAdded",
+									"nameLocation": "1027:24:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 127,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 126,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1081:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 128,
+												"src": "1052:44:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 125,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 124,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"1052:20:1"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "1052:20:1"
+													},
+													"referencedDeclaration": 61,
+													"src": "1052:20:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1051:46:1"
+									},
+									"src": "1021:77:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "130bf33540470b3a07f23b1164785a20acd90a150a4a00e976740c8f941c71db",
+									"id": 133,
+									"name": "DependencyRequesterUpgradeRequested",
+									"nameLocation": "1109:35:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 132,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 131,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractInstance",
+												"nameLocation": "1174:16:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 133,
+												"src": "1145:45:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 130,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 129,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"1145:20:1"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "1145:20:1"
+													},
+													"referencedDeclaration": 61,
+													"src": "1145:20:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1144:47:1"
+									},
+									"src": "1103:89:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "e00a5b97742635032504f47f4c4ae13f19de32bab9db317d70cb5820cce02935",
+									"id": 138,
+									"name": "DependencyRequesterUpgraded",
+									"nameLocation": "1203:27:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 137,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 136,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractInstance",
+												"nameLocation": "1260:16:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 138,
+												"src": "1231:45:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 135,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 134,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"1231:20:1"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "1231:20:1"
+													},
+													"referencedDeclaration": 61,
+													"src": "1231:20:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1230:47:1"
+									},
+									"src": "1197:81:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "563bb4859f75835d1cd4855f062e12db76cc064572739370c11b20510e382d5b",
+									"id": 143,
+									"name": "DependencyRequesterUpgradeFailed",
+									"nameLocation": "1289:32:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 142,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 141,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1351:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 143,
+												"src": "1322:44:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+													"typeString": "contract IDependencyRequester"
+												},
+												"typeName": {
+													"id": 140,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 139,
+														"name": "IDependencyRequester",
+														"nameLocations": [
+															"1322:20:1"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 61,
+														"src": "1322:20:1"
+													},
+													"referencedDeclaration": 61,
+													"src": "1322:20:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_contract$_IDependencyRequester_$61",
+														"typeString": "contract IDependencyRequester"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1321:46:1"
+									},
+									"src": "1283:85:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "7a561791a5e256aac8e189115ca0e37a81457d0fc3faceceb7d1c4907dd55a3a",
+									"id": 149,
+									"name": "DependencyAdditionRequested",
+									"nameLocation": "1379:27:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 148,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 145,
+												"indexed": false,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "1414:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 149,
+												"src": "1407:20:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 144,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "1407:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 147,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1445:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 149,
+												"src": "1429:31:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 146,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "1429:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1406:55:1"
+									},
+									"src": "1373:89:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "8281f4653ea8e6ba47f1ebeeb1c7e17291003d7e8247666d4d1c46124920bfe6",
+									"id": 155,
+									"name": "DependencyAdded",
+									"nameLocation": "1473:15:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 154,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 151,
+												"indexed": false,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "1496:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 155,
+												"src": "1489:20:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 150,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "1489:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 153,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1527:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 155,
+												"src": "1511:31:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 152,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "1511:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1488:55:1"
+									},
+									"src": "1467:77:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "c4425eba3fdc6aaf1c08b8892b7b7b5fdca047f984a94148a7c547e0faac2bd3",
+									"id": 161,
+									"name": "DependencyAdditionFailed",
+									"nameLocation": "1555:24:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 160,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 157,
+												"indexed": false,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "1587:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 161,
+												"src": "1580:20:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 156,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "1580:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 159,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1618:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 161,
+												"src": "1602:31:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 158,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "1602:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1579:55:1"
+									},
+									"src": "1549:86:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "4591e03d87e58e2eff46633bca8adfb3336f94ced41a61a4e33d3e061fd0e960",
+									"id": 167,
+									"name": "DependencyRemovalRequested",
+									"nameLocation": "1646:26:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 166,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 163,
+												"indexed": false,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "1680:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 167,
+												"src": "1673:20:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 162,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "1673:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 165,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1711:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 167,
+												"src": "1695:31:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 164,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "1695:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1672:55:1"
+									},
+									"src": "1640:88:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "82aa94d0384f3fe5d924376cf325afcff8195f30f42758ae710193c432f24ac1",
+									"id": 173,
+									"name": "DependencyRemoved",
+									"nameLocation": "1739:17:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 172,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 169,
+												"indexed": false,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "1764:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 173,
+												"src": "1757:20:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 168,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "1757:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 171,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1795:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 173,
+												"src": "1779:31:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 170,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "1779:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1756:55:1"
+									},
+									"src": "1733:79:1"
+								},
+								{
+									"anonymous": false,
+									"eventSelector": "402a83bdad8cef946824820b268607aec7303de64e88533b0bd7ee57a577b954",
+									"id": 179,
+									"name": "DependencyRemovalFailed",
+									"nameLocation": "1823:23:1",
+									"nodeType": "EventDefinition",
+									"parameters": {
+										"id": 178,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 175,
+												"indexed": false,
+												"mutability": "mutable",
+												"name": "dependencyKey",
+												"nameLocation": "1854:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 179,
+												"src": "1847:20:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_memory_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 174,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "1847:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 177,
+												"indexed": true,
+												"mutability": "mutable",
+												"name": "contractAddress",
+												"nameLocation": "1885:15:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 179,
+												"src": "1869:31:1",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 176,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "1869:7:1",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1846:55:1"
+									},
+									"src": "1817:85:1"
+								}
+							],
+							"scope": 181,
+							"src": "145:1759:1",
+							"usedErrors": [],
+							"usedEvents": [
+								128,
+								133,
+								138,
+								143,
+								149,
+								155,
+								161,
+								167,
+								173,
+								179
+							]
+						}
+					],
+					"src": "81:1823:1"
+				},
+				"id": 1
+			}
+		}
+	}
+}

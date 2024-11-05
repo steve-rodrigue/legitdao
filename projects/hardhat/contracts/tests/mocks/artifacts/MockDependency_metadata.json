@@ -1,0 +1,59 @@
+{
+	"compiler": {
+		"version": "0.8.28+commit.7893614a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getValue",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"tests/mocks/dependency.sol": "MockDependency"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"tests/mocks/dependency.sol": {
+			"keccak256": "0x17a9da239bfbdb5fa787414d02a145270c20c9506a71a0ed4d0d33543e14bcc4",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://d8969e425cae1da5760b6fd616b7a2126eb227b8f05a0a0064c1cabe4460a9e6",
+				"dweb:/ipfs/QmU1wXJdDMaETqubQ5R2DNRpNoz1gZmPVoKXCdseqPASqa"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,207 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "beforeAll",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "beforeEach",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testAddDependencyRequester",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testRequestDependencyAddition",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testRequestDependencyRemoval",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testRequestUpgradeDependencyRequester",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testUpdateDependenciesThenCallFunction",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"title": "Unit Tests for LegitDAO Contract",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"beforeAll()": {
+					"notice": "#sender: account-0"
+				},
+				"beforeEach()": {
+					"notice": "#sender: account-0"
+				},
+				"testAddDependencyRequester()": {
+					"notice": "#sender: account-0"
+				},
+				"testRequestDependencyAddition()": {
+					"notice": "#sender: account-0"
+				},
+				"testRequestDependencyRemoval()": {
+					"notice": "#sender: account-0"
+				},
+				"testRequestUpgradeDependencyRequester()": {
+					"notice": "#sender: account-0"
+				},
+				"testUpdateDependenciesThenCallFunction()": {
+					"notice": "#sender: account-0"
+				}
+			},
+			"notice": "Tests for checking the functionality of LegitDAO",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"tests/LegitDAO_test.sol": "LegitDAOTest"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0x9d8da059267bac779a2dbbb9a26c2acf00ca83085e105d62d5d4ef96054a47f5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c78e2aa4313323cecd1ef12a8d6265b96beee1a199923abf55d9a2a9e291ad23",
+				"dweb:/ipfs/QmUTs2KStXucZezzFo3EYeqYu47utu56qrF7jj1Gue65vb"
+			]
+		},
+		"@openzeppelin/contracts/utils/Errors.sol": {
+			"keccak256": "0x6afa713bfd42cf0f7656efa91201007ac465e42049d7de1d50753a373648c123",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ba1d02f4847670a1b83dec9f7d37f0b0418d6043447b69f3a29a5f9efc547fcf",
+				"dweb:/ipfs/QmQ7iH2keLNUKgq2xSWcRmuBE5eZ3F5whYAkAGzCNNoEWB"
+			]
+		},
+		"@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
+			"keccak256": "0x11a5a79827df29e915a12740caf62fe21ebe27c08c9ae3e09abe9ee3ba3866d3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3cf0c69ab827e3251db9ee6a50647d62c90ba580a4d7bbff21f2bea39e7b2f4a",
+				"dweb:/ipfs/QmZiKwtKU1SBX4RGfQtY7PZfiapbbu6SZ9vizGQD9UHjRA"
+			]
+		},
+		"IDependencyRequester.sol": {
+			"keccak256": "0x151f264734e6dae6c9d9324e58ce3e0b05ccd9335521fd33481c23dcc6cc3422",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b8b868d5c4ed71dbd75872c81a36457518443eb9669d813e1c0f042754d55354",
+				"dweb:/ipfs/QmbTGc9TnuCWVzyDLFY9vb6dEEKBHc4GDV55R5fMpfj64z"
+			]
+		},
+		"ILegitDAO.sol": {
+			"keccak256": "0xd353783bb34e8c6027d738ac9cf06ae442364cffab397cedc5f857d444f00859",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cbb1637cdfd4253967ccb96180fe5ea0ee6338b7b71ab80f4f0c20c3cd336bf4",
+				"dweb:/ipfs/QmWA76eqcgNcefTztNBcE93mZaH1NtUWPehzqYBpp9c2Eh"
+			]
+		},
+		"LegitDAO.sol": {
+			"keccak256": "0x1070c148439de3b49815acc6a27a9542b9e3ba96b4f71b7ed606431066211dc8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://42f506dfb4830d5a1d04ac59e6e460e5e99146d9b297e629430380e4126f0b50",
+				"dweb:/ipfs/QmZyAo11EZeSZ5v2rHRkd5aMr1DYu85fsHq4xXN8VMJGDh"
+			]
+		},
+		"hardhat/console.sol": {
+			"keccak256": "0xf2560b5386574153057104d19a9e68a32ee912cf23c0c8df1fe9a0607f42d543",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a63166e036b040826baa513772451a79925daa304b38749100efb089ac07cdc2",
+				"dweb:/ipfs/QmUtMTxUFKU6a5oFXsEJnTPvb3QPb7GDDmSv5yZ1jFHDwR"
+			]
+		},
+		"remix_accounts.sol": {
+			"keccak256": "0xab088ffd1cd1033f54c2486f151b5d02281a3b76724c8e6f48479c25a4f7809e",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://5ddaf9976b1838f7028cbedfaf7f6e1cf8c898e100221176ff1406ee8b599f23",
+				"dweb:/ipfs/QmX2FYLXYyo5Cn55ZX2CfngpscSh4mQhcMVzQdQsh2vqcG"
+			]
+		},
+		"remix_tests.sol": {
+			"keccak256": "0xe2783cdc204cba8c72494119339f1d90f9022b15d6c718c668b7f097d8e29787",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://bb6a22e64c7f16bcaab63b1c1a1b269d5be8a6d37bdd9dec1718477ab916b18e",
+				"dweb:/ipfs/QmdkW1tT5iadBvaHMCoskhDGZKnfdg8o1D9CcoQYtdJet7"
+			]
+		},
+		"tests/LegitDAO_test.sol": {
+			"keccak256": "0x49929a4ba69234d33b208544ec6e9c5ec85295b2a0170b2e8aa5875e0015bd43",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2937d9f8daddafa1f6f5e7df18af6b44d825399723b85ea2720f8cfaa1b88fcf",
+				"dweb:/ipfs/QmShVxv2iSEXB2ukd4dBaatVek5R8sWTaK4gTe6Rbn3RYJ"
+			]
+		},
+		"tests/mocks/Dependency.sol": {
+			"keccak256": "0x17a9da239bfbdb5fa787414d02a145270c20c9506a71a0ed4d0d33543e14bcc4",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://d8969e425cae1da5760b6fd616b7a2126eb227b8f05a0a0064c1cabe4460a9e6",
+				"dweb:/ipfs/QmU1wXJdDMaETqubQ5R2DNRpNoz1gZmPVoKXCdseqPASqa"
+			]
+		},
+		"tests/mocks/DependencyRequester.sol": {
+			"keccak256": "0xaa5054ffa94111c7d82566bfd8711a34173e8d8c04b9283b3fbb681458cdfa6b",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://9189f8484890acdce0b76a3486a7cd0a3b89f78c17e9bed48d92fc71d09f5561",
+				"dweb:/ipfs/QmXi37jh1mYadeqk3jeDVvnqzqxfZiwkNZ4h2CoY6xWBxm"
+			]
+		}
+	},
+	"version": 1
+}

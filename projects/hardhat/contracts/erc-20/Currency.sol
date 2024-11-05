@@ -40,7 +40,7 @@ contract Currency is ICurrency, ERC20, ERC20Permit, Ownable, ReentrancyGuard {
         uint256 _initialPrice,  // price per token in wei
         uint256 _priceIncreaseRate, // increase price in wei after each 1 bnb transfers
         uint256 _taxRate, // percent * basisPoints (ex: 25 for 0,25% if basisPoints is 10000)
-        uint256 _basisPoints
+        uint256 _basisPoints //
     )
         ERC20("LegitDAO Currency", "LEGIT-CURR")
         ERC20Permit("LegitDAO Currency")

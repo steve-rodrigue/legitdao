@@ -1,0 +1,264 @@
+{
+	"compiler": {
+		"version": "0.8.28+commit.7893614a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "identifier",
+						"type": "uint256"
+					}
+				],
+				"name": "isRequestAdditionPositive",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "identifier",
+						"type": "uint256"
+					}
+				],
+				"name": "isRequestRemovalPositive",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "identifier",
+						"type": "uint256"
+					}
+				],
+				"name": "isRequestUpgradePositive",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "dependencyKey",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "dependencyAddress",
+						"type": "address"
+					}
+				],
+				"name": "requestAddition",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "dependencyKey",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "dependencyAddress",
+						"type": "address"
+					}
+				],
+				"name": "requestRemoval",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "contract IDependencyRequester",
+						"name": "upgradedDependency",
+						"type": "address"
+					}
+				],
+				"name": "requestUpgradeDependencyRequester",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"tests/LegitDAO_test.sol": "DependencyRequesterForTests"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0x9d8da059267bac779a2dbbb9a26c2acf00ca83085e105d62d5d4ef96054a47f5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c78e2aa4313323cecd1ef12a8d6265b96beee1a199923abf55d9a2a9e291ad23",
+				"dweb:/ipfs/QmUTs2KStXucZezzFo3EYeqYu47utu56qrF7jj1Gue65vb"
+			]
+		},
+		"@openzeppelin/contracts/utils/Errors.sol": {
+			"keccak256": "0x6afa713bfd42cf0f7656efa91201007ac465e42049d7de1d50753a373648c123",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ba1d02f4847670a1b83dec9f7d37f0b0418d6043447b69f3a29a5f9efc547fcf",
+				"dweb:/ipfs/QmQ7iH2keLNUKgq2xSWcRmuBE5eZ3F5whYAkAGzCNNoEWB"
+			]
+		},
+		"@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
+			"keccak256": "0x11a5a79827df29e915a12740caf62fe21ebe27c08c9ae3e09abe9ee3ba3866d3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3cf0c69ab827e3251db9ee6a50647d62c90ba580a4d7bbff21f2bea39e7b2f4a",
+				"dweb:/ipfs/QmZiKwtKU1SBX4RGfQtY7PZfiapbbu6SZ9vizGQD9UHjRA"
+			]
+		},
+		"IDependencyRequester.sol": {
+			"keccak256": "0xde551774d1fe2acf9cfd8a00dfd65e85618854e4d8fa0244109ebd80196bfb84",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://37db298ce54156560291019571bce650de2c40f01300d61893fea25f28c96a2e",
+				"dweb:/ipfs/QmPGYQebJaU47w66sDMsvGW1nKJq9EGyM67TPQ4x6nMfcW"
+			]
+		},
+		"ILegitDAO.sol": {
+			"keccak256": "0xb92170428e1017bd54bc6227239434a5b31c9bacef125240db8c43a835636781",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://28bb717b56886834382671eabe2d4fbb0d382ad4a66f5d41362fc7f113700a9a",
+				"dweb:/ipfs/QmayxtMQcZ3m7acxU4683Tjh5mLVvCdsYKVaS4HYBtHe7X"
+			]
+		},
+		"LegitDAO.sol": {
+			"keccak256": "0x6ce92623687ebb6138cb415e2906dfd1f76f67105b4ec8c3ab472942debc32b5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cd5dde651b2aa30700689cfabe607a4b7179296ecbd433e82082d4a4b737987e",
+				"dweb:/ipfs/QmYSY8qxjEZoD8Ceit1TUZDwMPApvfc9RLnFFvQ5xx2cMa"
+			]
+		},
+		"remix_accounts.sol": {
+			"keccak256": "0xab088ffd1cd1033f54c2486f151b5d02281a3b76724c8e6f48479c25a4f7809e",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://5ddaf9976b1838f7028cbedfaf7f6e1cf8c898e100221176ff1406ee8b599f23",
+				"dweb:/ipfs/QmX2FYLXYyo5Cn55ZX2CfngpscSh4mQhcMVzQdQsh2vqcG"
+			]
+		},
+		"remix_tests.sol": {
+			"keccak256": "0xe2783cdc204cba8c72494119339f1d90f9022b15d6c718c668b7f097d8e29787",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://bb6a22e64c7f16bcaab63b1c1a1b269d5be8a6d37bdd9dec1718477ab916b18e",
+				"dweb:/ipfs/QmdkW1tT5iadBvaHMCoskhDGZKnfdg8o1D9CcoQYtdJet7"
+			]
+		},
+		"tests/LegitDAO_test.sol": {
+			"keccak256": "0x95b3404471794dcdbf4e22bdf6c76fc46074c002d7f933e6210225fbe896e57c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://afaf33b907035c6506071f0991953e33c055b94c74f3537182125c718a3dff40",
+				"dweb:/ipfs/Qmeshp5CsnPs4jbELPhp1VPyvxnrDGSWJuvkv4dUeuZVJM"
+			]
+		}
+	},
+	"version": 1
+}

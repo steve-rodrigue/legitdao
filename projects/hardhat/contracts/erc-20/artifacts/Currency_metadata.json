@@ -1411,11 +1411,11 @@
 			]
 		},
 		"erc-20/Currency.sol": {
-			"keccak256": "0xdd24351833d5f750a8dd5e12ee1c5d3a0b74c13ca515b85cc000399587e36967",
+			"keccak256": "0x607c26fdfa7407f739575d13fc6c5141fe001c303c5d3a0b86edd2c74a05c109",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d3da06ae86d407a0de0afc7ed89949a32b667a6639330b0f7a6fa975ec474b69",
-				"dweb:/ipfs/QmNoC9N5Z2wnGy8Q58gXP4HcswjsnqYwHk18kfZiJhSMct"
+				"bzz-raw://7b99bc9804934351dcf22fa0b527ce57f007f31e81839cdead3787557d0197bc",
+				"dweb:/ipfs/QmSehcdRBYEC6RYqsRfnCtsp4meB3BTd2JKB7uc3t7qei4"
 			]
 		},
 		"interfaces/ICurrency.sol": {
