@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "./IDependencyRequester.sol";
 import "./ILegitDAO.sol";
 
+import "hardhat/console.sol";
+
 /// @custom:security-contact stev.rodr@gmail.com
 contract LegitDAO is ILegitDAO, ReentrancyGuard {
     using Address for address;
@@ -50,6 +52,7 @@ contract LegitDAO is ILegitDAO, ReentrancyGuard {
     // Function to add a dependency requester
     function addDependencyRequester(IDependencyRequester dependency) external override nonReentrant {
         require(msg.sender == deployer, "the sender was expected to be the deployer");
+        require(address(dependencyRequester) == address(0), "the dependency requester has already been set, use requestUpgradeDependencyRequester() in order to change it by vote");
 
         dependencyRequester = dependency;
         emit DependencyRequesterAdded(dependencyRequester);

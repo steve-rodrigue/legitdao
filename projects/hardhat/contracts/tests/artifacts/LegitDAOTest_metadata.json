@@ -7,13 +7,6 @@
 		"abi": [
 			{
 				"inputs": [],
-				"name": "beforeAll",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "beforeEach",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -22,6 +15,55 @@
 			{
 				"inputs": [],
 				"name": "testAddDependencyRequester",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testCallFunctionWithInvalidKey",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testCallFunctionWithValidKey",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testCannotRequestDependencyAdditionTwice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testCannotRequestDependencyRemovalTwice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testCannotRequestUpgradeIfPending",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testGetDependencyAddressWithInvalidKey",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testOnlyDeployerCanAddDependencyRequester",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -53,6 +95,13 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "testUpdateDependenciesWithNoPendingRequests",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -64,13 +113,31 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
-				"beforeAll()": {
-					"notice": "#sender: account-0"
-				},
 				"beforeEach()": {
 					"notice": "#sender: account-0"
 				},
 				"testAddDependencyRequester()": {
+					"notice": "#sender: account-0"
+				},
+				"testCallFunctionWithInvalidKey()": {
+					"notice": "#sender: account-0"
+				},
+				"testCallFunctionWithValidKey()": {
+					"notice": "#sender: account-0"
+				},
+				"testCannotRequestDependencyAdditionTwice()": {
+					"notice": "#sender: account-0"
+				},
+				"testCannotRequestDependencyRemovalTwice()": {
+					"notice": "#sender: account-0"
+				},
+				"testCannotRequestUpgradeIfPending()": {
+					"notice": "#sender: account-0"
+				},
+				"testGetDependencyAddressWithInvalidKey()": {
+					"notice": "#sender: account-0"
+				},
+				"testOnlyDeployerCanAddDependencyRequester()": {
 					"notice": "#sender: account-0"
 				},
 				"testRequestDependencyAddition()": {
@@ -83,6 +150,9 @@
 					"notice": "#sender: account-0"
 				},
 				"testUpdateDependenciesThenCallFunction()": {
+					"notice": "#sender: account-0"
+				},
+				"testUpdateDependenciesWithNoPendingRequests()": {
 					"notice": "#sender: account-0"
 				}
 			},
@@ -147,11 +217,11 @@
 			]
 		},
 		"LegitDAO.sol": {
-			"keccak256": "0x1070c148439de3b49815acc6a27a9542b9e3ba96b4f71b7ed606431066211dc8",
+			"keccak256": "0xd22386b1dc958e17b2000627179771e312261340e630014424cd436e29349f81",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://42f506dfb4830d5a1d04ac59e6e460e5e99146d9b297e629430380e4126f0b50",
-				"dweb:/ipfs/QmZyAo11EZeSZ5v2rHRkd5aMr1DYu85fsHq4xXN8VMJGDh"
+				"bzz-raw://b086f337b5224c6c9a3d5a67288d050ffea35f815169582961ff585bf02f4c89",
+				"dweb:/ipfs/QmRKJxe1qQEYVcEMyzuGkV15X2eY3ziBzXMbb8qPMS22GQ"
 			]
 		},
 		"hardhat/console.sol": {
@@ -179,11 +249,11 @@
 			]
 		},
 		"tests/LegitDAO_test.sol": {
-			"keccak256": "0x49929a4ba69234d33b208544ec6e9c5ec85295b2a0170b2e8aa5875e0015bd43",
+			"keccak256": "0x0eeca5f050361a777a709a5fcffec9af4ead81b06668b147ba7e538a2560f5bf",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2937d9f8daddafa1f6f5e7df18af6b44d825399723b85ea2720f8cfaa1b88fcf",
-				"dweb:/ipfs/QmShVxv2iSEXB2ukd4dBaatVek5R8sWTaK4gTe6Rbn3RYJ"
+				"bzz-raw://039af15992774f8416293abb6eb50da8e39d78b9a18d125b347e330ef9cce919",
+				"dweb:/ipfs/Qmee5ePKFRQb9t47SVQVnonbN1jB5t8oX8mVFPZtwNmamG"
 			]
 		},
 		"tests/mocks/Dependency.sol": {

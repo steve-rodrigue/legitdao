@@ -601,11 +601,19 @@
 			]
 		},
 		"LegitDAO.sol": {
-			"keccak256": "0x1070c148439de3b49815acc6a27a9542b9e3ba96b4f71b7ed606431066211dc8",
+			"keccak256": "0xd22386b1dc958e17b2000627179771e312261340e630014424cd436e29349f81",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://42f506dfb4830d5a1d04ac59e6e460e5e99146d9b297e629430380e4126f0b50",
-				"dweb:/ipfs/QmZyAo11EZeSZ5v2rHRkd5aMr1DYu85fsHq4xXN8VMJGDh"
+				"bzz-raw://b086f337b5224c6c9a3d5a67288d050ffea35f815169582961ff585bf02f4c89",
+				"dweb:/ipfs/QmRKJxe1qQEYVcEMyzuGkV15X2eY3ziBzXMbb8qPMS22GQ"
+			]
+		},
+		"hardhat/console.sol": {
+			"keccak256": "0xf2560b5386574153057104d19a9e68a32ee912cf23c0c8df1fe9a0607f42d543",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a63166e036b040826baa513772451a79925daa304b38749100efb089ac07cdc2",
+				"dweb:/ipfs/QmUtMTxUFKU6a5oFXsEJnTPvb3QPb7GDDmSv5yZ1jFHDwR"
 			]
 		}
 	},

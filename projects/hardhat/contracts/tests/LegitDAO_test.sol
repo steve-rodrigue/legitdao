@@ -13,45 +13,146 @@ import "../IDependencyRequester.sol"; // Import the IDependencyRequester contrac
 import "./mocks/Dependency.sol";
 import "./mocks/DependencyRequester.sol";
 
-/// @title Unit Tests for LegitDAO Contract
-/// @notice Tests for checking the functionality of LegitDAO
-contract LegitDAOTest {
-    LegitDAO legitDAO;
-    address deployer;
-    address nonDeployer;
-    MockDependencyRequester dependencyRequester;
-    address contractAddress;
-    MockDependencyRequester upgradedDependencyRequester;
-
-    string dependencyKey = "SampleDependency";
-
-    /// #sender: account-0
-    function beforeAll() public {
-        // Initialize accounts:
-        deployer = TestsAccounts.getAccount(0); // Test account 0
-        nonDeployer = TestsAccounts.getAccount(1); // Test account 1
-        
-    }
+contract LegitDAOUserTest is LegitDAO {
+    MockDependencyRequester mockDependencyRequester;
 
     /// #sender: account-0
     function beforeEach() public {
         // Deploy fresh instances of the contracts before each test
-        dependencyRequester = new MockDependencyRequester();
+        mockDependencyRequester = new MockDependencyRequester();
+    }
+
+    /// #sender: account-1
+    function testNonDeployerCannotAddDependencyRequester() public {
+        try this.addDependencyRequester(mockDependencyRequester) {
+            Assert.ok(false, "Dependency requester should NOT be set by non-deployer");
+        } catch Error(string memory reason) {
+            Assert.equal(reason, "the sender was expected to be the deployer", "Expected rejection for addDependencyRequester by non-deployer");
+        }
+    }
+}
+
+/// @title Unit Tests for LegitDAO Contract
+/// @notice Tests for checking the functionality of LegitDAO
+contract LegitDAOTest {
+    MockDependencyRequester mockDependencyRequester;
+    address contractAddress;
+    MockDependencyRequester mockUpgradedDependencyRequester;
+    string dependencyKey = "SampleDependency";
+    LegitDAO legitDAO;
+
+    /// #sender: account-0
+    function beforeEach() public {
+        // Deploy fresh instances of the contracts before each test
+        mockDependencyRequester = new MockDependencyRequester();
         contractAddress = address(new MockDependency());
-        upgradedDependencyRequester = new MockDependencyRequester();
+        mockUpgradedDependencyRequester = new MockDependencyRequester();
+
         legitDAO = new LegitDAO();
     }
 
     /// #sender: account-0
-    function testAddDependencyRequester() public {
+    function testOnlyDeployerCanAddDependencyRequester() public {
         // @annotation: Only the deployer should add a dependency requester
-        Assert.equal(msg.sender, deployer, "The deployer should be msg.sender");
-
-        // Call addDependencyRequester and check if it's successful
-        legitDAO.addDependencyRequester(dependencyRequester);
+        legitDAO.addDependencyRequester(mockDependencyRequester);
         Assert.equal(
             address(legitDAO.dependencyRequester()),
-            address(dependencyRequester),
+            address(mockDependencyRequester),
+            "Dependency requester should be set by deployer"
+        );
+    }
+
+    /// #sender: account-0
+    function testCannotRequestDependencyAdditionTwice() public {
+        // @annotation: Should not allow requesting the same dependency addition twice
+        legitDAO.addDependencyRequester(mockDependencyRequester);
+        legitDAO.requestDependencyAddition(dependencyKey, contractAddress);
+
+        try legitDAO.requestDependencyAddition(dependencyKey, contractAddress) {
+            Assert.ok(false, "Should not be able to request the same dependency addition twice");
+        } catch Error(string memory reason) {
+            Assert.equal(reason, "the dependency already requested", "Expected rejection for duplicate addition request");
+        }
+    }
+
+    /// #sender: account-0
+    function testCannotRequestDependencyRemovalTwice() public {
+        // @annotation: Should not allow requesting the same dependency removal twice
+        legitDAO.addDependencyRequester(mockDependencyRequester);
+        legitDAO.requestDependencyRemoval(dependencyKey, contractAddress);
+
+        try legitDAO.requestDependencyRemoval(dependencyKey, contractAddress) {
+            Assert.ok(false, "Should not be able to request the same dependency removal twice");
+        } catch Error(string memory reason) {
+            Assert.equal(reason, "the dependency already requested for removal", "Expected rejection for duplicate removal request");
+        }
+    }
+
+    /// #sender: account-0
+    function testUpdateDependenciesWithNoPendingRequests() public {
+        // @annotation: Should handle updateDependencies gracefully when there are no pending requests
+        legitDAO.addDependencyRequester(mockDependencyRequester);
+        legitDAO.updateDependencies();
+
+        string[] memory keys = legitDAO.getDependencyKeys();
+        Assert.equal(keys.length, 0, "No dependencies should be added");
+    }
+
+    /// #sender: account-0
+    function testCallFunctionWithValidKey() public {
+        // set addition outcome:
+        mockDependencyRequester.setAdditionOutcome(1, contractAddress, true, true);
+
+        // @annotation: Should successfully call a function on a valid dependency
+        legitDAO.addDependencyRequester(mockDependencyRequester);
+        legitDAO.requestDependencyAddition(dependencyKey, contractAddress);
+        legitDAO.updateDependencies();
+
+        bytes memory result = legitDAO.callFunction(dependencyKey, "getValue()", "");
+
+        Assert.notEqual(result.length, 0, "Function call should return non-empty data");
+    }
+
+    /// #sender: account-0
+    function testGetDependencyAddressWithInvalidKey() public {
+        // @annotation: Should revert when trying to get a dependency address with an invalid key
+        try legitDAO.getDependencyAddress("InvalidKey") {
+            Assert.ok(false, "Should revert when getting dependency address with invalid key");
+        } catch Error(string memory reason) {
+            Assert.equal(reason, "the key does NOT point to any dependency", "Expected rejection for invalid key");
+        }
+    }
+
+    /// #sender: account-0
+    function testCallFunctionWithInvalidKey() public {
+        // @annotation: Should revert when trying to call a function with an invalid dependency key
+        try legitDAO.callFunction("InvalidKey", "getValue()", "") {
+            Assert.ok(false, "Should revert when calling function with invalid dependency key");
+        } catch Error(string memory reason) {
+            Assert.equal(reason, "The key does NOT point to any dependency", "Expected rejection for invalid key");
+        }
+    }
+
+    /// #sender: account-0
+    function testCannotRequestUpgradeIfPending() public {
+        // @annotation: Should not allow requesting an upgrade if there is already a pending upgrade
+        legitDAO.addDependencyRequester(mockDependencyRequester);
+        legitDAO.requestUpgradeDependencyRequester(mockUpgradedDependencyRequester);
+
+        try legitDAO.requestUpgradeDependencyRequester(mockUpgradedDependencyRequester) {
+            Assert.ok(false, "Should not be able to request an upgrade if one is pending");
+        } catch Error(string memory reason) {
+            Assert.equal(reason, "there is already a pending upgrade in process", "Expected rejection for duplicate upgrade request");
+        }
+    }
+
+    /// #sender: account-0
+    function testAddDependencyRequester() public {
+        // Call addDependencyRequester and check if it's successful
+        legitDAO.addDependencyRequester(mockDependencyRequester);
+        Assert.equal(
+            address(legitDAO.dependencyRequester()),
+            address(mockDependencyRequester),
             "Dependency requester should be set"
         );
     }
@@ -59,10 +160,10 @@ contract LegitDAOTest {
     /// #sender: account-0
     function testRequestDependencyAddition() public {
         // set addition outcome:
-        dependencyRequester.setAdditionOutcome(1, contractAddress, true, true);
+        mockDependencyRequester.setAdditionOutcome(1, contractAddress, true, true);
 
         // @annotation: Should successfully request a dependency addition
-        legitDAO.addDependencyRequester(dependencyRequester);
+        legitDAO.addDependencyRequester(mockDependencyRequester);
         legitDAO.requestDependencyAddition(dependencyKey, contractAddress);
 
         uint256 identifier = legitDAO.pendingApprovalDependencies(dependencyKey);
@@ -72,7 +173,7 @@ contract LegitDAOTest {
    /// #sender: account-0
     function testRequestDependencyRemoval() public {
         // @annotation: Should successfully request a dependency removal
-        legitDAO.addDependencyRequester(dependencyRequester);
+        legitDAO.addDependencyRequester(mockDependencyRequester);
         legitDAO.requestDependencyRemoval(dependencyKey, contractAddress);
 
         uint256 identifier = legitDAO.pendingRemovalDependencies(dependencyKey);
@@ -82,8 +183,8 @@ contract LegitDAOTest {
     /// #sender: account-0
     function testRequestUpgradeDependencyRequester() public {
         // @annotation: Should successfully request an upgrade
-        legitDAO.addDependencyRequester(dependencyRequester);
-        legitDAO.requestUpgradeDependencyRequester(upgradedDependencyRequester);
+        legitDAO.addDependencyRequester(mockDependencyRequester);
+        legitDAO.requestUpgradeDependencyRequester(mockUpgradedDependencyRequester);
 
         uint256 pendingUpgrade = legitDAO.pendingUpgradeForItself();
         Assert.notEqual(pendingUpgrade, 0, "Pending upgrade identifier should be non-zero");
@@ -92,10 +193,10 @@ contract LegitDAOTest {
     /// #sender: account-0
     function testUpdateDependenciesThenCallFunction() public {
         // add the dependency requester:
-        legitDAO.addDependencyRequester(dependencyRequester);
+        legitDAO.addDependencyRequester(mockDependencyRequester);
 
         // set addition outcome:
-        dependencyRequester.setAdditionOutcome(1, contractAddress, true, true);
+        mockDependencyRequester.setAdditionOutcome(1, contractAddress, true, true);
 
         string[] memory pendingKeys = legitDAO.getPendingAprovalDependencyKeys();
         Assert.equal(pendingKeys.length, 0, "Pending Aproval dependencies keys should be 1");
