@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-meta_title: "Chnagelog of LegitDAO"
+meta_title: "Changelog of LegitDAO"
 description: "The changelog of LegitDAO consists of all the modification log of its progress"
 draft: false
 ---
