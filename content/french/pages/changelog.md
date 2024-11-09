@@ -10,8 +10,11 @@ La feuille de route sert de registre complet de toutes les mises à jour apport�
 
 Une entrée est ajoutée pour chaque jour où il y a une modification dans l'écosystème de LegitDAO. La personne effectuant la modification doit inclure son nom ainsi que les détails du changement dans la section du jour actuel. Si une section pour le jour actuel n'existe pas, la personne effectuant la modification est responsable d'en créer une.
 
+## Samedi, le 9 Octobre, 2024
+1. Steve Rodrigue: Je viens de publier ce billet: [Construire un avenir décentralisé avec LegitDAO : De la découverte de problèmes à l’AGI](/fr/blog/6-problemsolvingtoagi/).
 
-## Mardi 29 octobre 2024
+
+## Mardi, le 29 octobre, 2024
 1. Pascal Germain : [Je me suis ajouté](/fr/team/pascal-germain/) dans la section des auteurs
 2. Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/lloyd-brown/) dans la section des auteurs
 3. Pascal Germain : J'ai ajouté [Lloyd Brown](/fr/team/kyle-grant/) dans la section des auteurs
@@ -19,13 +22,13 @@ Une entrée est ajoutée pour chaque jour où il y a une modification dans l'éc
 5. Pascal Germain: Je viens de créer [Configurer un nœud Binance Smart Chain (BSC) pour LegitDAO avec Docker](/blog/5-bscdocker).
 6. Pascal Germain : J'ai soumis la pull request pour les configurations du nœud BSC et de Docker au dépôt.
 
-## Mardi, October 22th, 2024
+## Mardi, le 22 October, 2024
 1. Steve Rodrigue: Je viens de créer le [billet expliquant la distribution des tokens pour le DAO](/fr/blog/2-daotokdistribution).
 
-## Lundi, October 21th, 2024
+## Lundi, le 21 October, 2024
 1. Steve Rodrigue: Jai changé la section team pour la section [équipe](/fr/team).
 
-## Samedi 19 octobre 2024
+## Samedi, le 19 Octobre, 2024
 1. Steve Rodrigue : J'ai lancé le premier site web de LegitDAO
 2. Steve Rodrigue : [Je me suis ajouté](/fr/team/steve-rodrigue/) dans la section des auteurs
 3. Steve Rodrigue : J'ai expliqué la [tokenomics du smart contract](/fr/blog/1-tokenomics/) que nous déploierons sur la BNB Chain
