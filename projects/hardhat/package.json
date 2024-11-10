@@ -1,8 +1,19 @@
 {
-  "name": "legitdao",
+  "name": "contracts",
+  "version": "1.0.0",
+  "description": "These are the smart contracts of the LegitDAO ecosystem",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx hardhat test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.15",
+    "solidity-coverage": "^0.8.13"
+  },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.1.0",
-    "@openzeppelin/contracts-upgradeable": "^5.1.0",
-    "solc": "^0.4.17"
+    "@openzeppelin/contracts": "^5.1.0"
   }
 }
