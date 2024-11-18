@@ -10,6 +10,10 @@ La feuille de route sert de registre complet de toutes les mises à jour apport�
 
 Une entrée est ajoutée pour chaque jour où il y a une modification dans l'écosystème de LegitDAO. La personne effectuant la modification doit inclure son nom ainsi que les détails du changement dans la section du jour actuel. Si une section pour le jour actuel n'existe pas, la personne effectuant la modification est responsable d'en créer une.
 
+## Lundi, le 18 Novembre, 2024
+1. Steve Rodrigue: Je viens de publier ce billet: [Tokenomics Expliquée : Un Guide Facile du Smart Contract LegitDAO](/fr/blog/7-legitdao-tokenomics/).
+
+
 ## Samedi, le 9 Octobre, 2024
 1. Steve Rodrigue: Je viens de publier ce billet: [Construire un avenir décentralisé avec LegitDAO : De la découverte de problèmes à l’AGI](/fr/blog/6-problemsolvingtoagi/).
 

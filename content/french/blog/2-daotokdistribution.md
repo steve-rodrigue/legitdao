@@ -38,7 +38,7 @@ De plus, les fondateurs reçoivent **15%** des émissions totales au moment de l
 Vous pouvez également examiner le programme que j’ai développé pour calculer et générer le processus de distribution initial [sur notre github](https://github.com/steve-rodrigue/legitdao/blob/main/projects/utilities/daowalletsimports/main.go).
 
 |      Porte-feuille      |      Porte-feuille référé     |      Contribution      |      Parainnage      |       Parainnage au Fondateur      |      Fondateur      |       Total      | 
-| :----------------:| :-----------------: | :--------------------: | :----------------: | :---------------: | :---------------: |
+| :----------------:| :-----------------: | :--------------------: | :----------------: | :----------------: | :---------------: | :---------------: |
 | 61b0660f216ff73f069f4f68ec5e8ab8795dfe7e | - | 1288754400000 | 0 | 0 | 0 | 1288754400000 |
 | f4245a2ca2faa8f21dbda9aaf8213b45a8ff008c | - | 24468918000000 | 0 | 0 | 0 | 24468918000000 |
 | 9b7f13b9b6d2b0d1623fd1e1aef67ecffeb363e9 | - | 2446891800000 | 0 | 0 | 0 | 2446891800000 |
