@@ -1,0 +1,39 @@
+name: legitdao
+description: A new Flutter project.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  easy_localization: any
+  flutter_web3: ^2.1.9
+  url_launcher: ^6.3.1
+  webview_flutter: ^4.2.1
+  reown_appkit: ^1.0.1
+  font_awesome_flutter: ^10.4.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  # Assets
+  assets:
+    - lib/assets/images/
+    - lib/localization/
+
+  # Fonts
+  fonts:
+    - family: HugeIcons
+      fonts:
+        - asset: lib/assets/fonts/otfs/Font Awesome 6 Free-Regular-400.otf

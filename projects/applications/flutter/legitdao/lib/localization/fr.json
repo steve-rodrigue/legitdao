@@ -1,0 +1,11 @@
+{
+  "app_name": "Mon Application",
+  "menu_home": "Accueil",
+  "menu_about": "À propos",
+  "menu_contact": "Contact",
+  "menu_language": "Langue",
+  "menu_connect": "Connecter",
+  "home_title": "Bienvenue sur la page d'accueil",
+  "about_title": "À propos de nous",
+  "contact_title": "Contactez-nous"
+}
