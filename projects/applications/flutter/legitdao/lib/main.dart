@@ -4,6 +4,7 @@ import 'presentation/components/main_layout.dart';
 import 'presentation/pages/home_page.dart';
 import 'presentation/pages/about_page.dart';
 import 'presentation/pages/contact_page.dart';
+import 'presentation/pages/referrals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +15,7 @@ void main() async {
       supportedLocales: const [Locale('en'), Locale('fr')],
       path: 'lib/localization',
       fallbackLocale: const Locale('en'),
-      child: const MyApp(),
+      child: MyApp(), // Removed `const` if MyApp is not fully const
     ),
   );
 }
@@ -43,9 +44,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const MainLayout(child: HomePage()),
-        '/about': (context) => const MainLayout(child: AboutPage()),
-        '/contact': (context) => const MainLayout(child: ContactPage()),
+        '/': (context) => MainLayout(child: HomePage()),
+        '/about': (context) => MainLayout(child: AboutPage()),
+        '/contact': (context) => MainLayout(child: ContactPage()),
+        '/referrals': (context) => MainLayout(child: Referral()),
       },
     );
   }

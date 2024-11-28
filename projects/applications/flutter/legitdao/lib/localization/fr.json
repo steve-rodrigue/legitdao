@@ -5,7 +5,9 @@
   "menu_contact": "Contact",
   "menu_language": "Langue",
   "menu_connect": "Connecter",
+  "right_menu_referrals": "Mon Parrainnage",
   "home_title": "Bienvenue sur la page d'accueil",
   "about_title": "À propos de nous",
-  "contact_title": "Contactez-nous"
+  "contact_title": "Contactez-nous",
+  "referrals_title": "Parainnage"
 }

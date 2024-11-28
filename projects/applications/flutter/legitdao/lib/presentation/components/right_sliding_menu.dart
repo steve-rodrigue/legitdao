@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/network_manager_interface.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RightSlidingMenu extends StatefulWidget {
   final bool isVisible;
@@ -159,6 +160,23 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                           hint: const Text("Select Network"),
                         ),
                       ),
+
+                      // Referrals
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/referrals')
+                                .then((_) => widget.onClose());
+                          },
+                          child: Text(
+                            "right_menu_referrals".tr(),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+
                       if (widget.networkManager.canBeDisconnected())
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),

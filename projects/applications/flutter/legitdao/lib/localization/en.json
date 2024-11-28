@@ -5,7 +5,9 @@
   "menu_contact": "Contact",
   "menu_language": "Language",
   "menu_connect": "Connect",
+  "right_menu_referrals": "My Referrals",
   "home_title": "Welcome to the Home Page",
   "about_title": "About Us",
-  "contact_title": "Contact Us"
+  "contact_title": "Contact Us",
+  "referrals_title": "Referrals"
 }
