@@ -130,15 +130,11 @@ class _ReferralState extends State<Referral> with TickerProviderStateMixin {
     }
 
     final Size nodeSize = nodeRenderBox.size;
-    final double currentScale =
-        _transformationController.value.getMaxScaleOnAxis();
     final Offset targetTranslation = screenCenter -
-        ((nodePosition + Offset(nodeSize.width / 2, nodeSize.height / 2)) *
-            currentScale);
+        ((nodePosition + Offset(nodeSize.width / 2, nodeSize.height / 2)));
 
     final Matrix4 targetMatrix = Matrix4.identity()
-      ..translate(targetTranslation.dx, targetTranslation.dy)
-      ..scale(currentScale);
+      ..translate(targetTranslation.dx, targetTranslation.dy);
 
     _animationController?.removeListener(_onAnimationUpdate);
     _animation = Matrix4Tween(
