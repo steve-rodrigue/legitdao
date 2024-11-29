@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../widgets/network_manager_widget.dart';
-import 'left_sliding_menu.dart';
-import 'right_sliding_menu.dart';
-import 'top_section.dart';
+import '../networks/network_manager_widget.dart';
+import '../menus/left/left_sliding_menu.dart';
+import '../menus/right/right_sliding_menu.dart';
+import '../menus/top/top_section.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget child;

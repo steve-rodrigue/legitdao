@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_web3/flutter_web3.dart';
-import 'network_manager_interface.dart';
+import '../network_manager_interface.dart';
 import 'package:flutter/material.dart';
 
 class NetworkManagerImpl implements NetworkManager {

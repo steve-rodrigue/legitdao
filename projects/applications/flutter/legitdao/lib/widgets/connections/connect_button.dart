@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/network_manager_interface.dart';
+import '../networks/network_manager_interface.dart';
 import 'dart:async';
 
 class ConnectButton extends StatefulWidget {

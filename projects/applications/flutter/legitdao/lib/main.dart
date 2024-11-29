@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'presentation/components/main_layout.dart';
-import 'presentation/pages/home_page.dart';
-import 'presentation/pages/about_page.dart';
-import 'presentation/pages/contact_page.dart';
-import 'presentation/pages/referrals_page.dart';
-import 'presentation/pages/marketplaces_page.dart';
+import 'widgets/main/main_layout.dart';
+import 'pages/home_page.dart';
+import 'pages/about_page.dart';
+import 'pages/contact_page.dart';
+import 'pages/referrals_page.dart';
+import 'pages/marketplaces_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

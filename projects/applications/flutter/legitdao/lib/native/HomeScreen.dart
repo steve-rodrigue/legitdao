@@ -82,7 +82,7 @@ class _WalletConnectScreenState extends State<HomeScreen> {
 
   String getWalletAddress() {
     final session = _appKitModal.session;
-    return session?.address ?? 'No Wallet Connected';
+    return session?.getAddress("web3") ?? 'No Wallet Connected';
   }
 
   Future<void> fetchBNBPrice() async {

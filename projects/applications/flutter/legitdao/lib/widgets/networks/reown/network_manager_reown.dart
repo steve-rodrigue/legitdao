@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:reown_appkit/reown_appkit.dart';
-import 'network_manager_interface.dart';
+import '../network_manager_interface.dart';
 
 class NetworkManagerImpl implements NetworkManager {
   late final ReownAppKitModal appKitModal;
   bool _isInitialized = false;
+  final String _namespace = "web3";
   String _walletAddress = '';
   int _currentChainId = 1; // Default to Ethereum Mainnet
 
@@ -71,7 +72,8 @@ class NetworkManagerImpl implements NetworkManager {
       // Add listeners for network and wallet events
       appKitModal.addListener(() {
         if (appKitModal.isConnected) {
-          _walletAddress = appKitModal.session?.address ?? '';
+          _walletAddress =
+              appKitModal.session?.getAddress(this._namespace) ?? '';
           _notifyWalletConnectedListeners();
         } else {
           _walletAddress = '';
@@ -146,7 +148,12 @@ class NetworkManagerImpl implements NetworkManager {
     }
 
     final session = appKitModal.session;
-    if (session == null || session.address != walletAddress) {
+    if (session == null) {
+      throw Exception('Session is invalid');
+    }
+
+    String? sessionAddress = session.getAddress(this._namespace);
+    if (sessionAddress != walletAddress) {
       throw Exception('Session is invalid or wallet address mismatch.');
     }
 
@@ -210,7 +217,7 @@ class NetworkManagerImpl implements NetworkManager {
       }
 
       // Update the wallet address and notify listeners
-      _walletAddress = session.address ?? '';
+      String _walletAddress = session.getAddress(this._namespace) ?? '';
       _currentChainId = int.parse(session.chainId);
       _notifyWalletConnectedListeners();
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'network_manager_interface.dart';
-import 'network_manager_web.dart'
-    if (dart.library.io) 'network_manager_reown.dart';
+import 'web3/network_manager_web.dart'
+    if (dart.library.io) 'reown/network_manager_reown.dart';
 
 class NetworkManagerWidget extends StatefulWidget {
   final Widget Function(BuildContext context, NetworkManager networkManager)

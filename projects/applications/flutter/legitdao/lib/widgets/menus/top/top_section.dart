@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'responsive_logo.dart';
-import 'connect_button.dart';
-import '../../widgets/network_manager_interface.dart';
+import '../../logos/responsive_logo.dart';
+import '../../connections/connect_button.dart';
+import '../../networks/network_manager_interface.dart';
 
 class TopSection extends StatefulWidget {
   final Function() onLeftMenuToggle;
