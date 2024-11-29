@@ -6,8 +6,10 @@
   "menu_language": "Langue",
   "menu_connect": "Connecter",
   "right_menu_referrals": "Mon Parrainnage",
+  "right_menu_marketplaces": "Marchés",
   "home_title": "Bienvenue sur la page d'accueil",
   "about_title": "À propos de nous",
   "contact_title": "Contactez-nous",
-  "referrals_title": "Parainnage"
+  "referrals_title": "Parainnage",
+  "marketplaces_title": "Marchés"
 }

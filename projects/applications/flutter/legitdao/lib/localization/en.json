@@ -6,8 +6,10 @@
   "menu_language": "Language",
   "menu_connect": "Connect",
   "right_menu_referrals": "My Referrals",
+  "right_menu_marketplaces": "Marketplaces",
   "home_title": "Welcome to the Home Page",
   "about_title": "About Us",
   "contact_title": "Contact Us",
-  "referrals_title": "Referrals"
+  "referrals_title": "Referrals",
+  "marketplaces_title": "Marketplaces"
 }

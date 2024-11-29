@@ -3,16 +3,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:graphview/GraphView.dart';
 import 'dart:math';
 
-class Referral extends StatefulWidget {
+class ReferralsPage extends StatefulWidget {
   final String walletAddress = "0xYourWalletAddress";
 
-  Referral({super.key});
+  ReferralsPage({super.key});
 
   @override
-  _ReferralState createState() => _ReferralState();
+  _ReferralsState createState() => _ReferralsState();
 }
 
-class _ReferralState extends State<Referral> with TickerProviderStateMixin {
+class _ReferralsState extends State<ReferralsPage>
+    with TickerProviderStateMixin {
   final TransformationController _transformationController =
       TransformationController();
   final Graph _graph = Graph();
@@ -47,6 +48,12 @@ class _ReferralState extends State<Referral> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 500),
     );
 
+    _updateInteractiveViewerSize();
+  }
+
+  @override
+  void didUpdateWidget(covariant ReferralsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
     _updateInteractiveViewerSize();
   }
 
@@ -157,16 +164,10 @@ class _ReferralState extends State<Referral> with TickerProviderStateMixin {
   }
 
   @override
-  void didUpdateWidget(covariant Referral oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _updateInteractiveViewerSize();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Referral Tree").tr(),
+        title: const Text("ReferralsPage Tree").tr(),
       ),
       body: GestureDetector(
         onTap: () {

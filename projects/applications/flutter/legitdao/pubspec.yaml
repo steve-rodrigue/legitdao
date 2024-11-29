@@ -21,6 +21,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   graphview: ^1.2.0
   vector_math: ^2.1.4
+  fl_chart: ^0.69.2
 
 dev_dependencies:
   flutter_test:

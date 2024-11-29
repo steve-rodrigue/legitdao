@@ -26,8 +26,8 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
   List<String> _networks = [];
 
   @override
-  void initState() {
-    super.initState();
+  void didUpdateWidget(covariant RightSlidingMenu oldWidget) {
+    super.didUpdateWidget(oldWidget);
     _initialize();
   }
 
@@ -93,7 +93,7 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
       right: widget.isVisible ? 0 : -MediaQuery.of(context).size.width * 0.6,
       width: MediaQuery.of(context).size.width * 0.6,
       child: Material(
-        color: Colors.white,
+        color: Color.fromARGB(255, 207, 149, 33),
         elevation: 4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,6 +141,8 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
+
+                      // Network switcher
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: DropdownButton<String>(
@@ -158,6 +160,22 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                           },
                           isExpanded: true,
                           hint: const Text("Select Network"),
+                        ),
+                      ),
+
+                      // Marketplaces
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/marketplaces')
+                                .then((_) => widget.onClose());
+                          },
+                          child: Text(
+                            "right_menu_marketplaces".tr(),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
 
