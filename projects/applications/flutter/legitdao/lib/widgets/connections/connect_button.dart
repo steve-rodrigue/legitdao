@@ -122,17 +122,13 @@ class _ConnectButtonState extends State<ConnectButton>
   @override
   Widget build(BuildContext context) {
     final isConnected = widget.networkManager.isWalletConnected();
-    final walletAddress = widget.networkManager.getConnectedWallet();
-
     return TextButton(
       onPressed: isConnected
           ? widget.onMenuToggle // Slide the menu when connected
           : () => connectWallet(context), // Connect when not connected
       style: _buttonStyle(),
       child: Text(
-        isConnected
-            ? 'Disconnect Wallet (${walletAddress.isEmpty ? "No Address" : walletAddress})'
-            : 'Connect Wallet',
+        isConnected ? 'Profile' : 'Connect Wallet',
       ),
     );
   }
