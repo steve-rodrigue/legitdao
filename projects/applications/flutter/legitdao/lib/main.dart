@@ -7,18 +7,21 @@ import 'pages/contact_page.dart';
 import 'pages/referrals_page.dart';
 import 'pages/marketplaces_page.dart';
 import 'package:reown_appkit/reown_appkit.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('fr')],
-      path: 'lib/localization',
-      fallbackLocale: const Locale('en'),
-      child: MyApp(), // Removed `const` if MyApp is not fully const
-    ),
+    ChangeNotifierProvider(
+        create: (_) => ThemeProvider(),
+        child: EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('fr')],
+          path: 'lib/localization',
+          fallbackLocale: const Locale('en'),
+          child: MyApp(),
+        )),
   );
 }
 
@@ -27,47 +30,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReownAppKitModalTheme(
-      isDarkMode: true,
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    ReownAppKitModalTheme theme = ReownAppKitModalTheme(
+      isDarkMode: themeProvider.isDark(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        theme: ThemeData(
-          fontFamily: 'HugeIcons',
-          colorScheme: ColorScheme(
-            primary: Colors.white,
-            onPrimary: const Color.fromARGB(255, 28, 28, 28),
-            secondary: Colors.white,
-            onSecondary: const Color.fromARGB(255, 28, 28, 28),
-            brightness: Brightness.light,
-            error: Colors.red,
-            onError: Colors.white,
-            surface: const Color.fromARGB(255, 28, 28, 28),
-            onSurface: Colors.white,
-          ),
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
-            bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
-            bodySmall: TextStyle(fontSize: 12, color: Colors.white),
-            headlineLarge: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 207, 149, 33)),
-            headlineMedium: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 207, 149, 33)),
-            headlineSmall: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.w600,
-                color: Color.fromARGB(255, 207, 149, 33)),
-          ),
-          dropdownMenuTheme: DropdownMenuThemeData(
-            textStyle: TextStyle(fontSize: 16, color: Colors.white),
-          ),
-        ),
+        theme: themeProvider.getTheme(),
         initialRoute: '/',
         onGenerateRoute: (settings) {
           final uri = Uri.parse(settings.name ?? '');
@@ -79,6 +51,10 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => MainLayout(
                 child: ReferralsPage(walletAddress: walletAddress),
+                isDarkTheme: themeProvider.isDark(),
+                onThemeToggle: () {
+                  themeProvider.toggleTheme();
+                },
               ),
             );
           }
@@ -89,24 +65,40 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: HomePage(),
+                  isDarkTheme: themeProvider.isDark(),
+                  onThemeToggle: () {
+                    themeProvider.toggleTheme();
+                  },
                 ),
               );
             case '/about':
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: AboutPage(),
+                  isDarkTheme: themeProvider.isDark(),
+                  onThemeToggle: () {
+                    themeProvider.toggleTheme();
+                  },
                 ),
               );
             case '/contact':
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: ContactPage(),
+                  isDarkTheme: themeProvider.isDark(),
+                  onThemeToggle: () {
+                    themeProvider.toggleTheme();
+                  },
                 ),
               );
             case '/marketplaces':
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: MarketplacesPage(),
+                  isDarkTheme: themeProvider.isDark(),
+                  onThemeToggle: () {
+                    themeProvider.toggleTheme();
+                  },
                 ),
               );
             default:
@@ -121,5 +113,96 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+
+    return theme;
+  }
+}
+
+class ThemeProvider extends ChangeNotifier {
+  bool _isDarkTheme = true;
+
+  bool get isDarkTheme => _isDarkTheme;
+
+  final darkTheme = ThemeData(
+    fontFamily: 'HugeIcons',
+    colorScheme: ColorScheme(
+      primary: Colors.white,
+      onPrimary: const Color.fromARGB(255, 28, 28, 28),
+      secondary: Colors.white,
+      onSecondary: const Color.fromARGB(255, 28, 28, 28),
+      brightness: Brightness.light,
+      error: Colors.red,
+      onError: Colors.white,
+      surface: const Color.fromARGB(255, 28, 28, 28),
+      onSurface: Colors.white,
+    ),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
+      bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
+      bodySmall: TextStyle(fontSize: 12, color: Colors.white),
+      headlineLarge: TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 207, 149, 33)),
+      headlineMedium: TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 207, 149, 33)),
+      headlineSmall: TextStyle(
+          fontSize: 26,
+          fontWeight: FontWeight.w600,
+          color: Color.fromARGB(255, 207, 149, 33)),
+    ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: TextStyle(fontSize: 16, color: Colors.white),
+    ),
+  );
+
+  final lightTheme = ThemeData(
+    fontFamily: 'HugeIcons',
+    colorScheme: ColorScheme(
+      primary: Colors.white,
+      onPrimary: const Color.fromARGB(255, 28, 28, 28),
+      secondary: Colors.white,
+      onSecondary: const Color.fromARGB(255, 28, 28, 28),
+      brightness: Brightness.light,
+      error: Colors.red,
+      onError: Colors.white,
+      surface: Colors.white,
+      onSurface: Colors.white,
+    ),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
+      bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
+      bodySmall: TextStyle(fontSize: 12, color: Colors.white),
+      headlineLarge: TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 207, 149, 33)),
+      headlineMedium: TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 207, 149, 33)),
+      headlineSmall: TextStyle(
+          fontSize: 26,
+          fontWeight: FontWeight.w600,
+          color: Color.fromARGB(255, 207, 149, 33)),
+    ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: TextStyle(fontSize: 16, color: Colors.white),
+    ),
+  );
+
+  ThemeData getTheme() {
+    return _isDarkTheme ? darkTheme : lightTheme;
+  }
+
+  bool isDark() {
+    return isDarkTheme;
+  }
+
+  void toggleTheme() {
+    _isDarkTheme = !_isDarkTheme;
+    notifyListeners();
   }
 }

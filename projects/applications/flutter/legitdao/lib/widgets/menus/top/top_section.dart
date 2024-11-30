@@ -5,12 +5,16 @@ import '../../connections/connect_button.dart';
 import '../../networks/network_manager_interface.dart';
 
 class TopSection extends StatefulWidget {
+  final bool isDarkTheme;
+  final VoidCallback onThemeToggle;
   final Function() onLeftMenuToggle;
   final Function() onRightMenuToggle;
   final NetworkManager networkManager;
 
   const TopSection({
     super.key,
+    required this.isDarkTheme,
+    required this.onThemeToggle,
     required this.onLeftMenuToggle,
     required this.onRightMenuToggle,
     required this.networkManager,
@@ -123,6 +127,19 @@ class _TopSectionState extends State<TopSection> {
                           child: Text("FR"),
                         ),
                       ],
+                    ),
+                  ),
+
+                  // Theme Switcher
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: IconButton(
+                      icon: Icon(
+                        widget.isDarkTheme ? Icons.light_mode : Icons.dark_mode,
+                        size: 40,
+                      ),
+                      onPressed: widget.onThemeToggle,
+                      tooltip: 'Switch Theme',
                     ),
                   ),
 
