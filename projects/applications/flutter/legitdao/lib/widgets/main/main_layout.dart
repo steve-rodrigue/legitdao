@@ -74,6 +74,7 @@ class _MainLayoutState extends State<MainLayout> {
               LeftSlidingMenu(
                 isVisible: _isLeftMenuVisible,
                 onClose: _closeLeftMenu,
+                networkManager: networkManager,
               ),
               RightSlidingMenu(
                 isVisible: _isRightMenuVisible,

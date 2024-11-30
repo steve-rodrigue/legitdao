@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../networks/network_manager_interface.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../../../widgets/networks/reown/network_manager_reown.dart';
+import '../../../widgets/networks/reown/connection_dashboard.dart';
 
 class RightSlidingMenu extends StatefulWidget {
   final bool isVisible;
@@ -24,11 +26,19 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
   String _selectedNetwork = '';
   double _displayedBalance = 0.0;
   List<String> _networks = [];
+  late NetworkManager _networkManager;
 
-  @override
+  /*@override
   void didUpdateWidget(covariant RightSlidingMenu oldWidget) {
     super.didUpdateWidget(oldWidget);
     _initialize();
+  }*/
+
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
+    _networkManager = widget.networkManager;
   }
 
   Future<void> _initialize() async {
@@ -125,97 +135,40 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (widget.networkManager.isWalletConnected()) ...[
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
+                    // Connection Board:
+                    ConnectionDashboard(networkManager: _networkManager),
+
+                    // Marketplaces
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/marketplaces')
+                              .then((_) => widget.onClose());
+                        },
                         child: Text(
-                          "Connected Wallet: ${widget.networkManager.getConnectedWallet()}",
+                          "right_menu_marketplaces".tr(),
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
+                    ),
+
+                    // Referrals
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/referrals')
+                              .then((_) => widget.onClose());
+                        },
                         child: Text(
-                          "Balance: ${_displayedBalance.toStringAsFixed(4)}",
-                          style: const TextStyle(fontSize: 16),
+                          "right_menu_referrals".tr(),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
-
-                      // Network switcher
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: DropdownButton<String>(
-                          value: _selectedNetwork,
-                          items: _networks.map((network) {
-                            return DropdownMenuItem<String>(
-                              value: network,
-                              child: Text(network),
-                            );
-                          }).toList(),
-                          onChanged: (networkName) {
-                            if (networkName != null) {
-                              _switchNetwork(networkName);
-                            }
-                          },
-                          isExpanded: true,
-                          hint: const Text("Select Network"),
-                        ),
-                      ),
-
-                      // Marketplaces
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/marketplaces')
-                                .then((_) => widget.onClose());
-                          },
-                          child: Text(
-                            "right_menu_marketplaces".tr(),
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-
-                      // Referrals
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/referrals')
-                                .then((_) => widget.onClose());
-                          },
-                          child: Text(
-                            "right_menu_referrals".tr(),
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-
-                      if (widget.networkManager.canBeDisconnected())
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: ElevatedButton(
-                            onPressed: _disconnectWallet,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                            ),
-                            child: const Text("Disconnect Wallet"),
-                          ),
-                        ),
-                    ] else ...[
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          "No wallet connected",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
+                    ),
                   ],
                 ),
               ),

@@ -1,15 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../../networks/network_manager_interface.dart';
 
-class LeftSlidingMenu extends StatelessWidget {
+class LeftSlidingMenu extends StatefulWidget {
   final bool isVisible;
   final Function() onClose;
+  final NetworkManager networkManager;
 
   const LeftSlidingMenu({
     super.key,
     required this.isVisible,
     required this.onClose,
+    required this.networkManager,
   });
+
+  @override
+  _LeftSlidingMenuState createState() => _LeftSlidingMenuState();
+}
+
+class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
+  late bool _isVisible;
+  late NetworkManager _networkManager;
+
+  @override
+  void initState() {
+    super.initState();
+    _isVisible = widget.isVisible;
+    _networkManager = widget.networkManager;
+  }
+
+  @override
+  void didUpdateWidget(covariant LeftSlidingMenu oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isVisible != widget.isVisible) {
+      setState(() {
+        _isVisible = widget.isVisible;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +48,7 @@ class LeftSlidingMenu extends StatelessWidget {
       curve: Curves.easeInOut,
       top: 0,
       bottom: 0,
-      left: isVisible ? 0 : -screenWidth * 0.6,
+      left: _isVisible ? 0 : -screenWidth * 0.6,
       width: screenWidth * 0.6,
       child: Material(
         color: Colors.white,
@@ -52,7 +80,7 @@ class LeftSlidingMenu extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/')
-                              .then((_) => onClose());
+                              .then((_) => widget.onClose());
                         },
                         child: Text(
                           "menu_home".tr(),
@@ -68,7 +96,7 @@ class LeftSlidingMenu extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/about')
-                              .then((_) => onClose());
+                              .then((_) => widget.onClose());
                         },
                         child: Text(
                           "menu_about".tr(),
@@ -84,7 +112,7 @@ class LeftSlidingMenu extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/contact')
-                              .then((_) => onClose());
+                              .then((_) => widget.onClose());
                         },
                         child: Text(
                           "menu_contact".tr(),

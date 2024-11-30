@@ -37,6 +37,10 @@ class NetworkManagerImpl implements NetworkManager {
     appKitModal = _initializeAppKitModal(context);
   }
 
+  ReownAppKitModal getAppKitModal() {
+    return appKitModal;
+  }
+
   ReownAppKitModal _initializeAppKitModal(BuildContext context) {
     return ReownAppKitModal(
       context: context,
