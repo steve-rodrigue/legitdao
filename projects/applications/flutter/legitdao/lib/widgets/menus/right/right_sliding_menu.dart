@@ -72,81 +72,91 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
       bottom: 0,
       right: widget.isVisible ? 0 : -MediaQuery.of(context).size.width * 0.6,
       width: MediaQuery.of(context).size.width * 0.6,
-      child: Material(
-        elevation: 4,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // X Close Button
-            Container(
-              padding: const EdgeInsets.all(16.0), // Optional padding
-              child: Align(
-                alignment: Alignment.topLeft, // Align to the top-left
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200], // Background color
-                    borderRadius: BorderRadius.circular(8.0), // Rounded corners
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.close),
-                    color: Colors.black, // Icon color
-                    onPressed: () {
-                      widget.onClose();
-                    },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(
+              width: 2.0,
+            ),
+          ),
+        ),
+        child: Material(
+          elevation: 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // X Close Button
+              Container(
+                padding: const EdgeInsets.all(16.0), // Optional padding
+                child: Align(
+                  alignment: Alignment.topLeft, // Align to the top-left
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200], // Background color
+                      borderRadius:
+                          BorderRadius.circular(8.0), // Rounded corners
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.close),
+                      color: Colors.black, // Icon color
+                      onPressed: () {
+                        widget.onClose();
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            // Menu Content
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Marketplaces
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/marketplaces')
-                              .then((_) => widget.onClose());
-                        },
-                        child: Text(
-                          "right_menu_marketplaces".tr(),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+              // Menu Content
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Marketplaces
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/marketplaces')
+                                .then((_) => widget.onClose());
+                          },
+                          child: Text(
+                            "right_menu_marketplaces".tr(),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
 
-                    // Referrals
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context,
-                                  '/referrals/${_networkManager.getConnectedWallet()}')
-                              .then((_) => widget.onClose());
-                        },
-                        child: Text(
-                          "right_menu_referrals".tr(),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                      // Referrals
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context,
+                                    '/referrals/${_networkManager.getConnectedWallet()}')
+                                .then((_) => widget.onClose());
+                          },
+                          child: Text(
+                            "right_menu_referrals".tr(),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
 
-                    // Connection Board:
-                    ConnectionDashboard(networkManager: _networkManager),
+                      // Connection Board:
+                      ConnectionDashboard(networkManager: _networkManager),
 
-                    Text('Address: ${_networkManager.getConnectedWallet()}'),
-                    Text('Balance: ${_displayedBalance}'),
-                  ],
+                      Text('Address: ${_networkManager.getConnectedWallet()}'),
+                      Text('Balance: ${_displayedBalance}'),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

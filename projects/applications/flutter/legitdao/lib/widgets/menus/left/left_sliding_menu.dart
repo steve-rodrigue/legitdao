@@ -50,89 +50,99 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
       bottom: 0,
       left: _isVisible ? 0 : -screenWidth * 0.6,
       width: screenWidth * 0.6,
-      child: Material(
-        elevation: 4,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // X Close Button
-            Container(
-              padding: const EdgeInsets.all(16.0), // Optional padding
-              child: Align(
-                alignment: Alignment.topRight, // Align to the top-right
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200], // Background color
-                    borderRadius: BorderRadius.circular(8.0), // Rounded corners
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.close),
-                    color: Colors.black, // Icon color
-                    onPressed: () {
-                      widget.onClose();
-                    },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            right: BorderSide(
+              width: 2.0,
+            ),
+          ),
+        ),
+        child: Material(
+          elevation: 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // X Close Button
+              Container(
+                padding: const EdgeInsets.all(16.0), // Optional padding
+                child: Align(
+                  alignment: Alignment.topRight, // Align to the top-right
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200], // Background color
+                      borderRadius:
+                          BorderRadius.circular(8.0), // Rounded corners
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.close),
+                      color: Colors.black, // Icon color
+                      onPressed: () {
+                        widget.onClose();
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Menu Items
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Home
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/')
-                              .then((_) => widget.onClose());
-                        },
-                        child: Text(
-                          "menu_home".tr(),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+              // Menu Items
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Home
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/')
+                                .then((_) => widget.onClose());
+                          },
+                          child: Text(
+                            "menu_home".tr(),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
 
-                    // About
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/about')
-                              .then((_) => widget.onClose());
-                        },
-                        child: Text(
-                          "menu_about".tr(),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                      // About
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/about')
+                                .then((_) => widget.onClose());
+                          },
+                          child: Text(
+                            "menu_about".tr(),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
 
-                    // Contact
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/contact')
-                              .then((_) => widget.onClose());
-                        },
-                        child: Text(
-                          "menu_contact".tr(),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                      // Contact
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/contact')
+                                .then((_) => widget.onClose());
+                          },
+                          child: Text(
+                            "menu_contact".tr(),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
