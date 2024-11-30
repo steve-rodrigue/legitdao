@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:graphview/GraphView.dart';
 import 'dart:math';
-import '../networks/network_manager_interface.dart';
 
 class Referrals extends StatefulWidget {
   final String walletAddress;

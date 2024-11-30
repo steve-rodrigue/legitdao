@@ -25,16 +25,11 @@ class _ReferralsState extends State<ReferralsPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("ReferralsPage Tree").tr(),
-      ),
-      body: Container(
-        height: 80,
-        color: Colors.blue,
-        child: Center(
-          child: Referrals(walletAddress: walletAddress),
-        ),
+    return Container(
+      height: 80,
+      color: Colors.blue,
+      child: Center(
+        child: Referrals(walletAddress: walletAddress),
       ),
     );
   }
