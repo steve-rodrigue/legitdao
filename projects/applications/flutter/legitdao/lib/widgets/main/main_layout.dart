@@ -8,7 +8,10 @@ import '../menus/top/top_section.dart';
 class MainLayout extends StatefulWidget {
   final Widget child;
 
-  const MainLayout({Key? key, required this.child}) : super(key: key);
+  const MainLayout({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
 
   @override
   _MainLayoutState createState() => _MainLayoutState();

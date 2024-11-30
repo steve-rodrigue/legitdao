@@ -51,19 +51,27 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
       left: _isVisible ? 0 : -screenWidth * 0.6,
       width: screenWidth * 0.6,
       child: Material(
-        color: Colors.white,
         elevation: 4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // AppBar Space
+            // X Close Button
             Container(
-              height: 80,
-              color: Colors.blue, // Adjust this as needed
-              child: Center(
-                child: Text(
-                  "menu_language".tr(),
-                  style: const TextStyle(fontSize: 20, color: Colors.white),
+              padding: const EdgeInsets.all(16.0), // Optional padding
+              child: Align(
+                alignment: Alignment.topRight, // Align to the top-right
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200], // Background color
+                    borderRadius: BorderRadius.circular(8.0), // Rounded corners
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.close),
+                    color: Colors.black, // Icon color
+                    onPressed: () {
+                      widget.onClose();
+                    },
+                  ),
                 ),
               ),
             ),
@@ -118,30 +126,6 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ),
-
-                    // Language Switcher
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: DropdownButton<Locale>(
-                        value: context.locale,
-                        underline: Container(),
-                        onChanged: (Locale? locale) {
-                          if (locale != null) {
-                            context.setLocale(locale);
-                          }
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            value: Locale('en'),
-                            child: Text("English"),
-                          ),
-                          DropdownMenuItem(
-                            value: Locale('fr'),
-                            child: Text("Français"),
-                          ),
-                        ],
                       ),
                     ),
                   ],

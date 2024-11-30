@@ -8,27 +8,9 @@ import '../network_manager_interface.dart';
 class NetworkManagerImpl implements NetworkManager {
   late final ReownAppKitModal appKitModal;
   bool _isInitialized = false;
-  final String _namespace = "eip155";
   String _walletAddress = '';
   final int _defaultChainId = 1; // Default to Ethereum Mainnet
   int _currentChainId = 1; // Default to Ethereum Mainnet
-
-  final Map<int, ReownAppKitModalNetworkInfo> networks = {
-    1: ReownAppKitModalNetworkInfo(
-      name: 'Ethereum',
-      chainId: '1',
-      currency: 'ETH',
-      rpcUrl: 'https://eth.llamarpc.com',
-      explorerUrl: 'https://etherscan.io',
-    ),
-    56: ReownAppKitModalNetworkInfo(
-      name: 'Binance Smart Chain',
-      chainId: '56',
-      currency: 'BNB',
-      rpcUrl: 'https://bsc-dataseed.binance.org/',
-      explorerUrl: 'https://bscscan.com',
-    ),
-  };
 
   final List<VoidCallback> _networkChangedListeners = [];
   final List<VoidCallback> _walletConnectedListeners = [];
@@ -93,7 +75,11 @@ class NetworkManagerImpl implements NetworkManager {
           print("Error: ModalConnect Session is null in the event.");
         }
 
-        _walletAddress = evt!.session.getAddress(this._namespace) ?? '';
+        final String namespace =
+            ReownAppKitModalNetworks.getNamespaceForChainId(
+                _currentChainId.toString());
+
+        _walletAddress = evt!.session.getAddress(namespace) ?? '';
         _currentChainId = int.parse(evt.session.chainId);
         for (final listener in _walletConnectedListeners) {
           listener();
@@ -105,7 +91,11 @@ class NetworkManagerImpl implements NetworkManager {
           print("Error: ModalConnect Session is null in the event.");
         }
 
-        _walletAddress = evt!.session.getAddress(this._namespace) ?? '';
+        final String namespace =
+            ReownAppKitModalNetworks.getNamespaceForChainId(
+                _currentChainId.toString());
+
+        _walletAddress = evt!.session.getAddress(namespace) ?? '';
         _currentChainId = int.parse(evt.session.chainId);
         for (final listener in _walletConnectedListeners) {
           listener();
@@ -172,10 +162,16 @@ class NetworkManagerImpl implements NetworkManager {
 
   @override
   Future<void> selectNetwork(String networkName) async {
-    final network = networks.values.firstWhere(
-      (net) => net.name == networkName,
-      orElse: () => throw Exception('Network not found: $networkName'),
-    );
+    final String namespace = ReownAppKitModalNetworks.getNamespaceForChainId(
+        _currentChainId.toString());
+
+    List<ReownAppKitModalNetworkInfo> networks =
+        ReownAppKitModalNetworks.getAllSupportedNetworks(namespace: namespace);
+
+    final network = networks.firstWhere(
+        (network) => int.parse(network.chainId) == _currentChainId,
+        orElse: () => throw Exception(
+            'No matching network for Chain ID: ${_currentChainId}'));
 
     if (_currentChainId == int.parse(network.chainId)) {
       print('Already connected to ${network.name}.');
@@ -209,19 +205,24 @@ class NetworkManagerImpl implements NetworkManager {
       throw Exception('Session is invalid');
     }
 
-    String? sessionAddress = session.getAddress(this._namespace);
+    final String namespace = ReownAppKitModalNetworks.getNamespaceForChainId(
+        _currentChainId.toString());
+
+    String? sessionAddress = session.getAddress(namespace);
     if (sessionAddress != walletAddress) {
       throw Exception('Session is invalid or wallet address mismatch.');
     }
 
+    List<ReownAppKitModalNetworkInfo> networks =
+        ReownAppKitModalNetworks.getAllSupportedNetworks(namespace: namespace);
+
     int chainId = int.parse(session.chainId);
-    print('chain: ${chainId}, networks: ${networks[chainId]}');
+    final network = networks.firstWhere(
+        (network) => int.parse(network.chainId) == chainId,
+        orElse: () =>
+            throw Exception('No matching network for Chain ID: ${chainId}'));
 
-    if (networks[chainId] == null) {
-      throw Exception('No matching network for Chain ID: ${chainId}');
-    }
-
-    final network = networks[chainId]!;
+    print('chain: ${chainId}, networks: ${network}');
     final rpcUrl = network.rpcUrl;
 
     try {
@@ -287,7 +288,13 @@ class NetworkManagerImpl implements NetworkManager {
 
   @override
   Future<List<String>> getAvailableNetworks() async {
-    return networks.values.map((network) => network.name).toList();
+    final String namespace = ReownAppKitModalNetworks.getNamespaceForChainId(
+        _currentChainId.toString());
+
+    List<ReownAppKitModalNetworkInfo> networks =
+        ReownAppKitModalNetworks.getAllSupportedNetworks(namespace: namespace);
+
+    return networks.map((network) => network.name).toList();
   }
 
   @override
@@ -313,18 +320,17 @@ class NetworkManagerImpl implements NetworkManager {
       throw Exception('No session active.');
     }
 
-    final currentChainId = appKitModal.session?.chainId ?? '';
-    final currentNetwork = networks.values
-        .firstWhere((network) => network.chainId.toString() == currentChainId,
-            orElse: () => ReownAppKitModalNetworkInfo(
-                name: 'Unknown Network',
-                chainId: '0',
-                currency: '',
-                rpcUrl: '',
-                explorerUrl: ''))
-        .name;
+    final String namespace = ReownAppKitModalNetworks.getNamespaceForChainId(
+        _currentChainId.toString());
 
-    print('Current network: $currentNetwork');
-    return currentNetwork;
+    List<ReownAppKitModalNetworkInfo> networks =
+        ReownAppKitModalNetworks.getAllSupportedNetworks(namespace: namespace);
+
+    final network = networks.firstWhere(
+        (network) => int.parse(network.chainId) == _currentChainId,
+        orElse: () => throw Exception(
+            'No matching network for Chain ID: ${_currentChainId}'));
+
+    return network.name;
   }
 }

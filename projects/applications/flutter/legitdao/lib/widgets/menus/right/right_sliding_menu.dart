@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../networks/network_manager_interface.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../../widgets/networks/reown/network_manager_reown.dart';
 import '../../../widgets/networks/reown/connection_dashboard.dart';
 
 class RightSlidingMenu extends StatefulWidget {
@@ -74,41 +73,37 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
       right: widget.isVisible ? 0 : -MediaQuery.of(context).size.width * 0.6,
       width: MediaQuery.of(context).size.width * 0.6,
       child: Material(
-        color: Color.fromARGB(255, 207, 149, 33),
         elevation: 4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
+            // X Close Button
             Container(
-              height: 80,
-              color: Colors.blue,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      "Menu",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
+              padding: const EdgeInsets.all(16.0), // Optional padding
+              child: Align(
+                alignment: Alignment.topLeft, // Align to the top-left
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200], // Background color
+                    borderRadius: BorderRadius.circular(8.0), // Rounded corners
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white),
-                    onPressed: widget.onClose,
+                  child: IconButton(
+                    icon: const Icon(Icons.close),
+                    color: Colors.black, // Icon color
+                    onPressed: () {
+                      widget.onClose();
+                    },
                   ),
-                ],
+                ),
               ),
             ),
+
             // Menu Content
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Connection Board:
-                    ConnectionDashboard(networkManager: _networkManager),
-
                     // Marketplaces
                     Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -124,9 +119,6 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                         ),
                       ),
                     ),
-
-                    Text('Address: ${_networkManager.getConnectedWallet()}'),
-                    Text('Balance: ${_displayedBalance}'),
 
                     // Referrals
                     Padding(
@@ -144,6 +136,12 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                         ),
                       ),
                     ),
+
+                    // Connection Board:
+                    ConnectionDashboard(networkManager: _networkManager),
+
+                    Text('Address: ${_networkManager.getConnectedWallet()}'),
+                    Text('Balance: ${_displayedBalance}'),
                   ],
                 ),
               ),
