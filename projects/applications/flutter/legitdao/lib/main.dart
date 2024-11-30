@@ -32,6 +32,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
+    final MaterialPageRoute notFoundPage = MaterialPageRoute(
+      builder: (context) => Scaffold(
+        body: Center(
+          child: MainLayout(
+            child: Center(
+              // Centering the text horizontally and vertically
+              child: Text(
+                '404 - Wallet Address Not Found',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ),
+            isDarkTheme: themeProvider.isDark(),
+            onThemeToggle: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ),
+      ),
+    );
+
     ReownAppKitModalTheme theme = ReownAppKitModalTheme(
       isDarkMode: themeProvider.isDark(),
       child: MaterialApp(
@@ -48,6 +68,12 @@ class MyApp extends StatelessWidget {
           if (uri.pathSegments.length == 2 &&
               uri.pathSegments.first == 'referrals') {
             final walletAddress = uri.pathSegments[1];
+
+            // Check if walletAddress is null or empty
+            if (walletAddress.isEmpty) {
+              return notFoundPage;
+            }
+
             return MaterialPageRoute(
               builder: (context) => MainLayout(
                 child: ReferralsPage(walletAddress: walletAddress),
@@ -102,13 +128,7 @@ class MyApp extends StatelessWidget {
                 ),
               );
             default:
-              return MaterialPageRoute(
-                builder: (context) => Scaffold(
-                  body: Center(
-                    child: Text('404 - Page not found'),
-                  ),
-                ),
-              );
+              return notFoundPage;
           }
         },
       ),

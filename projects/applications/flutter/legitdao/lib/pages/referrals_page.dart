@@ -25,8 +25,6 @@ class _ReferralsState extends State<ReferralsPage>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
-      color: Colors.blue,
       child: Center(
         child: Referrals(walletAddress: walletAddress),
       ),
