@@ -64,12 +64,47 @@ class MyApp extends StatelessWidget {
         ),
       ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => MainLayout(child: HomePage()),
-        '/about': (context) => MainLayout(child: AboutPage()),
-        '/contact': (context) => MainLayout(child: ContactPage()),
-        '/referrals': (context) => MainLayout(child: ReferralsPage()),
-        '/marketplaces': (context) => MainLayout(child: MarketplacesPage()),
+      onGenerateRoute: (settings) {
+        final uri = Uri.parse(settings.name ?? '');
+
+        // Handle dynamic route `/referrals/:walletAddress`
+        if (uri.pathSegments.length == 2 &&
+            uri.pathSegments.first == 'referrals') {
+          final walletAddress = uri.pathSegments[1];
+          return MaterialPageRoute(
+            builder: (context) => MainLayout(
+              child: ReferralsPage(walletAddress: walletAddress),
+            ),
+          );
+        }
+
+        // Default routes
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(
+              builder: (context) => MainLayout(child: HomePage()),
+            );
+          case '/about':
+            return MaterialPageRoute(
+              builder: (context) => MainLayout(child: AboutPage()),
+            );
+          case '/contact':
+            return MaterialPageRoute(
+              builder: (context) => MainLayout(child: ContactPage()),
+            );
+          case '/marketplaces':
+            return MaterialPageRoute(
+              builder: (context) => MainLayout(child: MarketplacesPage()),
+            );
+          default:
+            return MaterialPageRoute(
+              builder: (context) => Scaffold(
+                body: Center(
+                  child: Text('404 - Page not found'),
+                ),
+              ),
+            );
+        }
       },
     );
   }

@@ -8,19 +8,20 @@ import '../network_manager_interface.dart';
 class NetworkManagerImpl implements NetworkManager {
   late final ReownAppKitModal appKitModal;
   bool _isInitialized = false;
-  final String _namespace = "web3";
+  final String _namespace = "eip155";
   String _walletAddress = '';
+  final int _defaultChainId = 1; // Default to Ethereum Mainnet
   int _currentChainId = 1; // Default to Ethereum Mainnet
 
   final Map<int, ReownAppKitModalNetworkInfo> networks = {
-    0: ReownAppKitModalNetworkInfo(
+    1: ReownAppKitModalNetworkInfo(
       name: 'Ethereum',
       chainId: '1',
       currency: 'ETH',
       rpcUrl: 'https://eth.llamarpc.com',
       explorerUrl: 'https://etherscan.io',
     ),
-    1: ReownAppKitModalNetworkInfo(
+    56: ReownAppKitModalNetworkInfo(
       name: 'Binance Smart Chain',
       chainId: '56',
       currency: 'BNB',
@@ -45,6 +46,10 @@ class NetworkManagerImpl implements NetworkManager {
     return ReownAppKitModal(
       context: context,
       projectId: 'e809b3031729dba863aab7b6089f245f',
+      enableAnalytics: true,
+      getBalanceFallback: () {
+        return 0.0 as Future<double>;
+      },
       metadata: const PairingMetadata(
         name: 'LegitDAO',
         description: 'This is the LegitDAO application',
@@ -57,6 +62,16 @@ class NetworkManagerImpl implements NetworkManager {
           universal: 'https://legitdao.com/app',
         ),
       ),
+      /*featuresConfig: FeaturesConfig(
+        email: true,
+        socials: [
+          AppKitSocialOption.Farcaster,
+          AppKitSocialOption.X,
+          AppKitSocialOption.Apple,
+          AppKitSocialOption.Discord,
+        ],
+        showMainWallets: false,
+      ),*/
     );
   }
 
@@ -71,17 +86,47 @@ class NetworkManagerImpl implements NetworkManager {
         }),
       ]);
       _isInitialized = true;
-      print('ReownAppKitModal initialized successfully.');
 
-      // Add listeners for network and wallet events
-      appKitModal.addListener(() {
-        if (appKitModal.isConnected) {
-          _walletAddress =
-              appKitModal.session?.getAddress(this._namespace) ?? '';
-          _notifyWalletConnectedListeners();
-        } else {
-          _walletAddress = '';
-          _notifyWalletDisconnectedListeners();
+      print('ReownAppKitModal initialized successfully.');
+      appKitModal.onModalConnect.subscribe((ModalConnect? evt) {
+        if (evt?.session == null) {
+          print("Error: ModalConnect Session is null in the event.");
+        }
+
+        _walletAddress = evt!.session.getAddress(this._namespace) ?? '';
+        _currentChainId = int.parse(evt.session.chainId);
+        for (final listener in _walletConnectedListeners) {
+          listener();
+        }
+      });
+
+      appKitModal.onModalUpdate.subscribe((ModalConnect? evt) {
+        if (evt?.session == null) {
+          print("Error: ModalConnect Session is null in the event.");
+        }
+
+        _walletAddress = evt!.session.getAddress(this._namespace) ?? '';
+        _currentChainId = int.parse(evt.session.chainId);
+        for (final listener in _walletConnectedListeners) {
+          listener();
+        }
+      });
+
+      appKitModal.onModalNetworkChange.subscribe((ModalNetworkChange? evt) {
+        if (evt?.chainId == null) {
+          print("Error: ModalNetworkChange chainId is null in the event.");
+        }
+
+        _currentChainId = int.parse(evt!.chainId);
+        for (final listener in _networkChangedListeners) {
+          listener();
+        }
+      });
+
+      appKitModal.onModalDisconnect.subscribe((ModalDisconnect? evt) {
+        _walletAddress = "";
+        for (final listener in _walletDisconnectedListeners) {
+          listener();
         }
       });
     } catch (e) {
@@ -111,8 +156,11 @@ class NetworkManagerImpl implements NetworkManager {
     if (appKitModal.isConnected) {
       await appKitModal.disconnect();
       _walletAddress = '';
-      _currentChainId = 1; // Reset to default network
-      _notifyWalletDisconnectedListeners();
+      _currentChainId = _defaultChainId;
+      for (final listener in _walletDisconnectedListeners) {
+        listener();
+      }
+
       print('Disconnected from wallet');
     }
   }
@@ -137,7 +185,10 @@ class NetworkManagerImpl implements NetworkManager {
     try {
       await appKitModal.selectChain(network);
       _currentChainId = int.parse(network.chainId);
-      _notifyNetworkChangedListeners();
+      for (final listener in _networkChangedListeners) {
+        listener();
+      }
+
       print('Switched to network: ${network.name}');
     } catch (e) {
       throw Exception('Failed to switch network: $e');
@@ -146,7 +197,9 @@ class NetworkManagerImpl implements NetworkManager {
 
   @override
   Future<double> fetchBalance(String walletAddress) async {
-    await ensureInitialized();
+    ensureInitialized();
+
+    //await ensureInitialized();
     if (!appKitModal.isConnected) {
       throw Exception('Wallet is not connected.');
     }
@@ -161,12 +214,14 @@ class NetworkManagerImpl implements NetworkManager {
       throw Exception('Session is invalid or wallet address mismatch.');
     }
 
-    final network = networks.values.firstWhere(
-      (net) => int.parse(net.chainId) == session.chainId,
-      orElse: () => throw Exception(
-          'No matching network for Chain ID: ${session.chainId}'),
-    );
+    int chainId = int.parse(session.chainId);
+    print('chain: ${chainId}, networks: ${networks[chainId]}');
 
+    if (networks[chainId] == null) {
+      throw Exception('No matching network for Chain ID: ${chainId}');
+    }
+
+    final network = networks[chainId]!;
     final rpcUrl = network.rpcUrl;
 
     try {
@@ -194,8 +249,7 @@ class NetworkManagerImpl implements NetworkManager {
         final balanceInWei = BigInt.parse(balanceHex.substring(2), radix: 16);
         final balanceInEther = balanceInWei / BigInt.from(1e18);
 
-        print(
-            'Balance for $walletAddress: $balanceInEther ${network.currency}');
+        print('Balance for $walletAddress: $balanceInWei ${network.currency}');
         return balanceInEther.toDouble();
       } else {
         throw Exception(
@@ -213,19 +267,6 @@ class NetworkManagerImpl implements NetworkManager {
     try {
       print('Triggering wallet connection...');
       await appKitModal.openModalView();
-
-      final session = appKitModal.session;
-      if (session == null) {
-        print('No session returned. Wallet connection failed.');
-        throw Exception('No session available after connection attempt.');
-      }
-
-      // Update the wallet address and notify listeners
-      String _walletAddress = session.getAddress(this._namespace) ?? '';
-      _currentChainId = int.parse(session.chainId);
-      _notifyWalletConnectedListeners();
-
-      print('Wallet connected: $_walletAddress');
     } catch (e) {
       print('Error during wallet connection: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -236,60 +277,32 @@ class NetworkManagerImpl implements NetworkManager {
   }
 
   @override
-  void addNetworkChangedListener(Function(String networkName) listener) {
-    _networkChangedListeners.add(() {
-      final networkName = networks[_currentChainId]?.name ?? 'Unknown Network';
-      listener(networkName);
-    });
-  }
-
-  @override
-  void addWalletConnectedListener(Function(String walletAddress) listener) {
-    _walletConnectedListeners.add(() {
-      listener(_walletAddress);
-    });
-  }
-
-  @override
-  void addWalletDisconnectedListener(VoidCallback listener) {
-    _walletDisconnectedListeners.add(listener);
-  }
-
-  void _notifyNetworkChangedListeners() {
-    for (final listener in _networkChangedListeners) {
-      listener();
-    }
-  }
-
-  void _notifyWalletConnectedListeners() {
-    for (final listener in _walletConnectedListeners) {
-      listener();
-    }
-  }
-
-  void _notifyWalletDisconnectedListeners() {
-    for (final listener in _walletDisconnectedListeners) {
-      listener();
-    }
-  }
-
-  @override
   Future<String> getCurrentChainId() async {
     if (!_isInitialized) {
       throw Exception('Web3 is not initialized.');
     }
+
     return _currentChainId.toString();
   }
 
   @override
   Future<List<String>> getAvailableNetworks() async {
-    try {
-      final networkNames =
-          networks.values.map((network) => network.name).toList();
-      return networkNames;
-    } catch (e) {
-      throw Exception('Error fetching available networks: $e');
-    }
+    return networks.values.map((network) => network.name).toList();
+  }
+
+  @override
+  void addWalletConnectedListener(Function(String walletAddress) callback) {
+    _walletConnectedListeners.add(callback as VoidCallback);
+  }
+
+  @override
+  void addWalletDisconnectedListener(Function() callback) {
+    _walletDisconnectedListeners.add(callback as VoidCallback);
+  }
+
+  @override
+  void addNetworkChangedListener(Function(String chainId) callback) {
+    _networkChangedListeners.add(callback as VoidCallback);
   }
 
   @override

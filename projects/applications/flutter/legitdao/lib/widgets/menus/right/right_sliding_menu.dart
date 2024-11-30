@@ -23,16 +23,14 @@ class RightSlidingMenu extends StatefulWidget {
 }
 
 class _RightSlidingMenuState extends State<RightSlidingMenu> {
-  String _selectedNetwork = '';
   double _displayedBalance = 0.0;
-  List<String> _networks = [];
   late NetworkManager _networkManager;
 
-  /*@override
+  @override
   void didUpdateWidget(covariant RightSlidingMenu oldWidget) {
     super.didUpdateWidget(oldWidget);
     _initialize();
-  }*/
+  }
 
   @override
   void initState() {
@@ -43,14 +41,9 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
 
   Future<void> _initialize() async {
     try {
-      final networks = await widget.networkManager.getAvailableNetworks();
-      final currentNetwork = await widget.networkManager.getCurrentNetwork();
       _updateBalance();
 
-      setState(() {
-        _networks = networks;
-        _selectedNetwork = currentNetwork;
-      });
+      setState(() {});
     } catch (e) {
       print('Error initializing networks: $e');
     }
@@ -68,28 +61,6 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
       setState(() {
         _displayedBalance = 0.0;
       });
-    }
-  }
-
-  Future<void> _switchNetwork(String networkName) async {
-    try {
-      await widget.networkManager.selectNetwork(networkName);
-      setState(() {
-        _selectedNetwork = networkName;
-      });
-      _updateBalance(); // Update the balance after switching networks
-    } catch (e) {
-      print('Error switching network: $e');
-    }
-  }
-
-  Future<void> _disconnectWallet() async {
-    try {
-      await widget.networkManager.disconnectWallet();
-      widget.onDisconnected();
-      widget.onClose();
-    } catch (e) {
-      print('Error disconnecting wallet: $e');
     }
   }
 
@@ -154,12 +125,16 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                       ),
                     ),
 
+                    Text('Address: ${_networkManager.getConnectedWallet()}'),
+                    Text('Balance: ${_displayedBalance}'),
+
                     // Referrals
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/referrals')
+                          Navigator.pushNamed(context,
+                                  '/referrals/${_networkManager.getConnectedWallet()}')
                               .then((_) => widget.onClose());
                         },
                         child: Text(

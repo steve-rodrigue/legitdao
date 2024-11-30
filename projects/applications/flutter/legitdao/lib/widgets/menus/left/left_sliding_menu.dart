@@ -67,7 +67,6 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
                 ),
               ),
             ),
-
             // Menu Items
             Expanded(
               child: SingleChildScrollView(
