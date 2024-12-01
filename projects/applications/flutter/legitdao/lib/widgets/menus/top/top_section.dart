@@ -129,7 +129,7 @@ class _TopSectionState extends State<TopSection> {
                 children: [
                   // Language Selector
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: DropdownButton<Locale>(
                       value: context.locale,
                       icon: const Icon(
@@ -156,7 +156,7 @@ class _TopSectionState extends State<TopSection> {
 
                   // Theme Switcher
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: IconButton(
                       icon: Icon(
                         widget.isDarkTheme ? Icons.light_mode : Icons.dark_mode,
@@ -173,7 +173,7 @@ class _TopSectionState extends State<TopSection> {
                   // Hamburger Menu for Small Screens
                   if (showHamburgerMenu)
                     Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       child: IconButton(
                         icon: const Icon(
                           Icons.menu,
@@ -184,7 +184,7 @@ class _TopSectionState extends State<TopSection> {
 
                   // Connect Button
                   Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: ConnectButton(
                       onMenuToggle: widget.onRightMenuToggle,
                       networkManager: widget.networkManager,

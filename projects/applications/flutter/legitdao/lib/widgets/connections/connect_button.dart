@@ -122,29 +122,29 @@ class _ConnectButtonState extends State<ConnectButton>
   @override
   Widget build(BuildContext context) {
     final isConnected = widget.networkManager.isWalletConnected();
-    return TextButton(
-      onPressed: isConnected
-          ? widget.onMenuToggle // Slide the menu when connected
-          : () => connectWallet(context), // Connect when not connected
-      //style: _buttonStyle(),
-      child: Text(
-        isConnected ? 'Profile' : 'Connect',
-      ),
-    );
-  }
+    final screenWidth = MediaQuery.of(context).size.width;
 
-  ButtonStyle _buttonStyle() {
-    return TextButton.styleFrom(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      foregroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
-        side: const BorderSide(
-          color: Color.fromARGB(255, 207, 149, 33), // Border color
-          width: 2.0, // Border width
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-    );
+    // Define a breakpoint for small vs. large screens
+    const double breakpoint = 600;
+
+    return screenWidth > breakpoint
+        ? TextButton(
+            onPressed: isConnected
+                ? widget.onMenuToggle // Slide the menu when connected
+                : () => connectWallet(context), // Connect when not connected
+            child: Text(
+              isConnected ? 'Profile' : 'Connect',
+            ),
+          )
+        : IconButton(
+            onPressed: isConnected
+                ? widget.onMenuToggle // Slide the menu when connected
+                : () => connectWallet(context), // Connect when not connected
+            icon: Icon(
+              isConnected ? Icons.logout : Icons.login,
+              color: Theme.of(context).colorScheme.primary, // Match theme color
+            ),
+            tooltip: isConnected ? 'Disconnect Wallet' : 'Connect Wallet',
+          );
   }
 }

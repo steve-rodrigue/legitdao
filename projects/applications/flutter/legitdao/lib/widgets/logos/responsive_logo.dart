@@ -13,7 +13,7 @@ class ResponsiveLogo extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Determine the logo size based on screen width
-    double logoWidth = screenWidth * 0.4; // 40% of screen width
+    double logoWidth = screenWidth * 0.25; // 25% of screen width
     if (logoWidth > 200) {
       logoWidth = 200; // Cap at original size for larger screens
     }
@@ -21,11 +21,17 @@ class ResponsiveLogo extends StatelessWidget {
     // Maintain aspect ratio of 4:1 (320x80)
     final logoHeight = logoWidth / 4;
 
-    return Image.asset(
-      logoPath,
-      width: logoWidth,
-      height: logoHeight,
-      fit: BoxFit.contain,
+    // Add the logo with navigation
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/'); // Navigate to the homepage
+      },
+      child: Image.asset(
+        logoPath,
+        width: logoWidth,
+        height: logoHeight,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }

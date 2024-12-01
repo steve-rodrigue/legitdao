@@ -58,43 +58,48 @@ class _MainLayoutState extends State<MainLayout> {
     return NetworkManagerWidget(
       builder: (context, networkManager) {
         return Scaffold(
-          body: Stack(
-            children: [
-              GestureDetector(
-                onTap: _closeAllMenus,
-                child: Column(
-                  children: [
-                    TopSection(
-                      isDarkTheme: widget.isDarkTheme,
-                      onThemeToggle: widget.onThemeToggle,
-                      networkManager: networkManager,
-                      onLeftMenuToggle: _toggleLeftMenu,
-                      onRightMenuToggle: _toggleRightMenu,
+          body: SafeArea(
+            child: Align(
+              alignment: Alignment.center,
+              child: Stack(
+                children: [
+                  GestureDetector(
+                    onTap: _closeAllMenus,
+                    child: Column(
+                      children: [
+                        TopSection(
+                          isDarkTheme: widget.isDarkTheme,
+                          onThemeToggle: widget.onThemeToggle,
+                          networkManager: networkManager,
+                          onLeftMenuToggle: _toggleLeftMenu,
+                          onRightMenuToggle: _toggleRightMenu,
+                        ),
+                        Expanded(
+                          child: KeyedSubtree(
+                            key: ValueKey(EasyLocalization.of(context)!.locale),
+                            child: widget.child,
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: KeyedSubtree(
-                        key: ValueKey(EasyLocalization.of(context)!.locale),
-                        child: widget.child,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  LeftSlidingMenu(
+                    isVisible: _isLeftMenuVisible,
+                    onClose: _closeLeftMenu,
+                    networkManager: networkManager,
+                  ),
+                  RightSlidingMenu(
+                    isVisible: _isRightMenuVisible,
+                    onClose: _closeRightMenu,
+                    networkManager: networkManager,
+                    onDisconnected: () {
+                      _closeRightMenu();
+                      networkManager.disconnectWallet();
+                    },
+                  ),
+                ],
               ),
-              LeftSlidingMenu(
-                isVisible: _isLeftMenuVisible,
-                onClose: _closeLeftMenu,
-                networkManager: networkManager,
-              ),
-              RightSlidingMenu(
-                isVisible: _isRightMenuVisible,
-                onClose: _closeRightMenu,
-                networkManager: networkManager,
-                onDisconnected: () {
-                  _closeRightMenu();
-                  networkManager.disconnectWallet();
-                },
-              ),
-            ],
+            ),
           ),
         );
       },

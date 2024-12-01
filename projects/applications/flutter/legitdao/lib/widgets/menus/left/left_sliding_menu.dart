@@ -50,7 +50,7 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
       top: 0,
       bottom: 0,
       left: _isVisible ? 0 : -screenWidth * 0.6,
-      width: 200,
+      width: screenWidth * 0.4,
       child: KeyedSubtree(
         key: ValueKey(_isVisible),
         child: Container(

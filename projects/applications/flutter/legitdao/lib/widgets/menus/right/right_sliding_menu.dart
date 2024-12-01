@@ -72,7 +72,7 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
       top: 0,
       bottom: 0,
       right: widget.isVisible ? 0 : -MediaQuery.of(context).size.width * 0.6,
-      width: 300,
+      width: MediaQuery.of(context).size.width * 0.5,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
