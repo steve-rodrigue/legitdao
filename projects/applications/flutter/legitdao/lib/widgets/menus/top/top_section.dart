@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../logos/responsive_logo.dart';
 import '../../connections/connect_button.dart';
 import '../../networks/network_manager_interface.dart';
+import '../../visuals/hover_link.dart';
 
 class TopSection extends StatefulWidget {
   final bool isDarkTheme;
@@ -26,11 +27,29 @@ class TopSection extends StatefulWidget {
 
 class _TopSectionState extends State<TopSection> {
   bool showHamburgerMenu = false;
+  bool isDarkTheme = true;
+  String darkLogo = 'lib/assets/images/logo-darkmode.png';
+  String lightLogo = 'lib/assets/images/logo.png';
+  String currentLogo = '';
+
+  @override
+  void initState() {
+    super.initState();
+    isDarkTheme = widget.isDarkTheme;
+    currentLogo = isDarkTheme ? darkLogo : lightLogo;
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _updateMenuVisibility();
+  }
+
+  void toggleTheme() {
+    setState(() {
+      isDarkTheme = !isDarkTheme;
+      currentLogo = isDarkTheme ? darkLogo : lightLogo;
+    });
   }
 
   void _updateMenuVisibility() {
@@ -56,10 +75,10 @@ class _TopSectionState extends State<TopSection> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: ResponsiveLogo(
-                  logoPath: 'lib/assets/images/logo-darkmode.png',
+                  logoPath: currentLogo,
                 ),
               ),
               const Spacer(),
@@ -70,29 +89,35 @@ class _TopSectionState extends State<TopSection> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
-                      onPressed: () => Navigator.pushNamed(context, '/'),
-                      style: TextButton.styleFrom(
-                        foregroundColor:
-                            const Color.fromARGB(255, 207, 149, 33),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: HoverLink(
+                        text: "menu_home".tr(),
+                        isInMenu: true,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/');
+                        },
                       ),
-                      child: const Text("menu_home").tr(),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.pushNamed(context, '/about'),
-                      style: TextButton.styleFrom(
-                        foregroundColor:
-                            const Color.fromARGB(255, 207, 149, 33),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: HoverLink(
+                        text: "menu_about".tr(),
+                        isInMenu: true,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/about');
+                        },
                       ),
-                      child: const Text("menu_about").tr(),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.pushNamed(context, '/contact'),
-                      style: TextButton.styleFrom(
-                        foregroundColor:
-                            const Color.fromARGB(255, 207, 149, 33),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: HoverLink(
+                        text: "menu_contact".tr(),
+                        isInMenu: true,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/contact');
+                        },
                       ),
-                      child: const Text("menu_contact").tr(),
                     ),
                   ],
                 ),
@@ -109,7 +134,6 @@ class _TopSectionState extends State<TopSection> {
                       value: context.locale,
                       icon: const Icon(
                         Icons.language,
-                        color: Colors.white,
                       ),
                       underline: Container(),
                       onChanged: (Locale? locale) {
@@ -138,7 +162,10 @@ class _TopSectionState extends State<TopSection> {
                         widget.isDarkTheme ? Icons.light_mode : Icons.dark_mode,
                         size: 40,
                       ),
-                      onPressed: widget.onThemeToggle,
+                      onPressed: () {
+                        toggleTheme();
+                        widget.onThemeToggle();
+                      },
                       tooltip: 'Switch Theme',
                     ),
                   ),
@@ -150,7 +177,6 @@ class _TopSectionState extends State<TopSection> {
                       child: IconButton(
                         icon: const Icon(
                           Icons.menu,
-                          color: Colors.white,
                         ),
                         onPressed: widget.onLeftMenuToggle,
                       ),

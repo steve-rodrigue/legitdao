@@ -126,9 +126,9 @@ class _ConnectButtonState extends State<ConnectButton>
       onPressed: isConnected
           ? widget.onMenuToggle // Slide the menu when connected
           : () => connectWallet(context), // Connect when not connected
-      style: _buttonStyle(),
+      //style: _buttonStyle(),
       child: Text(
-        isConnected ? 'Profile' : 'Connect Wallet',
+        isConnected ? 'Profile' : 'Connect',
       ),
     );
   }

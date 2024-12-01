@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../networks/network_manager_interface.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../../widgets/networks/reown/connection_dashboard.dart';
+import '../../visuals/hover_link.dart';
 
 class RightSlidingMenu extends StatefulWidget {
   final bool isVisible;
@@ -71,7 +72,7 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
       top: 0,
       bottom: 0,
       right: widget.isVisible ? 0 : -MediaQuery.of(context).size.width * 0.6,
-      width: MediaQuery.of(context).size.width * 0.6,
+      width: 300,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -83,7 +84,7 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
         child: Material(
           elevation: 4,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // X Close Button
               Container(
@@ -111,38 +112,33 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // Marketplaces
                       Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: TextButton(
-                          onPressed: () {
+                        child: HoverLink(
+                          text: "right_menu_marketplaces".tr(),
+                          isInMenu: true,
+                          onTap: () {
                             Navigator.pushNamed(context, '/marketplaces')
                                 .then((_) => widget.onClose());
                           },
-                          child: Text(
-                            "right_menu_marketplaces".tr(),
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
                         ),
                       ),
 
                       // Referrals
                       Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: TextButton(
-                          onPressed: () {
+                        child: HoverLink(
+                          text: "right_menu_referrals".tr(),
+                          isInMenu: true,
+                          onTap: () {
                             Navigator.pushNamed(context,
                                     '/referrals/${_networkManager.getConnectedWallet()}')
                                 .then((_) => widget.onClose());
                           },
-                          child: Text(
-                            "right_menu_referrals".tr(),
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
                         ),
                       ),
 

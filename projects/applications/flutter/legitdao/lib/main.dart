@@ -150,7 +150,7 @@ class ThemeProvider extends ChangeNotifier {
       onPrimary: const Color.fromARGB(255, 28, 28, 28),
       secondary: Colors.white,
       onSecondary: const Color.fromARGB(255, 28, 28, 28),
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
       error: Colors.red,
       onError: Colors.white,
       surface: const Color.fromARGB(255, 28, 28, 28),
@@ -173,6 +173,21 @@ class ThemeProvider extends ChangeNotifier {
           fontWeight: FontWeight.w600,
           color: Color.fromARGB(255, 207, 149, 33)),
     ),
+    // Customize TextButton
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          side: const BorderSide(
+            color: Color.fromARGB(255, 207, 149, 33), // Border color
+            width: 2.0, // Border width
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      ),
+    ),
     dropdownMenuTheme: DropdownMenuThemeData(
       textStyle: TextStyle(fontSize: 16, color: Colors.white),
     ),
@@ -181,32 +196,50 @@ class ThemeProvider extends ChangeNotifier {
   final lightTheme = ThemeData(
     fontFamily: 'HugeIcons',
     colorScheme: ColorScheme(
-      primary: Colors.white,
-      onPrimary: const Color.fromARGB(255, 28, 28, 28),
-      secondary: Colors.white,
-      onSecondary: const Color.fromARGB(255, 28, 28, 28),
+      primary: const Color.fromARGB(255, 28, 28, 28),
+      onPrimary: Colors.white,
+      secondary: const Color.fromARGB(255, 28, 28, 28),
+      onSecondary: Colors.white,
       brightness: Brightness.light,
       error: Colors.red,
       onError: Colors.white,
       surface: Colors.white,
-      onSurface: Colors.white,
+      onSurface: const Color.fromARGB(255, 28, 28, 28),
     ),
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
-      bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
-      bodySmall: TextStyle(fontSize: 12, color: Colors.white),
+      bodyLarge:
+          TextStyle(fontSize: 16, color: const Color.fromARGB(255, 28, 28, 28)),
+      bodyMedium:
+          TextStyle(fontSize: 14, color: const Color.fromARGB(255, 28, 28, 28)),
+      bodySmall:
+          TextStyle(fontSize: 12, color: const Color.fromARGB(255, 28, 28, 28)),
       headlineLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
-          color: Color.fromARGB(255, 207, 149, 33)),
+          color: const Color.fromARGB(255, 28, 28, 28)),
       headlineMedium: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
-          color: Color.fromARGB(255, 207, 149, 33)),
+          color: const Color.fromARGB(255, 28, 28, 28)),
       headlineSmall: TextStyle(
           fontSize: 26,
           fontWeight: FontWeight.w600,
-          color: Color.fromARGB(255, 207, 149, 33)),
+          color: const Color.fromARGB(255, 28, 28, 28)),
+    ),
+    // Customize TextButton
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          side: const BorderSide(
+            color: const Color.fromARGB(255, 0, 0, 0),
+            width: 2.0, // Border width
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      ),
     ),
     dropdownMenuTheme: DropdownMenuThemeData(
       textStyle: TextStyle(fontSize: 16, color: Colors.white),
