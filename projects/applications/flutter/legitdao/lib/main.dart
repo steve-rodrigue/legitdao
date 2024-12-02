@@ -188,6 +188,19 @@ class ThemeProvider extends ChangeNotifier {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          side: const BorderSide(
+            color: Color.fromARGB(255, 207, 149, 33), // Border color
+            width: 2.0, // Border width
+          ),
+        ),
+      ),
+    ),
     dropdownMenuTheme: DropdownMenuThemeData(
       textStyle: TextStyle(fontSize: 16, color: Colors.white),
     ),
@@ -228,6 +241,20 @@ class ThemeProvider extends ChangeNotifier {
     ),
     // Customize TextButton
     textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          side: const BorderSide(
+            color: const Color.fromARGB(255, 0, 0, 0),
+            width: 2.0, // Border width
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
       style: TextButton.styleFrom(
         backgroundColor: Colors.white,
         foregroundColor: const Color.fromARGB(255, 0, 0, 0),
