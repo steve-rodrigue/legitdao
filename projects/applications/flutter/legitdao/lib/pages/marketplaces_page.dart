@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:easy_localization/easy_localization.dart';
+import '../widgets/visuals/header.dart';
 import 'marketplace_info_board.dart';
 import 'dart:math';
 
@@ -11,10 +11,10 @@ class MarketplacesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "marketplaces_title",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ).tr(),
+        title: Header(
+          value: 'marketplaces_title',
+          isLarge: true,
+        ),
         backgroundColor: Colors.blueAccent,
       ),
       body: Padding(

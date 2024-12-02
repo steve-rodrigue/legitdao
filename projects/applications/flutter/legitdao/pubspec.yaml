@@ -41,3 +41,6 @@ flutter:
     - family: HugeIcons
       fonts:
         - asset: lib/assets/fonts/otfs/Font Awesome 6 Free-Regular-400.otf
+    - family: SourceSerif
+      fonts:
+        - asset: lib/assets/fonts/source-serif/ttf/SourceSerif4-Regular.ttf

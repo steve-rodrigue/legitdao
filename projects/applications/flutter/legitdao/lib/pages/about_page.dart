@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
+import '../widgets/visuals/header.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -7,11 +7,9 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: const Text(
-          "about_title",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ).tr(),
+      body: Header(
+        value: 'about_title',
+        isLarge: true,
       ),
     );
   }

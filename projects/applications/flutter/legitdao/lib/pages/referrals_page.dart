@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/referrals/referrals.dart';
+import '../widgets/visuals/header.dart';
 
 class ReferralsPage extends StatefulWidget {
   final String walletAddress;
@@ -24,10 +25,18 @@ class _ReferralsState extends State<ReferralsPage>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Referrals(walletAddress: walletAddress),
-      ),
+    return Column(
+      children: [
+        Header(
+          value: 'referrals_title',
+          isLarge: true,
+        ),
+        Container(
+          child: Center(
+            child: Referrals(walletAddress: walletAddress),
+          ),
+        )
+      ],
     );
   }
 }

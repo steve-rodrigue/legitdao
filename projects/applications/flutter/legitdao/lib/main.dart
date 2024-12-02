@@ -144,7 +144,7 @@ class ThemeProvider extends ChangeNotifier {
   bool get isDarkTheme => _isDarkTheme;
 
   final darkTheme = ThemeData(
-    fontFamily: 'HugeIcons',
+    fontFamily: 'SourceSerif',
     colorScheme: ColorScheme(
       primary: Colors.white,
       onPrimary: const Color.fromARGB(255, 28, 28, 28),
@@ -194,7 +194,7 @@ class ThemeProvider extends ChangeNotifier {
   );
 
   final lightTheme = ThemeData(
-    fontFamily: 'HugeIcons',
+    fontFamily: 'SourceSerif',
     colorScheme: ColorScheme(
       primary: const Color.fromARGB(255, 28, 28, 28),
       onPrimary: Colors.white,
