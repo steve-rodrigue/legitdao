@@ -35,6 +35,9 @@ flutter:
   # Assets
   assets:
     - lib/assets/images/
+    - lib/assets/icons/svg/cryptocurrencies/black/
+    - lib/assets/icons/svg/cryptocurrencies/white/
+    - lib/assets/icons/svg/cryptocurrencies/color/
     - lib/localization/
 
   # Fonts

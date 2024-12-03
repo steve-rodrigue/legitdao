@@ -3,6 +3,7 @@ import '../widgets/visuals/header.dart';
 import '../widgets/visuals/paragraph.dart';
 import '../widgets/visuals/custom_line_chart.dart';
 import '../widgets/visuals/custom_candlestick_chart.dart';
+import '../widgets/visuals/custom_piechart.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,6 +21,43 @@ class HomePage extends StatelessWidget {
                 value: 'home_title',
                 isLarge: true,
               ),
+              CustomPieChart(width: 800.0, cryptocurrencies: [
+                Cryptocurrency(
+                    logoPath:
+                        'lib/assets/icons/svg/cryptocurrencies/color/bnb.svg',
+                    symbol: 'BNB',
+                    color: Colors.yellow,
+                    amount: 500,
+                    usdtValue: 320),
+                Cryptocurrency(
+                    logoPath:
+                        'lib/assets/icons/svg/cryptocurrencies/color/eth.svg',
+                    symbol: 'ETH',
+                    color: Colors.purple,
+                    amount: 300,
+                    usdtValue: 2000),
+                Cryptocurrency(
+                    logoPath:
+                        'lib/assets/icons/svg/cryptocurrencies/color/bab.svg',
+                    symbol: 'WebX',
+                    color: Colors.blue,
+                    amount: 200,
+                    usdtValue: 1000),
+                Cryptocurrency(
+                    logoPath:
+                        'lib/assets/icons/svg/cryptocurrencies/color/grt.svg',
+                    symbol: 'GRT',
+                    color: Colors.deepPurple,
+                    amount: 500,
+                    usdtValue: 500),
+                Cryptocurrency(
+                    logoPath:
+                        'lib/assets/icons/svg/cryptocurrencies/color/etp.svg',
+                    symbol: 'CAKE',
+                    color: Colors.brown,
+                    amount: 4500,
+                    usdtValue: 2000),
+              ]),
               CustomLineChart(
                 width: 900.0,
                 data: List.generate(2000, (index) => (index + 1) * 2.5),
