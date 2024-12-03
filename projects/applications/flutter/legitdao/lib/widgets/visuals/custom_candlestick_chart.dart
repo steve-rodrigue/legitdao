@@ -164,7 +164,7 @@ class _CustomCandleStickChartState extends State<CustomCandleStickChart> {
                 candles: displayedData,
                 style: ChartStyle(
                   priceGainColor: Colors.green,
-                  priceLossColor: Colors.red,
+                  priceLossColor: Colors.pink,
                   volumeColor: Colors.grey,
                 ),
                 overlayInfo: (CandleData candle) {

@@ -3,7 +3,9 @@ import '../widgets/visuals/header.dart';
 import '../widgets/visuals/paragraph.dart';
 import '../widgets/visuals/custom_line_chart.dart';
 import '../widgets/visuals/custom_candlestick_chart.dart';
-import '../widgets/visuals/custom_piechart.dart';
+import '../widgets/visuals/custom_pie_chart.dart';
+import '../widgets/visuals/custom_bar_chart.dart';
+import 'dart:math';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,6 +22,13 @@ class HomePage extends StatelessWidget {
               Header(
                 value: 'home_title',
                 isLarge: true,
+              ),
+              CustomBarChart(
+                width: MediaQuery.of(context).size.width,
+                newReferrals:
+                    List.generate(2000, (index) => Random().nextInt(100)),
+                soldReferrals:
+                    List.generate(2000, (index) => Random().nextInt(100)),
               ),
               CustomPieChart(width: 800.0, cryptocurrencies: [
                 Cryptocurrency(

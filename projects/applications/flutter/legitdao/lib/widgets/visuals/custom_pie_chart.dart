@@ -2,22 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Cryptocurrency {
-  final String logoPath;
-  final String symbol;
-  final Color color;
-  final double amount;
-  final double usdtValue;
-
-  Cryptocurrency({
-    required this.logoPath,
-    required this.symbol,
-    required this.color,
-    required this.amount,
-    required this.usdtValue,
-  });
-}
-
 class CustomPieChart extends StatefulWidget {
   final List<Cryptocurrency> cryptocurrencies;
   final double width;
@@ -232,4 +216,20 @@ class _Badge extends StatelessWidget {
       ),
     );
   }
+}
+
+class Cryptocurrency {
+  final String logoPath;
+  final String symbol;
+  final Color color;
+  final double amount;
+  final double usdtValue;
+
+  Cryptocurrency({
+    required this.logoPath,
+    required this.symbol,
+    required this.color,
+    required this.amount,
+    required this.usdtValue,
+  });
 }
