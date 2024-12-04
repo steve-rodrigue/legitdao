@@ -33,7 +33,7 @@ class _HoverLinkState extends State<HoverLink> {
     ) as TextStyle;
 
     if (widget.isInMenu) {
-      textStyle = theme.textTheme.bodyMedium?.copyWith(
+      textStyle = theme.textTheme.bodyLarge?.copyWith(
         color: _currentColor,
         decoration: TextDecoration.underline, // Underline to look like a link
       ) as TextStyle;

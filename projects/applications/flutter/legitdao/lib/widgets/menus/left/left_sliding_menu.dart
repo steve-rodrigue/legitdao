@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../networks/network_manager_interface.dart';
-import '../../visuals/hover_link.dart';
+import '../../visuals/buttons/hover_link.dart';
 
 class LeftSlidingMenu extends StatefulWidget {
   final bool isVisible;

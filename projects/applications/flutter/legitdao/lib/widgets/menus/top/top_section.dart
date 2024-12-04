@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../logos/responsive_logo.dart';
 import '../../visuals/buttons/connect_button.dart';
 import '../../networks/network_manager_interface.dart';
-import '../../visuals/hover_link.dart';
+import '../../visuals/buttons/hover_link.dart';
 
 class TopSection extends StatefulWidget {
   final bool isDark;
