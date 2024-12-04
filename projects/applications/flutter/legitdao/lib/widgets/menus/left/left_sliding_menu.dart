@@ -40,15 +40,24 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width * 0.6;
+    if (width < 600.0) {
+      width = 600.0;
+    }
+
+    if (width > 800.0) {
+      width = 800.0;
+    }
+
+    width = width * 0.6;
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       top: 0,
       bottom: 0,
-      left: _isVisible ? 0 : -screenWidth * 0.6,
-      width: screenWidth * 0.4,
+      left: _isVisible ? 0 : (width * -1.0),
+      width: width,
       child: KeyedSubtree(
         key: ValueKey(_isVisible),
         child: Container(
