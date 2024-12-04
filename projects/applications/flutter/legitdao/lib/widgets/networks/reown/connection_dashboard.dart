@@ -29,12 +29,13 @@ class _ConnectionDashboardState extends State<ConnectionDashboard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppKitModalNetworkSelectButton(appKit: castedAppKit.getAppKitModal()),
-        AppKitModalConnectButton(appKit: castedAppKit.getAppKitModal()),
-        Visibility(
-          visible: castedAppKit.getAppKitModal().isConnected,
-          child: AppKitModalAccountButton(
-              appKitModal: castedAppKit.getAppKitModal()),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AppKitModalNetworkSelectButton(
+                appKit: castedAppKit.getAppKitModal()),
+            AppKitModalConnectButton(appKit: castedAppKit.getAppKitModal()),
+          ],
         ),
       ],
     );

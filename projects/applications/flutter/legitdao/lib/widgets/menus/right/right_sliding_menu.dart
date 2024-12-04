@@ -3,6 +3,8 @@ import '../../networks/network_manager_interface.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../../widgets/networks/reown/connection_dashboard.dart';
 import '../../visuals/hover_link.dart';
+import '../../visuals/piecharts/custom_piechart_with_network_selector.dart';
+import '../../visuals/piecharts/cryptocurrency.dart';
 
 class RightSlidingMenu extends StatefulWidget {
   final bool isVisible;
@@ -66,13 +68,14 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width * 0.5;
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       top: 0,
       bottom: 0,
       right: widget.isVisible ? 0 : -MediaQuery.of(context).size.width * 0.6,
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: width,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -142,8 +145,54 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                         ),
                       ),
 
-                      // Connection Board:
-                      ConnectionDashboard(networkManager: _networkManager),
+                      const SizedBox(height: 20),
+
+                      // Pie chart with network selector:
+                      Center(
+                        child: CustomPieChartWithNetworkSelector(
+                          width: width * 0.9,
+                          cryptocurrencies: [
+                            Cryptocurrency(
+                                logoPath:
+                                    'lib/assets/icons/svg/cryptocurrencies/color/bnb.svg',
+                                symbol: 'BNB',
+                                color: Colors.yellow,
+                                amount: 500,
+                                usdtValue: 320),
+                            Cryptocurrency(
+                                logoPath:
+                                    'lib/assets/icons/svg/cryptocurrencies/color/eth.svg',
+                                symbol: 'ETH',
+                                color: Colors.purple,
+                                amount: 300,
+                                usdtValue: 2000),
+                            Cryptocurrency(
+                                logoPath:
+                                    'lib/assets/icons/svg/cryptocurrencies/color/bab.svg',
+                                symbol: 'WebX',
+                                color: Colors.blue,
+                                amount: 200,
+                                usdtValue: 1000),
+                            Cryptocurrency(
+                                logoPath:
+                                    'lib/assets/icons/svg/cryptocurrencies/color/grt.svg',
+                                symbol: 'GRT',
+                                color: Colors.deepPurple,
+                                amount: 500,
+                                usdtValue: 500),
+                            Cryptocurrency(
+                                logoPath:
+                                    'lib/assets/icons/svg/cryptocurrencies/color/etp.svg',
+                                symbol: 'CAKE',
+                                color: Colors.brown,
+                                amount: 4500,
+                                usdtValue: 2000),
+                          ],
+                          networkManager: _networkManager,
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
 
                       Text('Address: ${_networkManager.getConnectedWallet()}'),
                       Text('Balance: ${_displayedBalance}'),

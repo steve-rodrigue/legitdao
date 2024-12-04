@@ -62,8 +62,9 @@ class _CustomPieChartState extends State<CustomPieChart> {
               ),
               borderData: FlBorderData(show: false),
               sectionsSpace: 0,
-              centerSpaceRadius: 50,
-              sections: _buildSections(),
+              centerSpaceRadius:
+                  width * 0.0625, // Center space radius is 6.625% of width
+              sections: _buildSections(width),
             ),
           ),
         ),
@@ -71,14 +72,27 @@ class _CustomPieChartState extends State<CustomPieChart> {
     );
   }
 
-  List<PieChartSectionData> _buildSections() {
+  List<PieChartSectionData> _buildSections(double width) {
     return widget.cryptocurrencies.asMap().entries.map((entry) {
       final index = entry.key;
       final crypto = entry.value;
       final isTouched = index == touchedIndex;
-      final fontSize = isTouched ? 20.0 : 16.0;
-      final radius = isTouched ? 160.0 : 140.0;
-      final widgetSize = isTouched ? 110.0 : 80.0;
+
+      // Calculate the font size:
+      final fontNormalSize = (width * 0.02);
+      final fontHoversize = (width * 0.025);
+      final fontSize = isTouched ? fontHoversize : fontNormalSize;
+
+      // Calculate radius:
+      final radiusNormalSize = (width * 0.175);
+      final radiusHoverSize = (width * 0.2);
+      final radius = isTouched ? radiusHoverSize : radiusNormalSize;
+
+      // Calculate widget size:
+      final widgetNormalSize = (width * 0.1);
+      final widgetHoverSize = (width * 0.1375);
+      final widgetSize = isTouched ? widgetHoverSize : widgetNormalSize;
+
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
       // Calculate percentage value for the pie chart section
