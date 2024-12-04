@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../logos/responsive_logo.dart';
-import '../../connections/connect_button.dart';
+import '../../visuals/buttons/connect_button.dart';
 import '../../networks/network_manager_interface.dart';
 import '../../visuals/hover_link.dart';
 
 class TopSection extends StatefulWidget {
-  final bool isDarkTheme;
+  final bool isDark;
   final VoidCallback onThemeToggle;
   final Function() onLeftMenuToggle;
-  final Function() onRightMenuToggle;
+  final Function() onDisconnect;
   final NetworkManager networkManager;
 
   const TopSection({
     super.key,
-    required this.isDarkTheme,
+    required this.isDark,
     required this.onThemeToggle,
     required this.onLeftMenuToggle,
-    required this.onRightMenuToggle,
+    required this.onDisconnect,
     required this.networkManager,
   });
 
@@ -27,7 +27,7 @@ class TopSection extends StatefulWidget {
 
 class _TopSectionState extends State<TopSection> {
   bool showHamburgerMenu = false;
-  bool isDarkTheme = true;
+  bool isDark = true;
   String darkLogo = 'lib/assets/images/logo-darkmode.png';
   String lightLogo = 'lib/assets/images/logo.png';
   String currentLogo = '';
@@ -35,8 +35,8 @@ class _TopSectionState extends State<TopSection> {
   @override
   void initState() {
     super.initState();
-    isDarkTheme = widget.isDarkTheme;
-    currentLogo = isDarkTheme ? darkLogo : lightLogo;
+    isDark = widget.isDark;
+    currentLogo = isDark ? darkLogo : lightLogo;
   }
 
   @override
@@ -47,8 +47,8 @@ class _TopSectionState extends State<TopSection> {
 
   void toggleTheme() {
     setState(() {
-      isDarkTheme = !isDarkTheme;
-      currentLogo = isDarkTheme ? darkLogo : lightLogo;
+      isDark = !isDark;
+      currentLogo = isDark ? darkLogo : lightLogo;
     });
   }
 
@@ -159,7 +159,7 @@ class _TopSectionState extends State<TopSection> {
                     padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: IconButton(
                       icon: Icon(
-                        widget.isDarkTheme ? Icons.light_mode : Icons.dark_mode,
+                        widget.isDark ? Icons.light_mode : Icons.dark_mode,
                         size: 40,
                       ),
                       onPressed: () {
@@ -186,7 +186,9 @@ class _TopSectionState extends State<TopSection> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: ConnectButton(
-                      onMenuToggle: widget.onRightMenuToggle,
+                      connectLabel: "Connect",
+                      disconnectLabel: "Profile",
+                      onDisconnect: widget.onDisconnect,
                       networkManager: widget.networkManager,
                     ),
                   ),

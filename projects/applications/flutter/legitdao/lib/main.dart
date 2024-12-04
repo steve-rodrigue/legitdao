@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            isDarkTheme: themeProvider.isDark(),
+            isDark: themeProvider.isDark,
             onThemeToggle: () {
               themeProvider.toggleTheme();
             },
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
     );
 
     ReownAppKitModalTheme theme = ReownAppKitModalTheme(
-      isDarkMode: themeProvider.isDark(),
+      isDarkMode: themeProvider.isDark,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: context.locale,
@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => MainLayout(
                 child: ReferralsPage(walletAddress: walletAddress),
-                isDarkTheme: themeProvider.isDark(),
+                isDark: themeProvider.isDark,
                 onThemeToggle: () {
                   themeProvider.toggleTheme();
                 },
@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: HomePage(),
-                  isDarkTheme: themeProvider.isDark(),
+                  isDark: themeProvider.isDark,
                   onThemeToggle: () {
                     themeProvider.toggleTheme();
                   },
@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: AboutPage(),
-                  isDarkTheme: themeProvider.isDark(),
+                  isDark: themeProvider.isDark,
                   onThemeToggle: () {
                     themeProvider.toggleTheme();
                   },
@@ -111,7 +111,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: ContactPage(),
-                  isDarkTheme: themeProvider.isDark(),
+                  isDark: themeProvider.isDark,
                   onThemeToggle: () {
                     themeProvider.toggleTheme();
                   },
@@ -121,7 +121,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: MarketplacesPage(),
-                  isDarkTheme: themeProvider.isDark(),
+                  isDark: themeProvider.isDark,
                   onThemeToggle: () {
                     themeProvider.toggleTheme();
                   },
@@ -139,9 +139,9 @@ class MyApp extends StatelessWidget {
 }
 
 class ThemeProvider extends ChangeNotifier {
-  bool _isDarkTheme = true;
+  bool _isDark = true;
 
-  bool get isDarkTheme => _isDarkTheme;
+  bool get isDark => _isDark;
 
   final darkTheme = ThemeData(
     fontFamily: 'SourceSerif',
@@ -176,29 +176,32 @@ class ThemeProvider extends ChangeNotifier {
     // Customize TextButton
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 207, 149, 33),
+        foregroundColor: Color.fromARGB(255, 28, 28, 28),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
-          side: const BorderSide(
-            color: Color.fromARGB(255, 207, 149, 33), // Border color
-            width: 2.0, // Border width
-          ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: Colors.white,
+      style: TextButton.styleFrom(
+        backgroundColor: Color.fromARGB(255, 207, 149, 33),
+        foregroundColor: Color.fromARGB(255, 28, 28, 28),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
-          side: const BorderSide(
-            color: Color.fromARGB(255, 207, 149, 33), // Border color
-            width: 2.0, // Border width
-          ),
         ),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: Color.fromARGB(255, 207, 149, 33),
+        foregroundColor: Color.fromARGB(255, 28, 28, 28),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       ),
     ),
     dropdownMenuTheme: DropdownMenuThemeData(
@@ -243,11 +246,11 @@ class ThemeProvider extends ChangeNotifier {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         backgroundColor: Colors.white,
-        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: const Color.fromARGB(255, 28, 28, 28),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
           side: const BorderSide(
-            color: const Color.fromARGB(255, 0, 0, 0),
+            color: const Color.fromARGB(255, 28, 28, 28),
             width: 2.0, // Border width
           ),
         ),
@@ -257,11 +260,25 @@ class ThemeProvider extends ChangeNotifier {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: TextButton.styleFrom(
         backgroundColor: Colors.white,
-        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: const Color.fromARGB(255, 28, 28, 28),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
           side: const BorderSide(
-            color: const Color.fromARGB(255, 0, 0, 0),
+            color: const Color.fromARGB(255, 28, 28, 28),
+            width: 2.0, // Border width
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: const Color.fromARGB(255, 28, 28, 28),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          side: const BorderSide(
+            color: const Color.fromARGB(255, 28, 28, 28),
             width: 2.0, // Border width
           ),
         ),
@@ -274,15 +291,11 @@ class ThemeProvider extends ChangeNotifier {
   );
 
   ThemeData getTheme() {
-    return _isDarkTheme ? darkTheme : lightTheme;
-  }
-
-  bool isDark() {
-    return isDarkTheme;
+    return _isDark ? darkTheme : lightTheme;
   }
 
   void toggleTheme() {
-    _isDarkTheme = !_isDarkTheme;
+    _isDark = !_isDark;
     notifyListeners();
   }
 }

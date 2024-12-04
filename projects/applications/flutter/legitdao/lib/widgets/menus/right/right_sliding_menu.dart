@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../networks/network_manager_interface.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../../widgets/networks/reown/connection_dashboard.dart';
 import '../../visuals/hover_link.dart';
-import '../../visuals/piecharts/custom_piechart_with_network_selector.dart';
+import '../../visuals/portfolio/portfolio.dart';
 import '../../visuals/piecharts/cryptocurrency.dart';
 
 class RightSlidingMenu extends StatefulWidget {
+  final bool isDark;
   final bool isVisible;
   final VoidCallback onClose;
   final NetworkManager networkManager;
@@ -14,6 +14,7 @@ class RightSlidingMenu extends StatefulWidget {
 
   const RightSlidingMenu({
     super.key,
+    required this.isDark,
     required this.isVisible,
     required this.onClose,
     required this.networkManager,
@@ -68,13 +69,13 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width * 0.5;
+    final width = MediaQuery.of(context).size.width * 0.6;
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       top: 0,
       bottom: 0,
-      right: widget.isVisible ? 0 : -MediaQuery.of(context).size.width * 0.6,
+      right: widget.isVisible ? 0 : width * -1,
       width: width,
       child: Container(
         decoration: BoxDecoration(
@@ -145,11 +146,11 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                         ),
                       ),
 
-                      const SizedBox(height: 20),
-
-                      // Pie chart with network selector:
-                      Center(
-                        child: CustomPieChartWithNetworkSelector(
+                      // Portfolio widget:
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Portfolio(
+                          isDark: widget.isDark,
                           width: width * 0.9,
                           cryptocurrencies: [
                             Cryptocurrency(
@@ -188,11 +189,10 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                                 amount: 4500,
                                 usdtValue: 2000),
                           ],
+                          onDisconnect: widget.onDisconnected,
                           networkManager: _networkManager,
                         ),
                       ),
-
-                      const SizedBox(height: 20),
 
                       Text('Address: ${_networkManager.getConnectedWallet()}'),
                       Text('Balance: ${_displayedBalance}'),

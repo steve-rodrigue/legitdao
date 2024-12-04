@@ -7,12 +7,12 @@ import '../menus/top/top_section.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget child;
-  final bool isDarkTheme;
+  final bool isDark;
   final VoidCallback onThemeToggle;
 
   const MainLayout({
     Key? key,
-    required this.isDarkTheme,
+    required this.isDark,
     required this.onThemeToggle,
     required this.child,
   }) : super(key: key);
@@ -68,11 +68,13 @@ class _MainLayoutState extends State<MainLayout> {
                     child: Column(
                       children: [
                         TopSection(
-                          isDarkTheme: widget.isDarkTheme,
+                          isDark: widget.isDark,
                           onThemeToggle: widget.onThemeToggle,
                           networkManager: networkManager,
                           onLeftMenuToggle: _toggleLeftMenu,
-                          onRightMenuToggle: _toggleRightMenu,
+                          onDisconnect: () {
+                            _toggleRightMenu();
+                          },
                         ),
                         Expanded(
                           child: KeyedSubtree(
@@ -89,12 +91,13 @@ class _MainLayoutState extends State<MainLayout> {
                     networkManager: networkManager,
                   ),
                   RightSlidingMenu(
+                    isDark: widget.isDark,
                     isVisible: _isRightMenuVisible,
                     onClose: _closeRightMenu,
                     networkManager: networkManager,
-                    onDisconnected: () {
+                    onDisconnected: () async {
+                      await networkManager.disconnectWallet();
                       _closeRightMenu();
-                      networkManager.disconnectWallet();
                     },
                   ),
                 ],
