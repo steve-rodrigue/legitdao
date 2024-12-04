@@ -70,8 +70,8 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.6;
-    if (width < 600.0) {
-      width = 600.0;
+    if (width < 700.0) {
+      width = 700.0;
     }
 
     if (width > 800.0) {
@@ -79,7 +79,6 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
     }
 
     width = width * 0.6;
-
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,

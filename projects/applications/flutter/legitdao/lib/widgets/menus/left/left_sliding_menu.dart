@@ -40,9 +40,9 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width * 0.6;
-    if (width < 600.0) {
-      width = 600.0;
+    double width = MediaQuery.of(context).size.width;
+    if (width < 500.0) {
+      width = 500.0;
     }
 
     if (width > 800.0) {

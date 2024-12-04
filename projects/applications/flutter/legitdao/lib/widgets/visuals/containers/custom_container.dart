@@ -29,7 +29,7 @@ class _CustomContainerState extends State<CustomContainer> {
       decoration: BoxDecoration(
         color: widget.isDark
             ? Color.fromARGB(255, 58, 58, 58) // dark
-            : Color.fromARGB(255, 208, 208, 208), // light
+            : Color.fromARGB(255, 228, 228, 228), // light
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(

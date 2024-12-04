@@ -245,42 +245,30 @@ class ThemeProvider extends ChangeNotifier {
     // Customize TextButton
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color.fromARGB(255, 28, 28, 28),
+        backgroundColor: const Color.fromARGB(255, 28, 28, 28),
+        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
-          side: const BorderSide(
-            color: const Color.fromARGB(255, 28, 28, 28),
-            width: 2.0, // Border width
-          ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color.fromARGB(255, 28, 28, 28),
+        backgroundColor: const Color.fromARGB(255, 28, 28, 28),
+        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
-          side: const BorderSide(
-            color: const Color.fromARGB(255, 28, 28, 28),
-            width: 2.0, // Border width
-          ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color.fromARGB(255, 28, 28, 28),
+        backgroundColor: const Color.fromARGB(255, 28, 28, 28),
+        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
-          side: const BorderSide(
-            color: const Color.fromARGB(255, 28, 28, 28),
-            width: 2.0, // Border width
-          ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       ),
