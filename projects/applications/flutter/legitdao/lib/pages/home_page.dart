@@ -3,7 +3,8 @@ import '../widgets/visuals/header.dart';
 import '../widgets/visuals/paragraph.dart';
 import '../widgets/visuals/custom_line_chart.dart';
 import '../widgets/visuals/custom_candlestick_chart.dart';
-import '../widgets/visuals/custom_pie_chart.dart';
+import '../widgets/visuals/piecharts/custom_pie_chart_with_table.dart';
+import '../widgets/visuals/piecharts/cryptocurrency.dart';
 import '../widgets/visuals/custom_bar_chart.dart';
 import 'dart:math';
 
@@ -30,7 +31,7 @@ class HomePage extends StatelessWidget {
                 soldReferrals:
                     List.generate(2000, (index) => Random().nextInt(100)),
               ),
-              CustomPieChart(width: 800.0, cryptocurrencies: [
+              CustomPieChartWithTable(width: 800.0, cryptocurrencies: [
                 Cryptocurrency(
                     logoPath:
                         'lib/assets/icons/svg/cryptocurrencies/color/bnb.svg',
