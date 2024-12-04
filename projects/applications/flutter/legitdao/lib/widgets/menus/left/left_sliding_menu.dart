@@ -21,13 +21,11 @@ class LeftSlidingMenu extends StatefulWidget {
 
 class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
   late bool _isVisible;
-  late NetworkManager _networkManager;
 
   @override
   void initState() {
     super.initState();
     _isVisible = widget.isVisible;
-    _networkManager = widget.networkManager;
   }
 
   @override
