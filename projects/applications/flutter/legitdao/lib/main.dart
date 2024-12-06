@@ -6,6 +6,7 @@ import 'pages/about_page.dart';
 import 'pages/contact_page.dart';
 import 'pages/referrals_page.dart';
 import 'pages/marketplaces_page.dart';
+import 'pages/tokens_page.dart';
 import 'package:reown_appkit/reown_appkit.dart';
 import 'package:provider/provider.dart';
 
@@ -91,6 +92,16 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
                   child: HomePage(),
+                  isDark: themeProvider.isDark,
+                  onThemeToggle: () {
+                    themeProvider.toggleTheme();
+                  },
+                ),
+              );
+            case '/tokens':
+              return MaterialPageRoute(
+                builder: (context) => MainLayout(
+                  child: TokensPage(),
                   isDark: themeProvider.isDark,
                   onThemeToggle: () {
                     themeProvider.toggleTheme();

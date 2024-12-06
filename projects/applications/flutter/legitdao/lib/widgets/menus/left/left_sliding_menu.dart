@@ -115,6 +115,19 @@ class _LeftSlidingMenuState extends State<LeftSlidingMenu> {
                           ),
                         ),
 
+                        // Tokens
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: HoverLink(
+                            text: "menu_tokens".tr(),
+                            isInMenu: true,
+                            onTap: () {
+                              Navigator.pushNamed(context, '/tokens')
+                                  .then((_) => widget.onClose());
+                            },
+                          ),
+                        ),
+
                         // About
                         Padding(
                           padding: const EdgeInsets.all(16.0),

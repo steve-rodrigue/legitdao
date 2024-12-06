@@ -2,6 +2,7 @@
   "app_name": "Mon Application",
   "menu_home": "Accueil",
   "menu_about": "À propos",
+  "menu_tokens": "Jetons",
   "menu_contact": "Contact",
   "menu_connect": "Connecter",
   "right_menu_referrals": "Mon Parrainnage",

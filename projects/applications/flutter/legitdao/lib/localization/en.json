@@ -2,6 +2,7 @@
   "app_name": "My App",
   "menu_home": "Home",
   "menu_about": "About",
+  "menu_tokens": "Tokens",
   "menu_contact": "Contact",
   "menu_connect": "Connect",
   "right_menu_referrals": "My Referrals",
