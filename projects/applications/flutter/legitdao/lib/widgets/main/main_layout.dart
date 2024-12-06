@@ -79,7 +79,17 @@ class _MainLayoutState extends State<MainLayout> {
                         Expanded(
                           child: KeyedSubtree(
                             key: ValueKey(EasyLocalization.of(context)!.locale),
-                            child: widget.child,
+                            child: Scaffold(
+                              body: Scrollbar(
+                                thumbVisibility: false,
+                                child: SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: widget.child,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],

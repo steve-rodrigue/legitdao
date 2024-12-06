@@ -5,7 +5,7 @@ import 'package:reown_appkit/reown_appkit.dart';
 import '../../networks/reown/network_manager_reown.dart';
 import '../../networks/network_manager_interface.dart';
 import '../buttons/connect_button.dart';
-import '../containers/custom_container.dart';
+import '../containers/custom_title_container.dart';
 
 class Portfolio extends StatefulWidget {
   final bool isDark;
@@ -46,7 +46,7 @@ class _PortfolioState extends State<Portfolio> {
     final double width = widget.width;
     final networkManager = widget.networkManager;
 
-    return CustomContainer(isDark: widget.isDark, title: [
+    return CustomTitleContainer(isDark: widget.isDark, width: width, title: [
       Text(
         "Portfolio",
         style: Theme.of(context).textTheme.headlineSmall,
@@ -62,6 +62,7 @@ class _PortfolioState extends State<Portfolio> {
         child: CustomPieChart(
           cryptocurrencies: cryptocurrencies,
           width: width,
+          touchedIndex: -1,
           onTouch: _onTouch,
         ),
       ),

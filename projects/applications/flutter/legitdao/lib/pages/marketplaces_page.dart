@@ -9,20 +9,19 @@ class MarketplacesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Header(
+    return Column(
+      children: [
+        Header(
           value: 'marketplaces_title',
           isLarge: true,
         ),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Marketplace(pair: 'USDT/BNB'),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Center(
+            child: Marketplace(pair: 'USDT/BNB'),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

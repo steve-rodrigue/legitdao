@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomContainer extends StatefulWidget {
   final bool isDark;
-  final List<Widget> title;
-  final List<Widget> body;
+  final List<Widget> children;
 
   const CustomContainer({
     Key? key,
     required this.isDark,
-    required this.title,
-    required this.body,
+    required this.children,
   }) : super(key: key);
 
   @override
@@ -25,11 +23,11 @@ class _CustomContainerState extends State<CustomContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         color: widget.isDark
-            ? Color.fromARGB(255, 58, 58, 58) // dark
-            : Color.fromARGB(255, 228, 228, 228), // light
+            ? Color.fromARGB(255, 28, 28, 28) // dark
+            : Color.fromARGB(255, 255, 255, 255), // light
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
@@ -41,28 +39,7 @@ class _CustomContainerState extends State<CustomContainer> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  width: 1.0, // Set the border width
-                ),
-              ),
-            ),
-            padding: const EdgeInsets.symmetric(
-                vertical: 8.0), // Optional: Add padding
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: widget.title,
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widget.body,
-          )
-        ],
+        children: widget.children,
       ),
     );
   }

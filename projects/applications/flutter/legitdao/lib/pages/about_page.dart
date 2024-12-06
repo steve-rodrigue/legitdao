@@ -6,11 +6,9 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Header(
-        value: 'about_title',
-        isLarge: true,
-      ),
+    return Header(
+      value: 'about_title',
+      isLarge: true,
     );
   }
 }

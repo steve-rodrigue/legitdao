@@ -71,7 +71,7 @@ class _TopSectionState extends State<TopSection> {
         titleSpacing: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          padding: const EdgeInsets.all(15.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

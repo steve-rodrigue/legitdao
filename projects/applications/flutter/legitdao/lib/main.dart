@@ -91,7 +91,9 @@ class MyApp extends StatelessWidget {
             case '/':
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
-                  child: HomePage(),
+                  child: HomePage(
+                    isDark: themeProvider.isDark,
+                  ),
                   isDark: themeProvider.isDark,
                   onThemeToggle: () {
                     themeProvider.toggleTheme();
@@ -218,6 +220,27 @@ class ThemeProvider extends ChangeNotifier {
     dropdownMenuTheme: DropdownMenuThemeData(
       textStyle: TextStyle(fontSize: 16, color: Colors.white),
     ),
+    dataTableTheme: DataTableThemeData(
+      headingRowColor: WidgetStateProperty.all<Color>(
+        const Color.fromARGB(255, 28, 28, 28), // Dark background for headers
+      ),
+      headingTextStyle: const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
+      dataRowColor: WidgetStateProperty.all<Color>(
+        Color.fromARGB(255, 58, 58, 58), // Dark background for data
+      ),
+      dataTextStyle: const TextStyle(
+        color: Color.fromARGB(255, 255, 255, 255),
+        fontSize: 14,
+      ),
+      dividerThickness: 0, // Removes borders between rows
+      columnSpacing: 16.0, // Spacing between columns
+      horizontalMargin: 12.0, // Left and right margin for cells
+      checkboxHorizontalMargin: 8.0, // Margin for checkboxes
+    ),
   );
 
   final lightTheme = ThemeData(
@@ -286,6 +309,27 @@ class ThemeProvider extends ChangeNotifier {
     ),
     dropdownMenuTheme: DropdownMenuThemeData(
       textStyle: TextStyle(fontSize: 16, color: Colors.white),
+    ),
+    dataTableTheme: DataTableThemeData(
+      headingRowColor: WidgetStateProperty.all<Color>(
+        Colors.white, // Light background for headers
+      ),
+      headingTextStyle: const TextStyle(
+        color: Color.fromARGB(255, 28, 28, 28),
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
+      dataRowColor: WidgetStateProperty.all<Color>(
+        Color.fromARGB(255, 228, 228, 228), // Light background for data
+      ),
+      dataTextStyle: const TextStyle(
+        color: const Color.fromARGB(255, 28, 28, 28),
+        fontSize: 14,
+      ),
+      dividerThickness: 0, // Removes borders between rows
+      columnSpacing: 16.0, // Spacing between columns
+      horizontalMargin: 12.0, // Left and right margin for cells
+      checkboxHorizontalMargin: 8.0, // Margin for checkboxes
     ),
   );
 

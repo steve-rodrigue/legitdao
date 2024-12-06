@@ -6,11 +6,9 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Header(
-        value: 'contact_title',
-        isLarge: true,
-      ),
+    return Header(
+      value: 'contact_title',
+      isLarge: true,
     );
   }
 }
