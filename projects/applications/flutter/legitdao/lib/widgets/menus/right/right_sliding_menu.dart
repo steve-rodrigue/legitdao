@@ -160,7 +160,7 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                         padding: const EdgeInsets.all(16.0),
                         child: Portfolio(
                           isDark: widget.isDark,
-                          width: width * 0.9,
+                          width: 300.0,
                           cryptocurrencies: [
                             Cryptocurrency(
                                 logoPath:

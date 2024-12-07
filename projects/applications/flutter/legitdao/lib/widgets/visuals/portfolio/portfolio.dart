@@ -29,6 +29,7 @@ class Portfolio extends StatefulWidget {
 
 class _PortfolioState extends State<Portfolio> {
   late NetworkManagerImpl castedAppKit;
+  int touchedIndex = -1;
 
   @override
   void initState() {
@@ -36,8 +37,10 @@ class _PortfolioState extends State<Portfolio> {
     castedAppKit = widget.networkManager as NetworkManagerImpl;
   }
 
-  void _onTouch(int? touchIndex) {
-    setState(() {});
+  void _onTouch(int _touchedIndex) {
+    setState(() {
+      touchedIndex = _touchedIndex;
+    });
   }
 
   @override
@@ -62,7 +65,7 @@ class _PortfolioState extends State<Portfolio> {
         child: CustomPieChart(
           cryptocurrencies: cryptocurrencies,
           width: width,
-          touchedIndex: -1,
+          touchedIndex: touchedIndex,
           onTouch: _onTouch,
         ),
       ),
