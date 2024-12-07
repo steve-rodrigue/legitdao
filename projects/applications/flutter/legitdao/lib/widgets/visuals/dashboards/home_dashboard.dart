@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../piecharts/cryptocurrency.dart';
 import 'home_portfolio.dart';
+import 'home_marketplaces.dart';
 
 class HomeDashboard extends StatefulWidget {
   final bool isDark;
@@ -64,17 +65,16 @@ class _HomeDashboardState extends State<HomeDashboard> {
           alignment: WrapAlignment.start,
           children: [
             Container(
-              width: 800.0,
+              width: 450.0,
               child: HomePortfolio(
                 isDark: widget.isDark,
                 cryptocurrencies: cryptocurrencies,
               ),
             ),
             Container(
-              width: 500.0,
-              child: HomePortfolio(
+              width: 900.0,
+              child: HomeMarketplace(
                 isDark: widget.isDark,
-                cryptocurrencies: cryptocurrencies,
               ),
             ),
           ],
