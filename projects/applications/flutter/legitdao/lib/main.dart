@@ -229,9 +229,6 @@ class ThemeProvider extends ChangeNotifier {
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
-      /*dataRowColor: WidgetStateProperty.all<Color>(
-        Color.fromARGB(255, 58, 58, 58), // Dark background for data
-      ),*/
       dataRowColor: WidgetStateProperty.resolveWith<Color?>(
         (states) {
           if (states.contains(WidgetState.hovered)) {

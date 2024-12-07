@@ -65,16 +65,16 @@ class _HomeDashboardState extends State<HomeDashboard> {
           alignment: WrapAlignment.start,
           children: [
             Container(
+              width: 1200.0,
+              child: HomeTokens(
+                isDark: widget.isDark,
+              ),
+            ),
+            Container(
               width: 450.0,
               child: HomePortfolio(
                 isDark: widget.isDark,
                 cryptocurrencies: cryptocurrencies,
-              ),
-            ),
-            Container(
-              width: 900.0,
-              child: HomeTokens(
-                isDark: widget.isDark,
               ),
             ),
           ],

@@ -28,8 +28,8 @@ class _CustomTitleContainerState extends State<CustomTitleContainer> {
       padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         color: widget.isDark
-            ? Color.fromARGB(255, 58, 58, 58) // dark
-            : Color.fromARGB(255, 228, 228, 228), // light
+            ? Color.fromARGB(255, 38, 38, 38) // dark
+            : Color.fromARGB(255, 245, 245, 245), // light
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
