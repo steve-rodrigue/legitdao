@@ -22,6 +22,8 @@ class HomePortfolioTable extends StatefulWidget {
 
 class _HomePortfolioTableState extends State<HomePortfolioTable> {
   late double totalValue;
+  int? _selectedRowIndex; // Track the selected row index
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +31,12 @@ class _HomePortfolioTableState extends State<HomePortfolioTable> {
       0.0,
       (sum, crypto) => sum + crypto.usdtValue,
     );
+  }
+
+  void _selectRow(int index) {
+    setState(() {
+      _selectedRowIndex = index; // Set the selected row index
+    });
   }
 
   @override
@@ -50,73 +58,63 @@ class _HomePortfolioTableState extends State<HomePortfolioTable> {
                 final index = entry.key;
                 final crypto = entry.value;
                 final isHighlighted = index == touchedIndex;
+                final isSelected = _selectedRowIndex == index;
                 final percentage = (crypto.usdtValue / totalValue) * 100;
 
                 return DataRow(
+                  onSelectChanged: (_) {
+                    widget.onTouch(index);
+                    _selectRow(index);
+                  },
+                  selected: isSelected,
                   cells: [
                     DataCell(
-                      MouseRegion(
-                        onEnter: (_) => widget.onTouch(index),
-                        onExit: (_) => widget.onTouch(-1),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              color: crypto.color,
+                      Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            color: crypto.color,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            crypto.symbol,
+                            style: TextStyle(
+                              fontWeight: isHighlighted
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              crypto.symbol,
-                              style: TextStyle(
-                                fontWeight: isHighlighted
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        crypto.amount.toStringAsFixed(2),
+                        style: TextStyle(
+                          fontWeight: isHighlighted
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     ),
                     DataCell(
-                      MouseRegion(
-                        onEnter: (_) => widget.onTouch(index),
-                        onExit: (_) => widget.onTouch(-1),
-                        child: Text(
-                          crypto.amount.toStringAsFixed(2),
-                          style: TextStyle(
-                            fontWeight: isHighlighted
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
+                      Text(
+                        '${crypto.usdtValue.toStringAsFixed(2)}\$ USDT',
+                        style: TextStyle(
+                          fontWeight: isHighlighted
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     ),
                     DataCell(
-                      MouseRegion(
-                        onEnter: (_) => widget.onTouch(index),
-                        onExit: (_) => widget.onTouch(-1),
-                        child: Text(
-                          '${crypto.usdtValue.toStringAsFixed(2)}\$ USDT',
-                          style: TextStyle(
-                            fontWeight: isHighlighted
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                    DataCell(
-                      MouseRegion(
-                        onEnter: (_) => widget.onTouch(index),
-                        onExit: (_) => widget.onTouch(-1),
-                        child: Text(
-                          '${percentage.toStringAsFixed(2)}%',
-                          style: TextStyle(
-                            fontWeight: isHighlighted
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
+                      Text(
+                        '${percentage.toStringAsFixed(2)}%',
+                        style: TextStyle(
+                          fontWeight: isHighlighted
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     ),

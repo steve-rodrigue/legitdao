@@ -34,8 +34,6 @@ class _CustomPieChartState extends State<CustomPieChart> {
   @override
   Widget build(BuildContext context) {
     final width = widget.width;
-    final height = width;
-
     return LayoutBuilder(
       builder: (context, constraints) {
         int touchedIndex = widget.touchedIndex;
@@ -45,7 +43,7 @@ class _CustomPieChartState extends State<CustomPieChart> {
             children: [
               SizedBox(
                 width: width,
-                height: height,
+                height: width,
                 child: PieChart(
                   PieChartData(
                     pieTouchData: PieTouchData(
@@ -65,8 +63,7 @@ class _CustomPieChartState extends State<CustomPieChart> {
                     ),
                     borderData: FlBorderData(show: false),
                     sectionsSpace: 0,
-                    centerSpaceRadius:
-                        0, // Center space radius is 6.625% of width
+                    centerSpaceRadius: 0,
                     sections: _buildSections(width, touchedIndex),
                   ),
                 ),

@@ -10,7 +10,7 @@ class TokensPage extends StatelessWidget {
     return Column(
       children: [
         // Container:
-        CustomTitleContainer(isDark: true, width: 800.0, title: [
+        CustomTitleContainer(isDark: true, title: [
           Text(
             "Tokens",
             style: Theme.of(context).textTheme.headlineSmall,

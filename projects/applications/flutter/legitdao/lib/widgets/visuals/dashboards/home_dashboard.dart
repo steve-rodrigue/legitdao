@@ -56,28 +56,30 @@ class _HomeDashboardState extends State<HomeDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    return SizedBox(
-      width: width,
-      child: Column(
-        children: [
-          Wrap(
-            spacing: 10.0,
-            runSpacing: 10.0,
-            alignment: WrapAlignment.center,
-            children: [
-              HomePortfolio(
-                  isDark: widget.isDark,
-                  cryptocurrencies: cryptocurrencies,
-                  width: width * 0.4),
-              HomePortfolio(
-                  isDark: widget.isDark,
-                  cryptocurrencies: cryptocurrencies,
-                  width: width * 0.4),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Wrap(
+          spacing: 10.0,
+          runSpacing: 10.0,
+          alignment: WrapAlignment.start,
+          children: [
+            Container(
+              width: 800.0,
+              child: HomePortfolio(
+                isDark: widget.isDark,
+                cryptocurrencies: cryptocurrencies,
+              ),
+            ),
+            Container(
+              width: 500.0,
+              child: HomePortfolio(
+                isDark: widget.isDark,
+                cryptocurrencies: cryptocurrencies,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

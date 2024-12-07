@@ -7,13 +7,11 @@ import '../piecharts/custom_pie_chart.dart';
 class HomePortfolio extends StatefulWidget {
   final bool isDark;
   final List<Cryptocurrency> cryptocurrencies;
-  final double width;
 
   const HomePortfolio({
     Key? key,
     required this.isDark,
     required this.cryptocurrencies,
-    required this.width,
   }) : super(key: key);
 
   @override
@@ -39,16 +37,10 @@ class _HomePortfolioState extends State<HomePortfolio> {
 
   @override
   Widget build(BuildContext context) {
-    double pieChartWidth = widget.width / 2;
-    if (pieChartWidth > 300.0) {
-      pieChartWidth = 300.0;
-    }
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return CustomTitleContainer(
           isDark: widget.isDark,
-          width: widget.width,
           title: [
             Text(
               "Portfolio",
@@ -56,24 +48,30 @@ class _HomePortfolioState extends State<HomePortfolio> {
             ),
           ],
           body: [
-            Wrap(
-              spacing: 10.0,
-              runSpacing: 10.0,
-              alignment: WrapAlignment.center,
-              children: [
-                CustomPieChart(
-                  width: pieChartWidth,
-                  touchedIndex: touchedIndex,
-                  cryptocurrencies: widget.cryptocurrencies,
-                  onTouch: _onTouch,
-                ),
-                HomePortfolioTable(
-                  isDark: widget.isDark,
-                  touchedIndex: touchedIndex,
-                  cryptocurrencies: widget.cryptocurrencies,
-                  onTouch: _onTouch,
-                ),
-              ],
+            Container(
+              alignment: AlignmentDirectional.center,
+              child: Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
+                alignment: WrapAlignment.center,
+                children: [
+                  CustomPieChart(
+                    width: 300.0,
+                    touchedIndex: touchedIndex,
+                    cryptocurrencies: widget.cryptocurrencies,
+                    onTouch: _onTouch,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: HomePortfolioTable(
+                      isDark: widget.isDark,
+                      touchedIndex: touchedIndex,
+                      cryptocurrencies: widget.cryptocurrencies,
+                      onTouch: _onTouch,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         );

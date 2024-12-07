@@ -229,8 +229,19 @@ class ThemeProvider extends ChangeNotifier {
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
-      dataRowColor: WidgetStateProperty.all<Color>(
+      /*dataRowColor: WidgetStateProperty.all<Color>(
         Color.fromARGB(255, 58, 58, 58), // Dark background for data
+      ),*/
+      dataRowColor: WidgetStateProperty.resolveWith<Color?>(
+        (states) {
+          if (states.contains(WidgetState.hovered)) {
+            return Colors.blue.withOpacity(0.1); // Change opacity when hovered
+          }
+          if (states.contains(WidgetState.selected)) {
+            return Colors.blue.withOpacity(0.3); // Change opacity when selected
+          }
+          return null; // Default
+        },
       ),
       dataTextStyle: const TextStyle(
         color: Color.fromARGB(255, 255, 255, 255),
@@ -319,8 +330,16 @@ class ThemeProvider extends ChangeNotifier {
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
-      dataRowColor: WidgetStateProperty.all<Color>(
-        Color.fromARGB(255, 228, 228, 228), // Light background for data
+      dataRowColor: WidgetStateProperty.resolveWith<Color?>(
+        (states) {
+          if (states.contains(WidgetState.hovered)) {
+            return Colors.blue.withOpacity(0.1); // Change opacity when hovered
+          }
+          if (states.contains(WidgetState.selected)) {
+            return Colors.blue.withOpacity(0.3); // Change opacity when selected
+          }
+          return null; // Default
+        },
       ),
       dataTextStyle: const TextStyle(
         color: const Color.fromARGB(255, 28, 28, 28),

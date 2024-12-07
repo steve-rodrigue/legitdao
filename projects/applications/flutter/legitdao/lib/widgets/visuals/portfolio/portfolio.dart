@@ -46,7 +46,7 @@ class _PortfolioState extends State<Portfolio> {
     final double width = widget.width;
     final networkManager = widget.networkManager;
 
-    return CustomTitleContainer(isDark: widget.isDark, width: width, title: [
+    return CustomTitleContainer(isDark: widget.isDark, title: [
       Text(
         "Portfolio",
         style: Theme.of(context).textTheme.headlineSmall,
