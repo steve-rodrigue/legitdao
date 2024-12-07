@@ -33,7 +33,7 @@ class Paragraph extends StatelessWidget {
     }
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+      padding: EdgeInsets.symmetric(vertical: 5.0),
       child: Text(
         value.tr(),
         style: textStyle,

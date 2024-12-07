@@ -170,9 +170,9 @@ class ThemeProvider extends ChangeNotifier {
       onSurface: Colors.white,
     ),
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
-      bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
-      bodySmall: TextStyle(fontSize: 12, color: Colors.white),
+      bodyLarge: TextStyle(fontSize: 16, height: 1.6, color: Colors.white),
+      bodyMedium: TextStyle(fontSize: 14, height: 1.6, color: Colors.white),
+      bodySmall: TextStyle(fontSize: 12, height: 1.6, color: Colors.white),
       headlineLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -265,12 +265,18 @@ class ThemeProvider extends ChangeNotifier {
       onSurface: const Color.fromARGB(255, 28, 28, 28),
     ),
     textTheme: const TextTheme(
-      bodyLarge:
-          TextStyle(fontSize: 16, color: const Color.fromARGB(255, 28, 28, 28)),
-      bodyMedium:
-          TextStyle(fontSize: 14, color: const Color.fromARGB(255, 28, 28, 28)),
-      bodySmall:
-          TextStyle(fontSize: 12, color: const Color.fromARGB(255, 28, 28, 28)),
+      bodyLarge: TextStyle(
+          fontSize: 16,
+          height: 1.6,
+          color: const Color.fromARGB(255, 28, 28, 28)),
+      bodyMedium: TextStyle(
+          fontSize: 14,
+          height: 1.6,
+          color: const Color.fromARGB(255, 28, 28, 28)),
+      bodySmall: TextStyle(
+          fontSize: 12,
+          height: 1.6,
+          color: const Color.fromARGB(255, 28, 28, 28)),
       headlineLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,

@@ -19,16 +19,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        HomeDashboard(
-          isDark: widget.isDark,
-        ),
         Header(
           value: 'home_title',
           isLarge: true,
         ),
-        CustomBarChart(
+        Paragraph(value: 'home_first_paragraph'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            HomeDashboard(
+              isDark: widget.isDark,
+            ),
+            /*CustomBarChart(
           width: MediaQuery.of(context).size.width,
           newReferrals: List.generate(2000, (index) => Random().nextInt(100)),
           soldReferrals: List.generate(2000, (index) => Random().nextInt(100)),
@@ -40,9 +44,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         CustomCandleStickChart(
           width: 900.0,
           data: List.generate(2000, (index) => (index + 1) * 2.5),
+        ),*/
+          ],
         ),
-        Paragraph(value: 'home_first_paragraph', isLarge: true),
-        Paragraph(value: 'home_second_paragraph', isLarge: true),
       ],
     );
   }

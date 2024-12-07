@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../piecharts/cryptocurrency.dart';
 import 'home_portfolio.dart';
+import 'home_referrals.dart';
 import 'home_tokens.dart';
 
 class HomeDashboard extends StatefulWidget {
@@ -75,6 +76,13 @@ class _HomeDashboardState extends State<HomeDashboard> {
               child: HomePortfolio(
                 isDark: widget.isDark,
                 cryptocurrencies: cryptocurrencies,
+              ),
+            ),
+            Container(
+              width: 600.0,
+              child: HomeReferrals(
+                width: 600.0,
+                isDark: widget.isDark,
               ),
             ),
           ],
