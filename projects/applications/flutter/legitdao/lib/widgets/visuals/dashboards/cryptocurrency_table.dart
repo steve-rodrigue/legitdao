@@ -33,9 +33,11 @@ class CryptocurrencyTable extends StatefulWidget {
   final bool isDark;
   final List<Cryptocurrency> cryptocurrencies;
 
-  const CryptocurrencyTable(
-      {Key? key, required this.isDark, required this.cryptocurrencies})
-      : super(key: key);
+  const CryptocurrencyTable({
+    Key? key,
+    required this.isDark,
+    required this.cryptocurrencies,
+  }) : super(key: key);
 
   @override
   State<CryptocurrencyTable> createState() => _CryptocurrencyTableState();
@@ -52,85 +54,118 @@ class _CryptocurrencyTableState extends State<CryptocurrencyTable> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
-      isDark: widget.isDark,
-      children: [
-        DataTable(
-          columns: const [
-            DataColumn(label: Text('Cryptocurrency')),
-            DataColumn(label: Text('Price')),
-            DataColumn(label: Text('1h %')),
-            DataColumn(label: Text('24h %')),
-            DataColumn(label: Text('7d %')),
-            DataColumn(label: Text('24h Volume')),
-            DataColumn(label: Text('Market Cap')),
-            DataColumn(label: Text('Last 7 Days')),
-          ],
-          rows: widget.cryptocurrencies.asMap().entries.map((entry) {
-            final index = entry.key;
-            final crypto = entry.value;
-            final isSelected = index == selectedRowIndex;
-
-            return DataRow(
-              selected: isSelected,
-              cells: [
-                // Cryptocurrency Logo and Name
-                DataCell(
-                  Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return CustomContainer(
+          isDark: widget.isDark,
+          children: [
+            Row(
+              children: [
+                // Fixed Column
+                Flexible(
+                  flex: 4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset(
-                        crypto.logoPath,
-                        width: 24,
-                        height: 24,
+                      DataTable(
+                        columns: const [
+                          DataColumn(label: Text('Name')),
+                        ],
+                        rows: widget.cryptocurrencies
+                            .asMap()
+                            .entries
+                            .map((entry) {
+                          final index = entry.key;
+                          final crypto = entry.value;
+                          final isSelected = index == selectedRowIndex;
+
+                          return DataRow(
+                            selected: isSelected,
+                            cells: [
+                              DataCell(
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      crypto.logoPath,
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(crypto.name),
+                                  ],
+                                ),
+                                onTap: () {
+                                  _onRowSelected(index);
+                                  Navigator.pushNamed(
+                                      context, '/marketplaces/${crypto.slug}');
+                                },
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       ),
-                      const SizedBox(width: 8),
-                      Text(crypto.name),
                     ],
                   ),
-                  onTap: () {
-                    _onRowSelected(index);
-                    Navigator.pushNamed(
-                        context, '/marketplaces/${crypto.slug}');
-                  },
                 ),
-                // Price
-                DataCell(Text('\$${crypto.price.toStringAsFixed(2)}')),
-                // 1h % Change
-                _buildPercentageCell(context, crypto.change1h),
-                // 24h % Change
-                _buildPercentageCell(context, crypto.change24h),
-                // 7d % Change
-                _buildPercentageCell(context, crypto.change7d),
-                // 24h Volume
-                DataCell(Text('\$${_formatLargeNumber(crypto.volume24h)}')),
-                // Market Cap
-                DataCell(Text('\$${_formatLargeNumber(crypto.marketCap)}')),
+                // Scrollable Columns
+                Expanded(
+                  flex: 6,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      columns: const [
+                        DataColumn(label: Text('Price')),
+                        DataColumn(label: Text('1h %')),
+                        DataColumn(label: Text('24h %')),
+                        DataColumn(label: Text('7d %')),
+                        DataColumn(label: Text('24h Volume')),
+                        DataColumn(label: Text('Market Cap')),
+                        DataColumn(label: Text('Last 7 Days')),
+                      ],
+                      rows:
+                          widget.cryptocurrencies.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final crypto = entry.value;
+                        final isSelected = index == selectedRowIndex;
 
-                // Line Graph
-                DataCell(
-                  Row(
-                    children: [
-                      Container(
-                        width: 150.0,
-                        height: 150.0 * (16 / 9),
-                        child: CustomLineChart(
-                          width: 150.0,
-                          data: crypto.data,
-                        ),
-                      )
-                    ],
+                        return DataRow(
+                          selected: isSelected,
+                          cells: [
+                            DataCell(
+                                Text('\$${crypto.price.toStringAsFixed(2)}')),
+                            _buildPercentageCell(context, crypto.change1h),
+                            _buildPercentageCell(context, crypto.change24h),
+                            _buildPercentageCell(context, crypto.change7d),
+                            DataCell(Text(
+                                '\$${_formatLargeNumber(crypto.volume24h)}')),
+                            DataCell(Text(
+                                '\$${_formatLargeNumber(crypto.marketCap)}')),
+                            DataCell(
+                              Container(
+                                width: 150.0,
+                                height: 150.0 * (16 / 9),
+                                child: CustomLineChart(
+                                  width: 150.0,
+                                  data: crypto.data,
+                                ),
+                              ),
+                              onTap: () {
+                                _onRowSelected(index);
+                                Navigator.pushNamed(
+                                    context, '/marketplaces/${crypto.slug}');
+                              },
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
                   ),
-                  onTap: () {
-                    _onRowSelected(index);
-                    Navigator.pushNamed(
-                        context, '/marketplaces/${crypto.slug}');
-                  },
                 ),
               ],
-            );
-          }).toList(),
-        )
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 

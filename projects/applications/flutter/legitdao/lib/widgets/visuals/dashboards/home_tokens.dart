@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import '../containers/custom_title_container.dart';
 import 'cryptocurrency_table.dart';
 
-class HomeMarketplace extends StatefulWidget {
+class HomeTokens extends StatefulWidget {
   final bool isDark;
 
-  const HomeMarketplace({
+  const HomeTokens({
     Key? key,
     required this.isDark,
   }) : super(key: key);
 
   @override
-  State<HomeMarketplace> createState() => _HomeMarketplaceState();
+  State<HomeTokens> createState() => _HomeTokensState();
 }
 
-class _HomeMarketplaceState extends State<HomeMarketplace> {
+class _HomeTokensState extends State<HomeTokens> {
   late double totalValue;
 
   @override
@@ -30,7 +30,7 @@ class _HomeMarketplaceState extends State<HomeMarketplace> {
           isDark: widget.isDark,
           title: [
             Text(
-              "Marketplaces",
+              "Tokens",
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
