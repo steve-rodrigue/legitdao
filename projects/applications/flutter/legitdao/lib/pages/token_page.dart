@@ -6,7 +6,6 @@ import '../widgets/visuals/token/order_table.dart';
 import '../widgets/visuals/paragraph.dart';
 import '../widgets/visuals/containers/custom_title_container.dart';
 import '../widgets/visuals/token/token_information.dart';
-import '../widgets/visuals/token/token_trading.dart';
 
 class TokenPage extends StatefulWidget {
   final bool isDark;

@@ -21,25 +21,27 @@ class OrderTable extends StatefulWidget {
 class _OrderTableState extends State<OrderTable> {
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(isDark: widget.isDark, children: [
-      Header(value: widget.title, isSmall: true),
-      DataTable(
-        columns: const [
-          DataColumn(label: Text('Amount')),
-          DataColumn(label: Text('Unit Price')),
-          DataColumn(label: Text('Total Price')),
-        ],
-        rows: widget.tokenData.map((data) {
-          return DataRow(
-            cells: [
-              DataCell(Text(data.tokenAmount.toString())),
-              DataCell(Text(data.pricePerToken.toStringAsFixed(2))),
-              DataCell(Text(data.totalPrice.toStringAsFixed(2))),
-            ],
-          );
-        }).toList(),
-      ),
-    ]);
+    return Column(
+      children: [
+        Header(value: widget.title, isSmall: true),
+        DataTable(
+          columns: const [
+            DataColumn(label: Text('Amount')),
+            DataColumn(label: Text('Unit Price')),
+            DataColumn(label: Text('Total Price')),
+          ],
+          rows: widget.tokenData.map((data) {
+            return DataRow(
+              cells: [
+                DataCell(Text(data.tokenAmount.toString())),
+                DataCell(Text(data.pricePerToken.toStringAsFixed(2))),
+                DataCell(Text(data.totalPrice.toStringAsFixed(2))),
+              ],
+            );
+          }).toList(),
+        ),
+      ],
+    );
   }
 }
 

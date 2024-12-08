@@ -82,6 +82,5 @@ class _TokenInformationState extends State<TokenInformation> {
         ),
       ],
     );
-    ;
   }
 }

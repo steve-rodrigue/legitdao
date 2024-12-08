@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:legitdao/widgets/visuals/header.dart';
 import '../containers/custom_title_container.dart';
-import 'token_trading.dart';
+import '../containers/custom_container.dart';
 import 'order_table.dart';
+import 'token_buy.dart';
+import 'token_sell.dart';
 
 class OrderBook extends StatefulWidget {
   final bool isDark;
@@ -48,10 +50,10 @@ class _OrderBookState extends State<OrderBook> {
     return CustomTitleContainer(
       isDark: widget.isDark,
       title: [
-        Text(
-          "Orders Book",
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        Header(
+          value: "Orders Book",
+          isMedium: true,
+        )
       ],
       body: [
         Container(
@@ -68,21 +70,37 @@ class _OrderBookState extends State<OrderBook> {
                 alignment: WrapAlignment.start,
                 children: [
                   Container(
-                    width: 800.0,
-                    child: TokenTrading(isDark: widget.isDark),
-                  ),
-                  Container(
                       width: 300.0,
-                      child: OrderTable(
-                          isDark: widget.isDark,
-                          title: "Buy",
-                          tokenData: buyOrders)),
+                      child: Column(
+                        children: [
+                          CustomContainer(isDark: widget.isDark, children: [
+                            OrderTable(
+                                isDark: widget.isDark,
+                                title: "Buy Orders",
+                                tokenData: buyOrders),
+                            TokenBuy(
+                                isDark: widget.isDark,
+                                executeTrade: (amount, price) {
+                                  print(
+                                      "Executing buy: Amount = $amount, Price = $price");
+                                }),
+                          ]),
+                        ],
+                      )),
                   Container(
                     width: 300.0,
-                    child: OrderTable(
-                        isDark: widget.isDark,
-                        title: "Sell",
-                        tokenData: buyOrders),
+                    child: CustomContainer(isDark: widget.isDark, children: [
+                      OrderTable(
+                          isDark: widget.isDark,
+                          title: "Sell Orders",
+                          tokenData: sellOrders),
+                      TokenSell(
+                          isDark: widget.isDark,
+                          executeTrade: (amount, price) {
+                            print(
+                                "Executing sell: Amount = $amount, Price = $price");
+                          }),
+                    ]),
                   ),
                 ],
               ),
