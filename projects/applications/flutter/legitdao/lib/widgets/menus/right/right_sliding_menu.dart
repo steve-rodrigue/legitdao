@@ -128,19 +128,6 @@ class _RightSlidingMenuState extends State<RightSlidingMenu> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Marketplaces
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: HoverLink(
-                          text: "right_menu_marketplaces".tr(),
-                          isInMenu: true,
-                          onTap: () {
-                            Navigator.pushNamed(context, '/marketplaces')
-                                .then((_) => widget.onClose());
-                          },
-                        ),
-                      ),
-
                       // Referrals
                       Padding(
                         padding: const EdgeInsets.all(16.0),
