@@ -9,6 +9,7 @@ import 'pages/marketplaces_page.dart';
 import 'pages/tokens_page.dart';
 import 'package:reown_appkit/reown_appkit.dart';
 import 'package:provider/provider.dart';
+import 'pages/token_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,6 +79,28 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => MainLayout(
                 child: ReferralsPage(walletAddress: walletAddress),
+                isDark: themeProvider.isDark,
+                onThemeToggle: () {
+                  themeProvider.toggleTheme();
+                },
+              ),
+            );
+          }
+
+          // Handle dynamic route `/tokens/:tokenSlug`
+          if (uri.pathSegments.length == 2 &&
+              uri.pathSegments.first == 'tokens') {
+            final tokenSlug = uri.pathSegments[1];
+
+            // Check if tokenSlug is null or empty
+            if (tokenSlug.isEmpty) {
+              return notFoundPage;
+            }
+
+            return MaterialPageRoute(
+              builder: (context) => MainLayout(
+                child: TokenPage(
+                    isDark: themeProvider._isDark, tokenSlug: tokenSlug),
                 isDark: themeProvider.isDark,
                 onThemeToggle: () {
                   themeProvider.toggleTheme();

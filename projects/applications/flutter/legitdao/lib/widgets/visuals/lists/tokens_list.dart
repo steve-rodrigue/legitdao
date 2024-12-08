@@ -41,8 +41,8 @@ class _TokensListState extends State<TokensList> {
               child:
                   CryptocurrencyTable(isDark: widget.isDark, cryptocurrencies: [
                 Cryptocurrency(
-                  name: 'Ethereum',
-                  slug: 'eth',
+                  name: 'WebX',
+                  slug: 'webx',
                   logoPath:
                       'lib/assets/icons/svg/cryptocurrencies/color/eth.svg',
                   price: 50250.34,
@@ -139,8 +139,8 @@ class _TokensListState extends State<TokensList> {
                   ],
                 ),
                 Cryptocurrency(
-                  name: 'Binance Coin',
-                  slug: 'bnb',
+                  name: 'LegitDAO',
+                  slug: 'legitdao',
                   logoPath:
                       'lib/assets/icons/svg/cryptocurrencies/color/bnb.svg',
                   price: 3400.67,
@@ -237,8 +237,8 @@ class _TokensListState extends State<TokensList> {
                   ],
                 ),
                 Cryptocurrency(
-                  name: 'The Graph',
-                  slug: 'grt',
+                  name: 'Legit Founder',
+                  slug: 'legitfounder',
                   logoPath:
                       'lib/assets/icons/svg/cryptocurrencies/color/grt.svg',
                   price: 3400.67,

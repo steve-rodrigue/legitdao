@@ -97,7 +97,7 @@ class _CryptocurrencyTableState extends State<CryptocurrencyTable> {
                                 onTap: () {
                                   _onRowSelected(index);
                                   Navigator.pushNamed(
-                                      context, '/marketplaces/${crypto.slug}');
+                                      context, '/tokens/${crypto.slug}');
                                 },
                               ),
                             ],
@@ -152,7 +152,7 @@ class _CryptocurrencyTableState extends State<CryptocurrencyTable> {
                               onTap: () {
                                 _onRowSelected(index);
                                 Navigator.pushNamed(
-                                    context, '/marketplaces/${crypto.slug}');
+                                    context, '/tokens/${crypto.slug}');
                               },
                             ),
                           ],
