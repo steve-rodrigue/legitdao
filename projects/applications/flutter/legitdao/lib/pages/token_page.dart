@@ -5,6 +5,7 @@ import '../widgets/visuals/token/order_book.dart';
 import '../widgets/visuals/token/order_table.dart';
 import '../widgets/visuals/paragraph.dart';
 import '../widgets/visuals/containers/custom_title_container.dart';
+import '../widgets/visuals/token/token_information.dart';
 
 class TokenPage extends StatefulWidget {
   final bool isDark;
@@ -120,6 +121,21 @@ class _TokenState extends State<TokenPage> with TickerProviderStateMixin {
       children: [
         // Header
         _buildHeader(),
+
+        // Token Information
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Center(
+            child: TokenInformation(isDark: widget.isDark, data: {
+              "Market Cap": "\$1,200,000,000",
+              "Fully Diluted Valuation": "\$2,500,000,000",
+              "Circulating Supply": "12,500,000",
+              "Total Supply": "25,000,000",
+              "Max Supply": "50,000,000",
+              "Current Price": "\$120.00",
+            }),
+          ),
+        ),
 
         // Order book
         Padding(
