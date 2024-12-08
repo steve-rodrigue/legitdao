@@ -89,6 +89,7 @@ class _TopSectionState extends State<TopSection> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Home
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: HoverLink(
@@ -99,6 +100,20 @@ class _TopSectionState extends State<TopSection> {
                         },
                       ),
                     ),
+
+                    // Tokens
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: HoverLink(
+                        text: "menu_tokens".tr(),
+                        isInMenu: true,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/tokens');
+                        },
+                      ),
+                    ),
+
+                    // About
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: HoverLink(
@@ -109,6 +124,8 @@ class _TopSectionState extends State<TopSection> {
                         },
                       ),
                     ),
+
+                    // Contact
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: HoverLink(

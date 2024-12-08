@@ -103,7 +103,9 @@ class MyApp extends StatelessWidget {
             case '/tokens':
               return MaterialPageRoute(
                 builder: (context) => MainLayout(
-                  child: TokensPage(),
+                  child: TokensPage(
+                    isDark: themeProvider.isDark,
+                  ),
                   isDark: themeProvider.isDark,
                   onThemeToggle: () {
                     themeProvider.toggleTheme();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../piecharts/cryptocurrency.dart';
 import 'home_portfolio.dart';
 import 'home_referrals.dart';
-import 'home_tokens.dart';
+import '../lists/tokens_list.dart';
 
 class HomeDashboard extends StatefulWidget {
   final bool isDark;
@@ -67,7 +67,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
           children: [
             Container(
               width: 1200.0,
-              child: HomeTokens(
+              child: TokensList(
                 isDark: widget.isDark,
               ),
             ),
