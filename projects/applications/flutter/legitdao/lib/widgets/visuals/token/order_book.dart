@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legitdao/widgets/visuals/header.dart';
 import '../containers/custom_title_container.dart';
+import 'token_trading.dart';
 import 'order_table.dart';
 
 class OrderBook extends StatefulWidget {
@@ -66,6 +67,10 @@ class _OrderBookState extends State<OrderBook> {
                 runSpacing: 10.0,
                 alignment: WrapAlignment.start,
                 children: [
+                  Container(
+                    width: 800.0,
+                    child: TokenTrading(isDark: widget.isDark),
+                  ),
                   Container(
                       width: 300.0,
                       child: OrderTable(
