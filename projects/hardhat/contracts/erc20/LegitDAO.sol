@@ -20,21 +20,19 @@ contract LegitDAO is Marketplace, VotableDividend {
     constructor()
         VotableDividend("LegitDAO Governance Token", "LEGITDAO")
         Marketplace()
-    {
-        _mint(msg.sender, INITIAL_SUPPLY);
-    }
+    {}
 
     // Set the Affiliates address
     function setAffiliatesAddress(address _affiliatesAddress) public onlyOwner {
-        require(affiliatesAddress == address(0), "Currency Address already set");
+        require(affiliatesAddress == address(0), "Primary Currency Address already set");
         require(_affiliatesAddress != address(0), "Invalid address");
 
         uint256 totalSupply = IERC20(_affiliatesAddress).totalSupply();
-        require(totalSupply != 0, "Provided Currency ERC20 contract should not have a total supply of 0");
+        require(totalSupply != 0, "Provided Primary Currency ERC20 contract should not have a total supply of 0");
         
         affiliatesAddress = _affiliatesAddress;
 
-        emit CurrencyAddressSet(affiliatesAddress);
+        emit AffiliatesAddressSet(affiliatesAddress);
     }
 
     // Override transfer to include taxation
@@ -42,7 +40,8 @@ contract LegitDAO is Marketplace, VotableDividend {
         require(recipient != address(0), "Invalid recipient address");
 
         // Ensure necessary addresses are set
-        require(currencyAddress != address(0), "Currency address not set");
+        require(primaryCurrencyAddress != address(0), "Primary Currency address not set");
+        require(keccak256(abi.encodePacked(primaryCurrencySymbol)) != keccak256(abi.encodePacked("")), "Primary Currency address not set");
         require(affiliatesAddress != address(0), "Affiliates address not set");
 
         uint256 senderTax = (amount * TAX_SENDER) / 100; // 20% sender tax
@@ -55,16 +54,16 @@ contract LegitDAO is Marketplace, VotableDividend {
         uint256 burnAmount = senderTax / 20; // 1% burned
 
         // Allocate dividends
-        _addToAdditionalContractDividends(dividends);
+        _addToAdditionalContractDividends(primaryCurrencySymbol, dividends);
 
         // Burn the burn amount
         _burn(msg.sender, burnAmount);
 
         // Transfer sender tax to contract
-        IERC20(currencyAddress).transferFrom(msg.sender, address(this), dividends + contractAllocation);
+        IERC20(primaryCurrencyAddress).transferFrom(msg.sender, address(this), dividends + contractAllocation);
 
         // Handle receiver tax
-        IERC20(currencyAddress).transferFrom(msg.sender, affiliatesAddress, receiverTax);
+        IERC20(primaryCurrencyAddress).transferFrom(msg.sender, affiliatesAddress, receiverTax);
 
         // Perform the main transfer
         bool success = super.transfer(recipient, netAmount);
@@ -76,30 +75,30 @@ contract LegitDAO is Marketplace, VotableDividend {
 
     // Override internal balanceOf method from Marketplace
     function _balanceOfInternally(address addr) internal view override returns (uint256) {
-        require(currencyAddress != address(0), "Currency address not set");
-        return IERC20(currencyAddress).balanceOf(addr);
+        require(primaryCurrencyAddress != address(0), "Primary Currency address not set");
+        return IERC20(primaryCurrencyAddress).balanceOf(addr);
     }
 
     // Override internal allowance method from Marketplace
     function _allowanceInternally(address owner, address spender) internal view override returns (uint256) {
-        require(currencyAddress != address(0), "Currency address not set");
-        return IERC20(currencyAddress).allowance(owner, spender);
+        require(primaryCurrencyAddress != address(0), "Primary Currency address not set");
+        return IERC20(primaryCurrencyAddress).allowance(owner, spender);
     }
 
     // Override internal transfer method from Marketplace
     function _transferInternally(address from, address to, uint256 amount) internal override {
-        require(currencyAddress != address(0), "Currency address not set");
-        IERC20(currencyAddress).transferFrom(from, to, amount);
+        require(primaryCurrencyAddress != address(0), "Primary Currency address not set");
+        IERC20(primaryCurrencyAddress).transferFrom(from, to, amount);
     }
 
     // Override Marketplace's transferAmount for ERC-20 token transactions
     function transferAmount(address addr, uint256 amount) public override {
-        require(currencyAddress != address(0), "Currency address has not been set");
+        require(primaryCurrencyAddress != address(0), "Primary Currency address has not been set");
 
-        uint256 balance = IERC20(currencyAddress).balanceOf(address(this));
+        uint256 balance = IERC20(primaryCurrencyAddress).balanceOf(address(this));
         require(balance >= amount, "Insufficient token balance");
 
-        bool success = IERC20(currencyAddress).transfer(addr, amount);
+        bool success = IERC20(primaryCurrencyAddress).transfer(addr, amount);
         require(success, "Token transfer failed");
     }
 }

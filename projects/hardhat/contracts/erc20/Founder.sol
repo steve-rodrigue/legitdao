@@ -7,10 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./abstracts/Dividendable.sol";
 import "./abstracts/Marketplace.sol";
 
-import "hardhat/console.sol";
-
 contract Founder is Marketplace, Dividendable {
-
     constructor(
         address[] memory holders
     )
@@ -22,33 +19,42 @@ contract Founder is Marketplace, Dividendable {
         }
     }
 
-    // Virtual function that can be overridden in derived contracts
+    // Transfer amount to an address in the specified currency
     function transferAmount(address addr, uint256 amount) public override {
-        require(currencyAddress != address(0), "Currency Address has not been set");
+        require(primaryCurrencyAddress != address(0), "Primary Currency Address has not been set");
 
-        uint256 balance = IERC20(currencyAddress).balanceOf(address(this));
-        uint256 allowance = IERC20(currencyAddress).allowance(address(this), addr);
+        IERC20 token = IERC20(primaryCurrencyAddress);
+        uint256 balance = token.balanceOf(address(this));
         require(balance >= amount, "Insufficient token balance");
-        require(allowance >= amount, "Insufficient allowance");
 
         // Transfer
-        IERC20(currencyAddress).transferFrom(address(this), addr, amount);
+        bool success = token.transfer(addr, amount);
+        require(success, "Token transfer failed");
     }
 
-    function _balanceOfInternally(address addr) internal view override returns(uint256) {
-        require(currencyAddress != address(0), "Currency Address has not been set");
-        uint256 balance = IERC20(currencyAddress).balanceOf(addr);
-        return balance;
+    // Get internal balance of an address for a specific currency
+    function _balanceOfInternally(address addr) internal view override returns (uint256) {
+        string memory defaultCurrencySymbol = currencySymbols[0];
+        require(currencies[defaultCurrencySymbol].addr != address(0), "Currency Address has not been set");
+        return IERC20(currencies[defaultCurrencySymbol].addr).balanceOf(addr);
     }
 
-    function _allowanceInternally(address owner, address spender) internal view override returns(uint256) {
-        require(currencyAddress != address(0), "Currency Address has not been set");
-        uint256 balance = IERC20(currencyAddress).allowance(owner, spender);
-        return balance;
+    // Get internal allowance of an address for a specific currency
+    function _allowanceInternally(address owner, address spender) internal view override returns (uint256) {
+        string memory defaultCurrencySymbol = currencySymbols[0];
+        require(currencies[defaultCurrencySymbol].addr != address(0), "Currency Address has not been set");
+        return IERC20(currencies[defaultCurrencySymbol].addr).allowance(owner, spender);
     }
 
+    // Internal transfer function for a specific currency
     function _transferInternally(address from, address to, uint256 amount) internal override {
-        require(currencyAddress != address(0), "Currency Address has not been set");
-         IERC20(currencyAddress).transferFrom(from, to, amount);
+        string memory defaultCurrencySymbol = currencySymbols[0];
+        require(currencies[defaultCurrencySymbol].addr != address(0), "Currency Address has not been set");
+
+        IERC20 token = IERC20(currencies[defaultCurrencySymbol].addr);
+        require(token.allowance(from, address(this)) >= amount, "Insufficient allowance");
+
+        bool success = token.transferFrom(from, to, amount);
+        require(success, "Token transfer failed");
     }
 }

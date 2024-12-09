@@ -6,122 +6,202 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
-    uint256 public totalWithdrawnDividends = 0;
-    uint256 public additionalContractDividends = 0;
-    mapping(address => uint256) public withdrawnDividends;
+    struct Currency {
+        string name;
+        string symbol;
+        address addr;
+    }
 
-    address public currencyAddress = address(0);
+    mapping(string => Currency) public currencies; // Mapping from symbol to Currency
+    string[] public currencySymbols; // List of currency symbols
+    mapping(string => uint256) public totalWithdrawnDividends; // Track dividends for each currency
+    mapping(string => uint256) public additionalContractDividends; // Additional dividends for each currency
+    mapping(address => mapping(string => uint256)) public withdrawnDividends; // Withdrawn dividends per account and currency
 
-    event CurrencyAddressSet(address indexed currencyAddress);
-    event WithdrawDividends(address recipient, uint256 amount);
-    event TransferExecuted(address from, address to, uint256 amount, uint256 dividends);
-    event AdditionalDividendsAdded(uint256 amount);
+    string public primaryCurrencySymbol;
+    address public primaryCurrencyAddress;
+
+    event CurrencyAdded(string symbol, string name, address indexed addr);
+    event WithdrawDividends(string symbol, address recipient, uint256 amount);
+    event AdditionalDividendsAdded(string symbol, uint256 amount);
+    event PrimaryCurrencySet(string symbol, string name, address indexed addr);
+    event DividendsTransfered(address from, address to, uint256 dividends, string symbol);
 
     constructor(
-        string memory name, 
+        string memory name,
         string memory symbol
-    ) 
-        ERC20(name, symbol)  
-        Ownable(msg.sender) 
-    {
+    ) ERC20(name, symbol) Ownable(msg.sender) {}
 
+    // Add a new currency
+    function addCurrency(address currAddr) public onlyOwner {
+        return _addCurrencyFromAddress(currAddr);
     }
 
-    function setCurrencyAddress(address currAddr) public onlyOwner {
-        require(currencyAddress == address(0), "Currency Address already set");
+    // Set primary currency
+    function setPrimaryCurrency(address currAddr) public onlyOwner {
+        require(primaryCurrencyAddress == address(0), "Primary currency already set");
         require(currAddr != address(0), "Invalid address");
 
-        uint256 totalSupply = IERC20(currAddr).totalSupply();
-        require(totalSupply != 0, "Provided Currency ERC20 contract should not have a total supply of 0");
-        
-        currencyAddress = currAddr;
+        ERC20 token = ERC20(currAddr);
+        string memory tokenName = token.name();
+        string memory tokenSymbol = token.symbol();
+        uint256 totalSupply = token.totalSupply();
 
-        emit CurrencyAddressSet(currencyAddress);
+        primaryCurrencyAddress = currAddr;
+        primaryCurrencySymbol = tokenSymbol;
+
+        emit PrimaryCurrencySet(tokenSymbol, tokenName, currAddr);
+
+        return _addCurrency(currAddr, tokenName, tokenSymbol, totalSupply);
     }
 
-    function getAvailableDividends(address account) public view returns (uint256) {
-        uint256 totalDivs = totalDividends() + totalWithdrawnDividends + additionalContractDividends;
+    // Get the list of currencies
+    function getCurrencies() public view returns (Currency[] memory) {
+        Currency[] memory result = new Currency[](currencySymbols.length);
+        for (uint256 i = 0; i < currencySymbols.length; i++) {
+            result[i] = currencies[currencySymbols[i]];
+        }
+        return result;
+    }
+
+    // Get available dividends for an account and currency
+    function getAvailableDividends(string memory symbol, address account) public view returns (uint256) {
+        require(currencies[symbol].addr != address(0), "Currency not found");
+
+        uint256 totalDivs = totalDividends(symbol) + totalWithdrawnDividends[symbol] + additionalContractDividends[symbol];
         uint256 totalSupply = totalSupply();
         uint256 accountBalance = balanceOf(account);
         uint256 owedDividends = (totalDivs * accountBalance) / totalSupply;
+
         if (owedDividends <= 0) {
             return 0;
         }
 
-        return owedDividends - withdrawnDividends[account];
+        return owedDividends - withdrawnDividends[account][symbol];
     }
 
-    function totalDividendsAvailable() public view returns (uint256) {
-        uint256 totalDivs = totalDividends() + additionalContractDividends;
+    // Get total dividends available for a currency
+    function totalDividendsAvailable(string memory symbol) public view returns (uint256) {
+        require(currencies[symbol].addr != address(0), "Currency not found");
+
+        uint256 totalDivs = totalDividends(symbol) + additionalContractDividends[symbol];
         if (totalDivs <= 0) {
             return 0;
         }
 
-        return totalDivs - totalWithdrawnDividends;
+        return totalDivs - totalWithdrawnDividends[symbol];
     }
 
-    function totalDividends() public view returns (uint256) {
-        require(currencyAddress != address(0), "Currency Address not set");
-        IERC20 token = IERC20(currencyAddress);
+    // Get total dividends for a currency
+    function totalDividends(string memory symbol) public view returns (uint256) {
+        require(currencies[symbol].addr != address(0), "Currency not found");
+
+        IERC20 token = IERC20(currencies[symbol].addr);
         return token.balanceOf(address(this));
     }
 
-    function withdrawDividends(uint256 amount) public nonReentrant {
-        _withdrawToDividends(msg.sender, amount);
+    // Withdraw dividends for a specific currency
+    function withdrawDividends(string memory symbol, uint256 amount) public nonReentrant {
+        require(currencies[symbol].addr != address(0), "Currency not found");
+        _withdrawToDividends(msg.sender, symbol, amount);
     }
 
     function transfer(address recipient, uint256 amount) public virtual override nonReentrant returns (bool) {
         uint256 senderBalance = balanceOf(msg.sender);
         require(senderBalance >= amount, "Insufficient funds");
 
-        uint256 withdrawnDivs = 0;
-        uint256 senderDividends = getAvailableDividends(msg.sender);
-        if (senderDividends > 0) {
-            withdrawnDivs = (senderDividends * amount) / senderBalance;
-            _withdrawToDividends(recipient, withdrawnDivs);
-        }
+        string memory symbol;
+        for (uint256 i = 0; i < currencySymbols.length; i++) {
+            // Fetch the symbol
+            symbol = currencySymbols[i];
 
-        emit TransferExecuted(msg.sender, recipient, amount, withdrawnDivs);
+            // Proportionally withdraw dividends:
+            uint256 withdrawnDivs = 0;
+            uint256 senderDividends = getAvailableDividends(symbol, msg.sender);
+            if (senderDividends > 0) {
+                withdrawnDivs = (senderDividends * amount) / senderBalance;
+
+                // withdraw the dividends:
+                _withdrawToDividends(recipient, symbol, withdrawnDivs);
+            }
+
+            // Emit event:
+            emit DividendsTransfered(msg.sender, recipient, withdrawnDivs, symbol);
+        }
+        
+        // Transfer the remaining amount:
         return super.transfer(recipient, amount);
     }
 
-    function _withdrawToDividends(address to, uint256 amount) internal {
+    // Internal function to withdraw dividends
+    function _withdrawToDividends(address to, string memory symbol, uint256 amount) internal {
         require(amount > 0, "Amount cannot be 0");
 
-        uint256 available = getAvailableDividends(to);
+        uint256 available = getAvailableDividends(symbol, to);
         require(available > 0, "No dividends available");
+
         if (available < amount) {
             amount = available;
         }
 
-        withdrawnDividends[to] += amount;
-        totalWithdrawnDividends += amount;
+        withdrawnDividends[to][symbol] += amount;
+        totalWithdrawnDividends[symbol] += amount;
 
-        _transferCurrencyFromContract(to, amount);
+        _transferCurrencyFromContract(to, symbol, amount);
 
-        emit WithdrawDividends(to, amount);
+        emit WithdrawDividends(symbol, to, amount);
     }
 
-    function _transferCurrencyFromContract(address to, uint256 amount) internal {
-        require(currencyAddress != address(0), "Currency Address not set");
+    // Internal function to transfer currency from the contract
+    function _transferCurrencyFromContract(address to, string memory symbol, uint256 amount) internal {
+        require(currencies[symbol].addr != address(0), "Currency not found");
         require(amount > 0, "Amount must be greater than 0");
 
-        IERC20 token = IERC20(currencyAddress);
+        IERC20 token = IERC20(currencies[symbol].addr);
         require(token.balanceOf(address(this)) >= amount, "Insufficient contract balance");
 
         bool success = token.transfer(to, amount);
         require(success, "Token transfer failed");
     }
 
-    function _addToAdditionalContractDividends(uint256 amount) internal {
-        require(currencyAddress != address(0), "Currency Address not set");
+    // Internal function to add additional dividends for a currency
+    function _addToAdditionalContractDividends(string memory symbol, uint256 amount) internal {
+        require(currencies[symbol].addr != address(0), "Currency not found");
         require(amount > 0, "Amount must be greater than 0");
 
-        IERC20 token = IERC20(currencyAddress);
-        require(token.balanceOf(address(this)) >= additionalContractDividends + amount, "Insufficient contract balance");
+        IERC20 token = IERC20(currencies[symbol].addr);
+        require(token.balanceOf(address(this)) >= additionalContractDividends[symbol] + amount, "Insufficient contract balance");
 
-        additionalContractDividends += amount;
+        additionalContractDividends[symbol] += amount;
 
-        emit AdditionalDividendsAdded(amount);
+        emit AdditionalDividendsAdded(symbol, amount);
+    }
+
+    function _addCurrencyFromAddress(address currAddr) private {
+        require(currAddr != address(0), "Invalid address");
+
+        ERC20 token = ERC20(currAddr);
+        string memory tokenName = token.name();
+        string memory tokenSymbol = token.symbol();
+        uint256 totalSupply = token.totalSupply();
+
+        return _addCurrency(currAddr, tokenName, tokenSymbol, totalSupply);
+    }
+    
+    function _addCurrency(address currAddr, string memory tokenName, string memory tokenSymbol, uint256 totalSupply) private {
+        require(bytes(tokenSymbol).length > 0, "Invalid token symbol");
+        require(bytes(tokenName).length > 0, "Invalid token name");
+        require(currencies[tokenSymbol].addr == address(0), "Currency already added");
+         require(totalSupply > 0, "Provided Currency ERC20 contract should not have a total supply of 0");
+
+        currencies[tokenSymbol] = Currency({
+            name: tokenName,
+            symbol: tokenSymbol,
+            addr: currAddr
+        });
+
+        currencySymbols.push(tokenSymbol);
+
+        emit CurrencyAdded(tokenSymbol, tokenName, currAddr);
     }
 }
