@@ -21,6 +21,11 @@ abstract contract VotableDividend is Dividendable {
         uint256 amount;        // Amount of dividends to distribute
     }
 
+    struct DAOVote {
+        address daoAddress; // Address of the DAO contract
+        bool isAdding;      // True for adding, false for removing
+    }
+
     struct Vote {
         address proposer;
         string descriptionURI;
@@ -29,14 +34,25 @@ abstract contract VotableDividend is Dividendable {
         uint256 yesVotes;
         uint256 noVotes;
         bool executed;
-        uint8 voteType; // 0 = TransferVote, 1 = TokenVote, 2 = DividendVote
+        uint8 voteType; // 0 = TransferVote, 1 = TokenVote, 2 = DividendVote, 3 = DAOVote
         TransferVote transferVote;
         TokenVote tokenVote;
         DividendVote dividendVote;
+        DAOVote daoVote;
     }
 
     uint256 public nextVoteId;
     mapping(uint256 => Vote) public votes;
+
+    // DAO Contracts
+    struct DAOContract {
+        string name;
+        string symbol;
+        address addr;
+    }
+
+    string[] public daoSymbols;
+    mapping(string => DAOContract) public daoContracts;
 
     // Events
     event TokenVoteCreated(
@@ -64,11 +80,16 @@ abstract contract VotableDividend is Dividendable {
         string descriptionURI
     );
 
-    // Events
-    event CurrencyRevoked(string symbol);
-    event BNBTransferred(address indexed target, uint256 amount);
-    event CurrencyTransferred(string currencySymbol, address indexed target, uint256 amount);
-    event DividendDistributed(string currencySymbol, uint256 amount);
+    event DAOVoteCreated(
+        uint256 voteId,
+        address proposer,
+        address daoAddress,
+        bool isAdding,
+        string descriptionURI
+    );
+
+    event DAOCreated(string symbol, string name, address addr);
+    event DAORevoked(string symbol, address addr);
     event VoteExecuted(uint256 voteId, bool outcome);
 
     constructor(
@@ -76,18 +97,18 @@ abstract contract VotableDividend is Dividendable {
         string memory symbol
     ) Dividendable(name, symbol) {}
 
-    // Create a token vote
-    function createTokenVote(
-        string memory symbol,
-        address currencyAddress,
+    // Create a DAO vote
+    function createDAOVote(
+        address daoAddress,
         string memory descriptionURI,
         bool isAdding
     ) external {
-        require(currencyAddress != address(0), "Invalid currency address");
+        require(daoAddress != address(0), "Invalid DAO address");
+
         if (isAdding) {
-            require(!currencyExists(symbol), "Token already exists");
+            require(!daoExists(daoAddress), "DAO already exists");
         } else {
-            require(currencyExists(symbol), "Token does not exist");
+            require(daoExists(daoAddress), "DAO does not exist");
         }
 
         uint256 voteId = nextVoteId++;
@@ -99,118 +120,84 @@ abstract contract VotableDividend is Dividendable {
             yesVotes: 0,
             noVotes: 0,
             executed: false,
-            voteType: 1, // TokenVote
-            transferVote: TransferVote("", address(0), 0), // Empty
-            tokenVote: TokenVote(symbol, currencyAddress, isAdding),
-            dividendVote: DividendVote("", 0) // Empty
-        });
-
-        emit TokenVoteCreated(voteId, msg.sender, symbol, isAdding, descriptionURI);
-    }
-
-    // Create a transfer vote
-    function createTransferVote(
-        string memory currencySymbol,
-        address targetAddress,
-        uint256 amount,
-        string memory descriptionURI
-    ) external {
-        require(targetAddress != address(0), "Invalid target address");
-        require(amount > 0, "Amount must be greater than 0");
-
-        if (keccak256(abi.encodePacked(currencySymbol)) == keccak256(abi.encodePacked("BNB"))) {
-            require(address(this).balance >= amount, "Insufficient BNB balance");
-        } else {
-            require(currencyExists(currencySymbol), "Currency not supported");
-            require(getAvailableCurrencyBalance(currencySymbol) >= amount, "Insufficient currency balance");
-        }
-
-        uint256 voteId = nextVoteId++;
-        votes[voteId] = Vote({
-            proposer: msg.sender,
-            descriptionURI: descriptionURI,
-            startTime: block.timestamp,
-            endTime: block.timestamp + 15 days,
-            yesVotes: 0,
-            noVotes: 0,
-            executed: false,
-            voteType: 0, // TransferVote
-            transferVote: TransferVote(currencySymbol, targetAddress, amount),
-            tokenVote: TokenVote("", address(0), false), // Empty
-            dividendVote: DividendVote("", 0) // Empty
-        });
-
-        emit TransferVoteCreated(voteId, msg.sender, currencySymbol, targetAddress, amount, descriptionURI);
-    }
-
-    // Create a dividend vote
-    function createDividendVote(
-        string memory currencySymbol,
-        uint256 amount,
-        string memory descriptionURI
-    ) external {
-        require(amount > 0, "Amount must be greater than 0");
-
-        if (keccak256(abi.encodePacked(currencySymbol)) == keccak256(abi.encodePacked("BNB"))) {
-            require(address(this).balance >= amount, "Insufficient BNB balance");
-        } else {
-            require(currencyExists(currencySymbol), "Currency not supported");
-            require(getAvailableCurrencyBalance(currencySymbol) >= amount, "Insufficient currency balance");
-        }
-
-        uint256 voteId = nextVoteId++;
-        votes[voteId] = Vote({
-            proposer: msg.sender,
-            descriptionURI: descriptionURI,
-            startTime: block.timestamp,
-            endTime: block.timestamp + 15 days,
-            yesVotes: 0,
-            noVotes: 0,
-            executed: false,
-            voteType: 2, // DividendVote
+            voteType: 3, // DAOVote
             transferVote: TransferVote("", address(0), 0), // Empty
             tokenVote: TokenVote("", address(0), false), // Empty
-            dividendVote: DividendVote(currencySymbol, amount)
+            dividendVote: DividendVote("", 0), // Empty
+            daoVote: DAOVote(daoAddress, isAdding)
         });
 
-        emit DividendVoteCreated(voteId, msg.sender, currencySymbol, amount, descriptionURI);
+        emit DAOVoteCreated(voteId, msg.sender, daoAddress, isAdding, descriptionURI);
     }
 
-    // Voting logic
-    function vote(uint256 voteId, bool support) external {
-        Vote storage voteProposal = votes[voteId];
-        require(block.timestamp < voteProposal.endTime, "Vote period ended");
-        require(!voteProposal.executed, "Vote already executed");
+    // Utility to check if a DAO exists
+    function daoExists(address daoAddress) public view returns (bool) {
+        string memory symbol = ERC20(daoAddress).symbol();
+        return daoContracts[symbol].addr != address(0);
+    }
 
-        uint256 weight = balanceOf(msg.sender);
-        require(weight > 0, "No voting power");
-
-        if (support) {
-            voteProposal.yesVotes += weight;
+    // Execute a DAO vote
+    function _executeDAOVote(DAOVote memory daoVote) internal {
+        if (daoVote.isAdding) {
+            _addDAO(daoVote.daoAddress);
         } else {
-            voteProposal.noVotes += weight;
-        }
-
-        // Check if vote can be executed immediately
-        if (_canExecuteVote(voteProposal)) {
-            _executeVote(voteId, true);
+            _removeDAO(daoVote.daoAddress);
         }
     }
 
-    // Finalize vote
-    function finalizeVote(uint256 voteId) external {
-        Vote storage voteProposal = votes[voteId];
-        require(block.timestamp >= voteProposal.endTime, "Vote period not ended");
-        require(!voteProposal.executed, "Vote already executed");
+    // Add a DAO
+    function _addDAO(address daoAddress) internal {
+        require(!daoExists(daoAddress), "DAO already exists");
 
-        if (voteProposal.yesVotes > voteProposal.noVotes) {
-            _executeVote(voteId, true);
-        } else {
-            _executeVote(voteId, false);
-        }
+        ERC20 token = ERC20(daoAddress);
+        string memory name = token.name();
+        string memory symbol = token.symbol();
+
+        daoContracts[symbol] = DAOContract({
+            name: name,
+            symbol: symbol,
+            addr: daoAddress
+        });
+
+        daoSymbols.push(symbol);
+
+        // Automatically add the DAO as a currency
+        addCurrency(symbol, daoAddress);
+
+        emit DAOCreated(symbol, name, daoAddress);
     }
 
-    // Execute vote
+    // Remove a DAO
+    function _removeDAO(address daoAddress) internal {
+        require(daoExists(daoAddress), "DAO does not exist");
+
+        string memory symbol = ERC20(daoAddress).symbol();
+        delete daoContracts[symbol];
+
+        for (uint256 i = 0; i < daoSymbols.length; i++) {
+            if (keccak256(abi.encodePacked(daoSymbols[i])) == keccak256(abi.encodePacked(symbol))) {
+                daoSymbols[i] = daoSymbols[daoSymbols.length - 1];
+                daoSymbols.pop();
+                break;
+            }
+        }
+
+        // Automatically revoke the DAO as a currency
+        revokeCurrency(symbol);
+
+        emit DAORevoked(symbol, daoAddress);
+    }
+
+    // Retrieve all DAOs
+    function getDAOs() external view returns (DAOContract[] memory) {
+        DAOContract[] memory daos = new DAOContract[](daoSymbols.length);
+        for (uint256 i = 0; i < daoSymbols.length; i++) {
+            daos[i] = daoContracts[daoSymbols[i]];
+        }
+        return daos;
+    }
+
+    // Execute a vote
     function _executeVote(uint256 voteId, bool outcome) internal {
         Vote storage voteProposal = votes[voteId];
         require(!voteProposal.executed, "Already executed");
@@ -218,26 +205,47 @@ abstract contract VotableDividend is Dividendable {
 
         if (outcome) {
             if (voteProposal.voteType == 0) {
-                // TransferVote
-                if (keccak256(abi.encodePacked(voteProposal.transferVote.currencySymbol)) == keccak256(abi.encodePacked("BNB"))) {
-                    _transferBNB(voteProposal.transferVote.targetAddress, voteProposal.transferVote.amount);
-                } else {
-                    _transferCurrency(voteProposal.transferVote.currencySymbol, voteProposal.transferVote.targetAddress, voteProposal.transferVote.amount);
-                }
+                _executeTransferVote(voteProposal.transferVote);
             } else if (voteProposal.voteType == 1) {
-                // TokenVote
-                if (voteProposal.tokenVote.isAdding) {
-                    addCurrency(voteProposal.tokenVote.currencySymbol, voteProposal.tokenVote.currencyAddress);
-                } else {
-                    revokeCurrency(voteProposal.tokenVote.currencySymbol);
-                }
+                _executeTokenVote(voteProposal.tokenVote);
             } else if (voteProposal.voteType == 2) {
-                // DividendVote
-                _addToAdditionalContractDividends(voteProposal.dividendVote.currencySymbol, voteProposal.dividendVote.amount);
+                _executeDividendVote(voteProposal.dividendVote);
+            } else if (voteProposal.voteType == 3) {
+                _executeDAOVote(voteProposal.daoVote);
             }
         }
 
         emit VoteExecuted(voteId, outcome);
+    }
+
+    // Execute a TransferVote
+    function _executeTransferVote(TransferVote memory transferVote) internal {
+        require(currencyExists(transferVote.currencySymbol), "Currency does not exist");
+
+        if (keccak256(abi.encodePacked(transferVote.currencySymbol)) == keccak256(abi.encodePacked("BNB"))) {
+            _transferBNB(transferVote.targetAddress, transferVote.amount);
+        } else {
+            _transferCurrency(transferVote.currencySymbol, transferVote.targetAddress, transferVote.amount);
+        }
+    }
+
+    // Execute a TokenVote
+    function _executeTokenVote(TokenVote memory tokenVote) internal {
+        if (tokenVote.isAdding) {
+            addCurrency(tokenVote.currencySymbol, tokenVote.currencyAddress);
+        } else {
+            revokeCurrency(tokenVote.currencySymbol);
+        }
+    }
+
+    // Execute a DividendVote
+    function _executeDividendVote(DividendVote memory dividendVote) internal {
+        require(currencyExists(dividendVote.currencySymbol), "Currency does not exist");
+
+        uint256 availableBalance = getAvailableCurrencyBalance(dividendVote.currencySymbol);
+        require(dividendVote.amount <= availableBalance, "Insufficient currency balance for dividends");
+
+        _addToAdditionalContractDividends(dividendVote.currencySymbol, dividendVote.amount);
     }
 
     // Utility to check if vote can be executed
@@ -262,62 +270,9 @@ abstract contract VotableDividend is Dividendable {
 
         currencySymbols.push(symbol);
 
+        // Automatically revoke the DAO as a currency
+        revokeCurrency(symbol);
+
         emit CurrencyAdded(symbol, name, currencyAddress);
-    }
-
-    // Revoke currency
-    function revokeCurrency(string memory symbol) internal {
-        require(currencyExists(symbol), "Currency does not exist");
-
-        delete currencies[symbol];
-
-        // Remove symbol from the array
-        for (uint256 i = 0; i < currencySymbols.length; i++) {
-            if (keccak256(abi.encodePacked(currencySymbols[i])) == keccak256(abi.encodePacked(symbol))) {
-                currencySymbols[i] = currencySymbols[currencySymbols.length - 1];
-                currencySymbols.pop();
-                break;
-            }
-        }
-
-        emit CurrencyRevoked(symbol);
-    }
-
-    // Check if a currency exists
-    function currencyExists(string memory symbol) public view returns (bool) {
-        return currencies[symbol].addr != address(0);
-    }
-
-    // Get available balance for a currency
-    function getAvailableCurrencyBalance(string memory symbol) public view returns (uint256) {
-        require(currencyExists(symbol), "Currency does not exist");
-
-        address currencyAddress = currencies[symbol].addr;
-        IERC20 token = IERC20(currencyAddress);
-
-        return token.balanceOf(address(this));
-    }
-
-    // Transfer BNB
-    function _transferBNB(address target, uint256 amount) internal {
-        require(address(this).balance >= amount, "Insufficient BNB balance");
-        payable(target).transfer(amount);
-
-        emit BNBTransferred(target, amount);
-    }
-
-    // Transfer currency
-    function _transferCurrency(string memory symbol, address target, uint256 amount) internal {
-        require(currencyExists(symbol), "Currency does not exist");
-
-        address currencyAddress = currencies[symbol].addr;
-        IERC20 token = IERC20(currencyAddress);
-
-        require(token.balanceOf(address(this)) >= amount, "Insufficient currency balance");
-
-        bool success = token.transfer(target, amount);
-        require(success, "Currency transfer failed");
-
-        emit CurrencyTransferred(symbol, target, amount);
     }
 }

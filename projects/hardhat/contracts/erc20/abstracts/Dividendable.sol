@@ -22,6 +22,10 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
     address public primaryCurrencyAddress;
 
     event CurrencyAdded(string symbol, string name, address indexed addr);
+    event CurrencyRevoked(string symbol);
+    event CurrencyTransferred(string symbol, address indexed target, uint256 amount);
+    event BNBTransferred(address indexed target, uint256 amount);
+    
     event WithdrawDividends(string symbol, address recipient, uint256 amount);
     event AdditionalDividendsAdded(string symbol, uint256 amount);
     event PrimaryCurrencySet(string symbol, string name, address indexed addr);
@@ -35,6 +39,24 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
     // Add a new currency
     function addCurrency(address currAddr) public onlyOwner {
         return _addCurrencyFromAddress(currAddr);
+    }
+
+    // Revoke currency
+    function revokeCurrency(string memory symbol) internal {
+        require(currencyExists(symbol), "Currency does not exist");
+
+        delete currencies[symbol];
+
+        // Remove symbol from the array
+        for (uint256 i = 0; i < currencySymbols.length; i++) {
+            if (keccak256(abi.encodePacked(currencySymbols[i])) == keccak256(abi.encodePacked(symbol))) {
+                currencySymbols[i] = currencySymbols[currencySymbols.length - 1];
+                currencySymbols.pop();
+                break;
+            }
+        }
+
+        emit CurrencyRevoked(symbol);
     }
 
     // Set primary currency
@@ -169,11 +191,11 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
         require(currencies[symbol].addr != address(0), "Currency not found");
         require(amount > 0, "Amount must be greater than 0");
 
-        IERC20 token = IERC20(currencies[symbol].addr);
-        require(token.balanceOf(address(this)) >= additionalContractDividends[symbol] + amount, "Insufficient contract balance");
+        Currency storage currency = currencies[symbol];
+        IERC20 token = IERC20(currency.addr);
+        require(token.balanceOf(address(this)) >= amount, "Insufficient balance for additional dividends");
 
         additionalContractDividends[symbol] += amount;
-
         emit AdditionalDividendsAdded(symbol, amount);
     }
 
@@ -203,5 +225,43 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
         currencySymbols.push(tokenSymbol);
 
         emit CurrencyAdded(tokenSymbol, tokenName, currAddr);
+    }
+
+    // Check if a currency exists
+    function currencyExists(string memory symbol) public view returns (bool) {
+        return currencies[symbol].addr != address(0);
+    }
+
+    // Get available balance for a currency
+    function getAvailableCurrencyBalance(string memory symbol) public view returns (uint256) {
+        require(currencyExists(symbol), "Currency does not exist");
+
+        address currencyAddress = currencies[symbol].addr;
+        IERC20 token = IERC20(currencyAddress);
+
+        return token.balanceOf(address(this));
+    }
+
+    // Transfer currency
+    function _transferCurrency(string memory symbol, address target, uint256 amount) internal {
+        require(currencyExists(symbol), "Currency does not exist");
+
+        address currencyAddress = currencies[symbol].addr;
+        IERC20 token = IERC20(currencyAddress);
+
+        require(token.balanceOf(address(this)) >= amount, "Insufficient currency balance");
+
+        bool success = token.transfer(target, amount);
+        require(success, "Currency transfer failed");
+
+        emit CurrencyTransferred(symbol, target, amount);
+    }
+
+    // Transfer BNB
+    function _transferBNB(address target, uint256 amount) internal {
+        require(address(this).balance >= amount, "Insufficient BNB balance");
+        payable(target).transfer(amount);
+
+        emit BNBTransferred(target, amount);
     }
 }
