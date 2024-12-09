@@ -200,9 +200,8 @@ abstract contract VotableDividend is Dividendable {
     // Execute a vote
     function _executeVote(uint256 voteId, bool outcome) internal {
         Vote storage voteProposal = votes[voteId];
-        require(!voteProposal.executed, "Already executed");
-        voteProposal.executed = true;
-
+        require(_canExecuteVote(voteProposal), "Vote treshold on proposal has not been met yet");
+        
         if (outcome) {
             if (voteProposal.voteType == 0) {
                 _executeTransferVote(voteProposal.transferVote);
@@ -215,6 +214,7 @@ abstract contract VotableDividend is Dividendable {
             }
         }
 
+        voteProposal.executed = true;
         emit VoteExecuted(voteId, outcome);
     }
 
@@ -250,6 +250,7 @@ abstract contract VotableDividend is Dividendable {
 
     // Utility to check if vote can be executed
     function _canExecuteVote(Vote storage voteProposal) internal view returns (bool) {
+        require(!voteProposal.executed, "Vote already executed");
         uint256 circulatingSupply = totalSupply() - balanceOf(address(this));
         uint256 threshold = (circulatingSupply / 2) + 1;
         return voteProposal.yesVotes >= threshold || voteProposal.noVotes >= threshold;
@@ -269,9 +270,6 @@ abstract contract VotableDividend is Dividendable {
         });
 
         currencySymbols.push(symbol);
-
-        // Automatically revoke the DAO as a currency
-        revokeCurrency(symbol);
 
         emit CurrencyAdded(symbol, name, currencyAddress);
     }
