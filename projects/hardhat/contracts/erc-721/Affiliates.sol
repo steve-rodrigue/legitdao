@@ -11,7 +11,6 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "hardhat/console.sol";
 
 contract Affiliates is ERC721, Ownable, ReentrancyGuard {
-
     // using Math for uint256 type
     using Math for uint256;
 
@@ -265,7 +264,7 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
         // find the share:
         uint256 share = (levelRatios[level] * amount) / DESCALE;
 
-        //change the payment in the book:
+        // change the payment in the book:
         paymentBook[parent] += share;
 
         // emit:

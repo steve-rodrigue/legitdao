@@ -3,7 +3,7 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "./abstracts/Marketplace.sol";
+import "./../abstracts/Marketplace.sol";
 
 contract WebX is Marketplace, ERC20 {
     uint256 public constant INITIAL_SUPPLY = 100_000_000 * 10**18; // 100M tokens

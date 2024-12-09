@@ -126,16 +126,16 @@ abstract contract Marketplace is  ReentrancyGuard {
     }
 
     function _balanceOfInternally(address addr) internal view virtual returns(uint256) {
-        require(0 == 1, "_balanceOfInternally in Marketplace must be overideen");
+        require(0 == 1, "_balanceOfInternally in Marketplace must be override");
         return 0;
     }
 
     function _allowanceInternally(address owner, address spender) internal view virtual returns(uint256) {
-        require(0 == 1, "_allowanceInternally in Marketplace must be overideen");
+        require(0 == 1, "_allowanceInternally in Marketplace must be override");
         return 0;
     }
 
     function _transferInternally(address from, address to, uint256 amount) internal virtual {
-        require(0 == 1, "_transfer in Marketplace must be overideen");
+        require(0 == 1, "_transfer in Marketplace must be override");
     }
 }

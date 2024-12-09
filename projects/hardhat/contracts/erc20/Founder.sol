@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./abstracts/Dividendable.sol";
-import "./abstracts/Marketplace.sol";
+import "./../abstracts/Marketplace.sol";
 
 contract Founder is Marketplace, Dividendable {
     constructor(

@@ -2,10 +2,12 @@
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./abstracts/VotableDividend.sol";
-import "./abstracts/Marketplace.sol";
+import "./../abstracts/Marketplace.sol";
+import "./../erc-721/Affiliates.sol";
 
 contract LegitDAO is Marketplace, VotableDividend {
     uint256 public constant INITIAL_SUPPLY = 100_000_000 * 10**18; // 100M tokens
@@ -24,12 +26,13 @@ contract LegitDAO is Marketplace, VotableDividend {
 
     // Set the Affiliates address
     function setAffiliatesAddress(address _affiliatesAddress) public onlyOwner {
-        require(affiliatesAddress == address(0), "Primary Currency Address already set");
+        require(affiliatesAddress == address(0), "Affiliates address already set");
         require(_affiliatesAddress != address(0), "Invalid address");
 
-        uint256 totalSupply = IERC20(_affiliatesAddress).totalSupply();
-        require(totalSupply != 0, "Provided Primary Currency ERC20 contract should not have a total supply of 0");
-        
+        // Verify that the provided address is an Affiliates and an ERC721 contract by checking the interface
+        bool isERC721 = Affiliates(_affiliatesAddress).supportsInterface(type(IERC721).interfaceId);
+        require(isERC721, "Provided address is not a valid ERC721 contract");
+
         affiliatesAddress = _affiliatesAddress;
 
         emit AffiliatesAddressSet(affiliatesAddress);
@@ -41,7 +44,7 @@ contract LegitDAO is Marketplace, VotableDividend {
 
         // Ensure necessary addresses are set
         require(primaryCurrencyAddress != address(0), "Primary Currency address not set");
-        require(keccak256(abi.encodePacked(primaryCurrencySymbol)) != keccak256(abi.encodePacked("")), "Primary Currency address not set");
+        require(keccak256(abi.encodePacked(primaryCurrencySymbol)) != keccak256(abi.encodePacked("")), "Primary Currency symbol not set");
         require(affiliatesAddress != address(0), "Affiliates address not set");
 
         uint256 senderTax = (amount * TAX_SENDER) / 100; // 20% sender tax
@@ -59,11 +62,12 @@ contract LegitDAO is Marketplace, VotableDividend {
         // Burn the burn amount
         _burn(msg.sender, burnAmount);
 
-        // Transfer sender tax to contract
-        IERC20(primaryCurrencyAddress).transferFrom(msg.sender, address(this), dividends + contractAllocation);
+        // Transfer sender tax (dividends + contractAllocation + receiverTax) to contract
+        IERC20(primaryCurrencyAddress).transferFrom(msg.sender, address(this), dividends + contractAllocation + receiverTax);
 
-        // Handle receiver tax
-        IERC20(primaryCurrencyAddress).transferFrom(msg.sender, affiliatesAddress, receiverTax);
+        // Execute the sendPayment function on the affiliates
+        _approve(address(this), affiliatesAddress, receiverTax);
+        Affiliates(affiliatesAddress).sendPayment(msg.sender, receiverTax);
 
         // Perform the main transfer
         bool success = super.transfer(recipient, netAmount);
