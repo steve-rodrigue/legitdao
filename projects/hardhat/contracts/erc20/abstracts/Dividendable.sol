@@ -4,8 +4,10 @@ pragma solidity ^0.8.19;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./../../erc-721/Affiliates.sol";
 
 abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
+    uint256 divPerThousandToAffiliate;
     struct Currency {
         string name;
         string symbol;
@@ -21,20 +23,56 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
     string public primaryCurrencySymbol;
     address public primaryCurrencyAddress;
 
+    address public affiliatesAddress;
+
     event CurrencyAdded(string symbol, string name, address indexed addr);
     event CurrencyRevoked(string symbol);
     event CurrencyTransferred(string symbol, address indexed target, uint256 amount);
     event BNBTransferred(address indexed target, uint256 amount);
     
     event WithdrawDividends(string symbol, address recipient, uint256 amount);
+    event DividendsPaymentToAffiliates(string symbol, uint256 amount);
     event AdditionalDividendsAdded(string symbol, uint256 amount);
     event PrimaryCurrencySet(string symbol, string name, address indexed addr);
     event DividendsTransfered(address from, address to, uint256 dividends, string symbol);
 
+    event AffiliatesAddressSet(address indexed affiliatesAddress);
+
     constructor(
+        uint256 _divPerThousandToAffiliate,
         string memory name,
         string memory symbol
-    ) ERC20(name, symbol) Ownable(msg.sender) {}
+    ) ERC20(name, symbol) Ownable(msg.sender) {
+        divPerThousandToAffiliate = _divPerThousandToAffiliate;
+    }
+
+    // Set the Affiliates address
+    function setAffiliatesAddress(address _affiliatesAddress) public onlyOwner {
+        require(affiliatesAddress == address(0), "Affiliates address already set");
+        require(_affiliatesAddress != address(0), "Invalid address");
+
+        // Verify that the provided address is an Affiliates and an ERC721 contract by checking the interface
+        bool isERC721 = Affiliates(_affiliatesAddress).supportsInterface(type(IERC721).interfaceId);
+        require(isERC721, "Provided address is not a valid ERC721 contract");
+
+        affiliatesAddress = _affiliatesAddress;
+
+        emit AffiliatesAddressSet(affiliatesAddress);
+    }
+
+    function _sendPaymentToAffiliates(string memory symbol, address addr, uint256 amount) internal {
+        // If there is no payment, simply return
+        if (amount <= 0) {
+            return;
+        }
+
+        require(affiliatesAddress != address(0), "Affiliates address already not set");
+        require(currencyExists(symbol), "Currency does not exists");
+
+        // Approve and send:
+        _approve(currencies[symbol].addr, affiliatesAddress, amount);
+        Affiliates(affiliatesAddress).sendPayment(addr, amount);
+    }
 
     // Add a new currency
     function addCurrency(address currAddr) public onlyOwner {
@@ -86,8 +124,8 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
         return result;
     }
 
-    // Get available dividends for an account and currency
-    function getAvailableDividends(string memory symbol, address account) public view returns (uint256) {
+    // Get available dividends for an account and currency before affiliate tax
+    function getAvailableDividendsBeforeTax(string memory symbol, address account) public view returns (uint256) {
         require(currencies[symbol].addr != address(0), "Currency not found");
 
         uint256 totalDivs = totalDividends(symbol) + totalWithdrawnDividends[symbol] + additionalContractDividends[symbol];
@@ -100,6 +138,16 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
         }
 
         return owedDividends - withdrawnDividends[account][symbol];
+    }
+
+    // Get available dividends for an account and currency after affiliate tax
+    function getAvailableDividendsAfterTax(string memory symbol, address account) public view returns (uint256) {
+        uint256 dividends = getAvailableDividendsBeforeTax(symbol, account);
+        return _getAffiliateShare(dividends);
+    }
+
+    function _getAffiliateShare(uint256 amount) private view returns (uint256) {
+        return (amount * divPerThousandToAffiliate) / 10000;
     }
 
     // Get total dividends available for a currency
@@ -139,7 +187,7 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
 
             // Proportionally withdraw dividends:
             uint256 withdrawnDivs = 0;
-            uint256 senderDividends = getAvailableDividends(symbol, msg.sender);
+            uint256 senderDividends = getAvailableDividendsBeforeTax(symbol, msg.sender);
             if (senderDividends > 0) {
                 withdrawnDivs = (senderDividends * amount) / senderBalance;
 
@@ -159,7 +207,7 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
     function _withdrawToDividends(address to, string memory symbol, uint256 amount) internal {
         require(amount > 0, "Amount cannot be 0");
 
-        uint256 available = getAvailableDividends(symbol, to);
+        uint256 available = getAvailableDividendsBeforeTax(symbol, to);
         require(available > 0, "No dividends available");
 
         if (available < amount) {
@@ -169,9 +217,15 @@ abstract contract Dividendable is ERC20, Ownable, ReentrancyGuard {
         withdrawnDividends[to][symbol] += amount;
         totalWithdrawnDividends[symbol] += amount;
 
-        _transferCurrencyFromContract(to, symbol, amount);
+        // Send payment to affiliates
+        uint256 taxAmount = _getAffiliateShare(amount);
+        _sendPaymentToAffiliates(symbol, msg.sender, taxAmount);
+        emit DividendsPaymentToAffiliates(symbol, taxAmount);
 
-        emit WithdrawDividends(symbol, to, amount);
+        // Send net payment to withdrawal
+        uint256 netAmount = amount - taxAmount;
+        _transferCurrencyFromContract(to, symbol, netAmount);
+        emit WithdrawDividends(symbol, to, netAmount);
     }
 
     // Internal function to transfer currency from the contract

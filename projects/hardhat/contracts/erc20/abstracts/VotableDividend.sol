@@ -93,9 +93,10 @@ abstract contract VotableDividend is Dividendable {
     event VoteExecuted(uint256 voteId, bool outcome);
 
     constructor(
+        uint256 _divPerThousandToAffiliate,
         string memory name,
         string memory symbol
-    ) Dividendable(name, symbol) {}
+    ) Dividendable(_divPerThousandToAffiliate, name, symbol) {}
 
     // Create a DAO vote
     function createDAOVote(

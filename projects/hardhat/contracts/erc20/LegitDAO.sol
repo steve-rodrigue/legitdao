@@ -14,29 +14,12 @@ contract LegitDAO is Marketplace, VotableDividend {
     uint256 public constant TAX_SENDER = 20; // 20%
     uint256 public constant TAX_RECEIVER = 15; // 15%
 
-    address public affiliatesAddress;
-
-    event AffiliatesAddressSet(address indexed affiliatesAddress);
     event TransferTaxed(address indexed sender, address indexed recipient, uint256 amount);
 
     constructor()
-        VotableDividend("LegitDAO Governance Token", "LEGITDAO")
+        VotableDividend(150, "LegitDAO Governance Token", "LEGITDAO")
         Marketplace()
     {}
-
-    // Set the Affiliates address
-    function setAffiliatesAddress(address _affiliatesAddress) public onlyOwner {
-        require(affiliatesAddress == address(0), "Affiliates address already set");
-        require(_affiliatesAddress != address(0), "Invalid address");
-
-        // Verify that the provided address is an Affiliates and an ERC721 contract by checking the interface
-        bool isERC721 = Affiliates(_affiliatesAddress).supportsInterface(type(IERC721).interfaceId);
-        require(isERC721, "Provided address is not a valid ERC721 contract");
-
-        affiliatesAddress = _affiliatesAddress;
-
-        emit AffiliatesAddressSet(affiliatesAddress);
-    }
 
     // Override transfer to include taxation
     function transfer(address recipient, uint256 amount) public virtual override nonReentrant returns (bool) {
@@ -66,8 +49,7 @@ contract LegitDAO is Marketplace, VotableDividend {
         IERC20(primaryCurrencyAddress).transferFrom(msg.sender, address(this), dividends + contractAllocation + receiverTax);
 
         // Execute the sendPayment function on the affiliates
-        _approve(address(this), affiliatesAddress, receiverTax);
-        Affiliates(affiliatesAddress).sendPayment(msg.sender, receiverTax);
+        _sendPaymentToAffiliates(symbol(), msg.sender, receiverTax);
 
         // Perform the main transfer
         bool success = super.transfer(recipient, netAmount);

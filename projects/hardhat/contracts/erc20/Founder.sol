@@ -11,7 +11,7 @@ contract Founder is Marketplace, Dividendable {
     constructor(
         address[] memory holders
     )
-        Dividendable("LegitDAO Founder Token", "LEGITDAO_F") 
+        Dividendable(0, "LegitDAO Founder Token", "LEGITDAO_F") 
         Marketplace()
     {
         for (uint256 i = 0; i < holders.length; i++) {
