@@ -9,8 +9,6 @@ author: "Steve Rodrigue"
 tags: ["dao", "smart-contract", "tokenomics"]
 draft: false
 ---
-## Introduction : Comprendre le LegitDAO
-
 Le **contrat LegitDAO** combine des mécanismes de gouvernance, d’utilité et d’incitation pour créer une organisation autonome décentralisée (DAO). Ce contrat fournit une structure permettant aux membres du DAO de participer à la prise de décision, de contribuer à des projets et de recevoir des récompenses.
 
 Dans cet article, nous décomposons les fonctionnalités du contrat LegitDAO en expliquant sa **tokenomique** en termes simples. La tokenomique est le modèle économique qui régit la création, la distribution et l’utilisation des tokens au sein de l’écosystème.
