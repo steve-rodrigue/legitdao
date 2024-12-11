@@ -1611,9 +1611,9 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 		totalReferredFounderWithCents += oneTree.referredTop
 	}
 
-	totalBackToDAOWithCents := totalEmissionWithCents - (totalUnitsWithCents + totalFounderWithCents + totalReferredFounderWithCents + totalReferredWithCents)
+	//totalBackToDAOWithCents := totalEmissionWithCents - (totalUnitsWithCents + totalFounderWithCents + totalReferredFounderWithCents + totalReferredWithCents)
 
-	fmt.Printf("\ntotal include cents, the token is divisible in 1/100.000.000\n------\n")
+	/*fmt.Printf("\ntotal include cents, the token is divisible in 1/100.000.000\n------\n")
 	fmt.Printf("\ntotal to contributors: %d\n", totalUnitsWithCents)
 	fmt.Printf("\ntotal back to DAO: %d\n", totalBackToDAOWithCents)
 	fmt.Printf("\ntotal founders: %d \n", totalFounderWithCents)
@@ -1621,7 +1621,7 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 	fmt.Printf("\ntotal referred: %d \n", totalReferredWithCents)
 	fmt.Printf("\ntotal emission: %d \n", totalBackToDAOWithCents+totalUnitsWithCents+totalReferredWithCents+totalFounderWithCents+totalReferredFounderWithCents)
 	fmt.Printf("\nreferring percentage: %f \n\n", float64(totalReferredWithCents)/float64(totalUnitsWithCents))
-	fmt.Printf("\nfounder referring overflow percentage: %f \n\n", float64(totalReferredFounderWithCents)/float64(totalUnitsWithCents))
+	fmt.Printf("\nfounder referring overflow percentage: %f \n\n", float64(totalReferredFounderWithCents)/float64(totalUnitsWithCents))*/
 
 	for oneAddress, oneTree := range totalWithRatioMul {
 		referralListStr := "-"
