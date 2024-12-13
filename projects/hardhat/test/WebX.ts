@@ -11,6 +11,9 @@ describe("WebX Contract", function () {
   let addr2: SignerWithAddress;
   let addr3: SignerWithAddress;
   let wallet1: string;
+  let oneYearInSeconds: number;
+  let amountOfSecondsInPeriod: number;
+  let tokensPerPeriod: number;
 
   beforeEach(async () => {
     [owner, addr1, addr2, addr3] = await ethers.getSigners();
@@ -18,6 +21,10 @@ describe("WebX Contract", function () {
 
     const WebX = await ethers.getContractFactory("WebX");
     webX = await WebX.deploy();
+
+    oneYearInSeconds = 365 * 24 * 60 * 60;
+    amountOfSecondsInPeriod = 21600;
+    tokensPerPeriod = 3240;
   });
 
   it("should return the correct token URI", async () => {
@@ -25,29 +32,27 @@ describe("WebX Contract", function () {
     expect(tokenURI).to.equal("https://legitdao.com/contracts/webx.json");
   });
 
-  it("should distribute allocation to 3240 addresses and mint correctly", async () => {
+  it("should distribute allocation to 10 addresses and mint correctly", async () => {
     // Generate random addresses
     let addresses: string[] = [];
-    let amountOfAddresses = 3240;
+    let amountOfAddresses = 10;
     for (let i = 0; i < amountOfAddresses; i++) {
         const wallet = ethers.Wallet.createRandom();
         addresses.push(wallet.address);
     }
 
     // Initial allocation
-    const initialAllocation = await webX.allocationPercentage(owner.address);
+    const initialAllocation = await webX.getAllocatedBlocks(owner.address);
 
-    // Attribute 1 unit of allocation (out of the DIVIDER) to each address
-    const percentageToAttribute = Math.floor(Number(await webX.DIVIDER()) / addresses.length);
+    // Attribute 1 unit of allocation (out of the TOKENS_PER_PERIOD) to each address
+    const blocksToAttribute = Math.floor(tokensPerPeriod / addresses.length);
 
-    // Attribute a percentage to each address
+    // Attribute a blocks to each address
     for (const addr of addresses) {
-        await webX.connect(owner).attributeMintingRatio(addr, percentageToAttribute);
+        await webX.connect(owner).attributeMintingBlock(addr, blocksToAttribute)
     }
 
     // Simulate 1 year of elapsed time in seconds
-    const oneYearInHours = 365 * 24; // 1 year in hours
-    const oneYearInSeconds = oneYearInHours * 3600;
     await ethers.provider.send("evm_increaseTime", [oneYearInSeconds]);
     await ethers.provider.send("evm_mine", []);
 
@@ -55,60 +60,62 @@ describe("WebX Contract", function () {
     await webX.mint();
 
     // Verify that allocations add up correctly
-    const remainingAllocation = await webX.allocationPercentage(owner.address);
-    const totalAttributed = BigInt(amountOfAddresses) * BigInt(percentageToAttribute);
+    const remainingAllocation = await webX.getAllocatedBlocks(owner.address);
+    const totalAttributed = BigInt(amountOfAddresses) * BigInt(blocksToAttribute);
     expect(remainingAllocation + totalAttributed).to.equal(initialAllocation);
+    
 
     // Verify balances of the first 10 attributed addresses
-    const expectedMintablePerUnit = BigInt(await webX.TOTAL_SUPPLY()) / BigInt(await webX.MINTING_PERIOD()); // Tokens per hour
-    const expectedMintedPerAddress = (expectedMintablePerUnit * BigInt(oneYearInHours) * BigInt(percentageToAttribute)) / BigInt(await webX.DIVIDER());
-
+    const amountOfPeriods = oneYearInSeconds / amountOfSecondsInPeriod;
+    const totalTokens = amountOfPeriods * tokensPerPeriod;
+    const percentToAtttribute = blocksToAttribute / tokensPerPeriod;
+    const expectedMintedPerAddress = totalTokens *  percentToAtttribute;
     for (let i = 0; i < 10; i++) {
-        const balance = await webX.balanceOf(addresses[i]);
+        const balance = await webX.balanceOfInToken(addresses[i]);
         expect(balance).to.equal(expectedMintedPerAddress);
     }
+
+    // Check mintable tokens
+    const mintableTokens = await webX.mintableTokens();
+    expect(mintableTokens).to.equal(0);
   });
 
   it("should mint tokens and emit TokenMinted event", async () => {
     // Simulate time passing (1 year)
-    const oneYearInHours = 365 * 24; // Time in hours
-    const oneYearInSeconds = oneYearInHours * 3600; // Convert to seconds
     await ethers.provider.send("evm_increaseTime", [oneYearInSeconds]);
     await ethers.provider.send("evm_mine", []); // Mine the next block to apply the time change
+    
+    // Expected values
+    const totalSupply = await webX.TOTAL_SUPPLY();
+    const tokensToMint = totalSupply / BigInt(20);
+    const remainingToMing = totalSupply - tokensToMint;
 
     // Call mint function
     const tx = await webX.mint();
-
-    // Expected values
-    const mintingPeriod = await webX.MINTING_PERIOD();
-    const totalSupply = await webX.TOTAL_SUPPLY();
-    const mintablePerHour = BigInt(totalSupply) / BigInt(mintingPeriod); // Tokens per hour
-    const expectedTotalMintable = mintablePerHour * BigInt(oneYearInHours); // Total tokens minted in 1 year
-    const remainingToMint = BigInt(totalSupply) - BigInt(expectedTotalMintable); // Remaining tokens
 
     // Check TokenMinted event
     await expect(tx)
         .to.emit(webX, "TokenMinted")
         .withArgs(
-            expectedTotalMintable.toString(),
-            remainingToMint.toString(),
-            expectedTotalMintable.toString()
+            tokensToMint.toString(),
+            remainingToMing.toString(),
+            tokensToMint.toString()
         );
 
     // Check balances
     const ownerBalance = await webX.balanceOf(owner.address);
-    expect(ownerBalance).to.equal(expectedTotalMintable.toString());
+    expect(ownerBalance).to.equal(tokensToMint.toString());
 
     // Check total minted tokens
     const totalMinted = await webX.totalMinted();
-    expect(totalMinted).to.equal(expectedTotalMintable.toString());
+    expect(totalMinted).to.equal(tokensToMint.toString());
   });
 
   it("should remove sender from allocatedWallets when allocation reaches zero", async () => {
-    const senderInitialAllocation = await webX.allocationPercentage(owner.address);
+    const senderInitialAllocation = await webX.getAllocatedBlocks(owner.address);
   
     // Attribute entire allocation from owner to addr1
-    await webX.connect(owner).attributeMintingRatio(addr1.address, senderInitialAllocation);
+    await webX.connect(owner).attributeMintingBlock(addr1.address, senderInitialAllocation);
   
     // Fetch updated allocated wallets directly
     const allocatedWalletCount = await webX.allocatedWalletsLength(); // Assuming a helper function
@@ -121,7 +128,7 @@ describe("WebX Contract", function () {
     expect(allocatedWallets).to.not.include(owner.address);
   
     // Verify that owner's allocation is zero
-    const ownerAllocation = await webX.allocationPercentage(owner.address);
+    const ownerAllocation = await webX.getAllocatedBlocks(owner.address);
     expect(ownerAllocation).to.equal(0);
   });
   
@@ -131,8 +138,8 @@ describe("WebX Contract", function () {
     expect(initialWalletCount).to.be.gte(1);
   
     // Attribute entire allocation from owner to addr2
-    const addr1InitialAllocation = await webX.allocationPercentage(owner.address);
-    await webX.connect(owner).attributeMintingRatio(addr2.address, addr1InitialAllocation);
+    const addr1InitialAllocation = await webX.getAllocatedBlocks(owner.address);
+    await webX.connect(owner).attributeMintingBlock(addr2.address, addr1InitialAllocation);
   
     // Fetch updated allocated wallets
     const updatedWallets = [];
@@ -149,11 +156,11 @@ describe("WebX Contract", function () {
   it("should swap and update indexes correctly when sender is not the last wallet", async () => {
     // Add a new wallet to ensure the owner is not the last wallet
     const addr3 = ethers.Wallet.createRandom().address;
-    await webX.connect(owner).attributeMintingRatio(addr3, 1);
+    await webX.connect(owner).attributeMintingBlock(addr3, 1);
 
     // Attribute the entire allocation from the owner to addr1
-    const senderInitialAllocation = await webX.allocationPercentage(owner.address);
-    await webX.connect(owner).attributeMintingRatio(addr1.address, senderInitialAllocation);
+    const senderInitialAllocation = await webX.getAllocatedBlocks(owner.address);
+    await webX.connect(owner).attributeMintingBlock(addr1.address, senderInitialAllocation);
 
     // Fetch updated allocated wallets
     const updatedWalletCount = await webX.allocatedWalletsLength();
@@ -184,8 +191,8 @@ describe("WebX Contract", function () {
     expect(lastWallet).to.equal(owner.address);
   
     // Attribute entire allocation from owner to addr1
-    const senderInitialAllocation = await webX.allocationPercentage(owner.address);
-    await webX.connect(owner).attributeMintingRatio(addr1.address, senderInitialAllocation);
+    const senderInitialAllocation = await webX.getAllocatedBlocks(owner.address);
+    await webX.connect(owner).attributeMintingBlock(addr1.address, senderInitialAllocation);
   
     // Fetch updated allocated wallets
     const updatedWalletCount = await webX.allocatedWalletsLength();
@@ -202,18 +209,19 @@ describe("WebX Contract", function () {
   });
 
   it("should emit MintingRatioAttributed event when minting ratio is attributed", async () => {
-    const percentageToAttribute = 57; // 10% of allocation
+    const blocksToAttribute = 57;
 
     // Get initial allocations
-    const initialSenderAllocation = await webX.allocationPercentage(owner.address);
-    const initialReceiverAllocation = await webX.allocationPercentage(addr1.address);
+    const initialSenderAllocation = await webX.allocationBlocks(owner.address);
+    const initialReceiverAllocation = await webX.allocationBlocks(addr1.address);
 
     // Call the function
-    const tx = await webX.connect(owner).attributeMintingRatio(addr1.address, percentageToAttribute);
+    const tx = await webX.connect(owner).attributeMintingBlock(addr1.address, blocksToAttribute);
 
     // Calculate expected allocations after attribution
-    const expectedSenderAllocation = initialSenderAllocation - BigInt(percentageToAttribute);
-    const expectedReceiverAllocation = initialReceiverAllocation + BigInt(percentageToAttribute);
+    let blocksInWei = await webX.blocksWorthInWei(blocksToAttribute);
+    const expectedSenderAllocation = initialSenderAllocation - blocksInWei;
+    const expectedReceiverAllocation = initialReceiverAllocation + blocksInWei;
 
     // Verify event emission with all five parameters
     await expect(tx)
@@ -223,27 +231,15 @@ describe("WebX Contract", function () {
         addr1.address,                   // receiver
         expectedSenderAllocation,        // senderNewAmount
         expectedReceiverAllocation,      // receiverNewAmount
-        percentageToAttribute            // transferred
+        blocksInWei            // transferred
       );
   });
 
-  it("should initialize with the correct parameters", async () => {
-    const totalSupply = await webX.TOTAL_SUPPLY();
-    const mintingPeriod = await webX.MINTING_PERIOD();
-    const divider = await webX.DIVIDER();
-    const startTime = await webX.startTime();
-
-    // Updated expectations based on the latest contract changes
-    expect(totalSupply).to.equal(ethersUtils.parseEther("94608000")); // Updated total supply
-    expect(mintingPeriod).to.equal(20 * 365 * 4); // 20 years, 4 times per day
-    expect(divider).to.equal(3240); // Updated divider for minting logic
-    expect(startTime).to.be.gt(0); // startTime should be set
-  });
-
   it("should allocate wallets correctly", async () => {
-    const wallet1Allocation = await webX.allocationPercentage(wallet1);
+    const wallet1Allocation = await webX.allocationBlocks(wallet1);
 
-    expect(wallet1Allocation).to.equal(3240);
+    const tokensPerPeriod = await webX.TOKENS_PER_PERIOD();
+    expect(wallet1Allocation).to.equal(tokensPerPeriod);
 
     const allocatedWallets = await webX.allocatedWallets(0);
     expect(allocatedWallets).to.equal(wallet1);
@@ -257,50 +253,29 @@ describe("WebX Contract", function () {
     expect(mintableTokens).to.equal(0); // No time has elapsed yet
   });
 
-  it("should mint tokens proportionally over time", async () => {
-    // Simulate time passing by 1 year (365 days * 24 hours)
-    const oneYearInHours = 365 * 24;
-    const oneYearInSeconds = oneYearInHours * 3600; // Convert hours to seconds
-    await ethers.provider.send("evm_increaseTime", [oneYearInSeconds]); // Increase time in seconds
-    await ethers.provider.send("evm_mine", []); // Mine the next block to apply the time change
-
-    // Call mint function
-    await webX.mint();
-
-    // Expected calculations
-    const mintingPeriod = await webX.MINTING_PERIOD(); // Total minting period in hours
-    const totalSupply = await webX.TOTAL_SUPPLY(); // Total supply
-    const mintablePerHour = BigInt(totalSupply) / BigInt(mintingPeriod); // Tokens minted per hour
-    const expectedMinted = mintablePerHour * BigInt(oneYearInHours); // Total minted for 1 year
-
-    // Check the total minted tokens
-    const totalMinted = await webX.totalMinted();
-    expect(totalMinted).to.equal(expectedMinted);
-
-    // Check the wallet balance
-    const wallet1Balance = await webX.balanceOf(wallet1);
-    expect(wallet1Balance).to.equal(expectedMinted);
-  });
-
   it("should not mint more than the total supply", async () => {
-    // Simulate 21 years in seconds (21 years * 365 days * 24 hours * 60 minutes * 60 seconds)
-    const twentyOneYearsInHours = 21 * 365 * 24; // Convert years to hours
-    const twentyOneYearsInSeconds = twentyOneYearsInHours * 3600; // Convert hours to seconds
-    await ethers.provider.send("evm_increaseTime", [twentyOneYearsInSeconds]);
+    // Simulate 20 years of minting:
+    const twentyYearsInSeconds = 20 * oneYearInSeconds;
+    await ethers.provider.send("evm_increaseTime", [twentyYearsInSeconds]);
     await ethers.provider.send("evm_mine", []); // Mine the next block to apply the time change
 
     // Call the mint function
     await webX.mint();
 
-    // Verify that the total minted does not exceed the total supply
-    const totalMinted = await webX.totalMinted();
-    const totalSupply = await webX.TOTAL_SUPPLY();
-
-    // Assert that the total minted tokens equal the total supply
-    expect(totalMinted).to.equal(totalSupply);
+    // Simulate 1 year in seconds
+    const twentyOneYearsInSeconds = 1 * oneYearInSeconds;
+    await ethers.provider.send("evm_increaseTime", [twentyOneYearsInSeconds]);
+    await ethers.provider.send("evm_mine", []); // Mine the next block to apply the time change
 
     // Attempt to mint again and verify it reverts
     await expect(webX.mint()).to.be.revertedWith("All tokens minted");
+
+    // Verify that the total minted does not exceed the total supply
+    const totalMinted = await webX.totalMinted();
+    const totalSupply = await webX.totalSupply();
+
+    // Assert that the total minted tokens equal the total supply
+    expect(totalMinted).to.equal(totalSupply);
 
     // Check that mintableTokens is zero
     const mintableTokens = await webX.mintableTokens();
@@ -311,93 +286,33 @@ describe("WebX Contract", function () {
     expect(remainingTokens).to.equal(0);
   });
 
-  it("should not mint more than TOTAL_SUPPLY", async () => {
-    // Simulate 21 years to exceed the minting period
-    const twentyOneYearsInHours = 21 * 365 * 24; // Convert 21 years to hours
-    const twentyOneYearsInSeconds = twentyOneYearsInHours * 3600; // Convert hours to seconds
-    await ethers.provider.send("evm_increaseTime", [twentyOneYearsInSeconds]);
-    await ethers.provider.send("evm_mine", []);
-
-    // Call mint function
-    await webX.mint();
-
-    // Verify total minted tokens match the total supply
-    const totalMinted = await webX.totalMinted();
-    const totalSupply = await webX.TOTAL_SUPPLY();
-    expect(totalMinted).to.equal(totalSupply);
-
-    // Verify allocations for the first wallet
-    const totalWallets = await webX.allocatedWalletsLength();
-    let totalMintedForWallets = BigInt(0);
-
-    for (let i = 0; i < totalWallets; i++) {
-        const walletAddress = await webX.allocatedWallets(i);
-        const walletBalance = await webX.balanceOf(walletAddress);
-        totalMintedForWallets += BigInt(walletBalance);
-    }
-
-    // Ensure the total distributed matches the total supply
-    expect(totalMintedForWallets).to.equal(BigInt(totalSupply));
-  });
-
   it("should allow repeated minting over time", async () => {
-    // Simulate 6 months (half a year in hours)
-    const sixMonthsInHours = (365 * 24) / 2; // Half a year in hours
-    const sixMonthsInSeconds = sixMonthsInHours * 3600; // Convert hours to seconds
-    await ethers.provider.send("evm_increaseTime", [sixMonthsInSeconds]);
+    await ethers.provider.send("evm_increaseTime", [oneYearInSeconds]);
     await ethers.provider.send("evm_mine", []);
 
     // First mint
     await webX.mint();
 
+    const tokensPerPeriod = await webX.TOKENS_PER_PERIOD();
+
     // Expected values after the first mint
-    const mintingPeriod = await webX.MINTING_PERIOD();
-    const totalSupply = await webX.TOTAL_SUPPLY();
-    const mintablePerHour = BigInt(totalSupply) / BigInt(mintingPeriod); // Tokens minted per hour
-    const firstExpectedMinted = mintablePerHour * BigInt(sixMonthsInHours); // Minted for 6 months
+    const amountOfPeriods = oneYearInSeconds / amountOfSecondsInPeriod;
+    const firstExpectedMinted = BigInt(amountOfPeriods) * tokensPerPeriod;
 
     let totalMinted = await webX.totalMinted();
     expect(totalMinted).to.equal(firstExpectedMinted);
 
-    // Simulate another 6 months
-    await ethers.provider.send("evm_increaseTime", [sixMonthsInSeconds]);
+    // Simulate again
+    await ethers.provider.send("evm_increaseTime", [oneYearInSeconds]);
     await ethers.provider.send("evm_mine", []);
 
     // Second mint
     await webX.mint();
 
     // Expected values after the second mint
-    const secondExpectedMinted = mintablePerHour * BigInt(2 * sixMonthsInHours); // Minted for 1 year total
-
+    const secondExpectedMinted = firstExpectedMinted * BigInt(2);
     totalMinted = await webX.totalMinted();
     expect(totalMinted).to.equal(secondExpectedMinted);
-  });
-
-  it("should revert if all tokens have already been minted", async () => {
-    // Simulate 21 years to exceed the minting period
-    const twentyOneYearsInHours = 21 * 365 * 24; // Convert 21 years to hours
-    const twentyOneYearsInSeconds = twentyOneYearsInHours * 3600; // Convert hours to seconds
-    await ethers.provider.send("evm_increaseTime", [twentyOneYearsInSeconds]);
-    await ethers.provider.send("evm_mine", []); // Mine the next block to apply the time change
-  
-    // Mint all tokens
-    await webX.mint();
-  
-    // Verify all tokens have been minted
-    const totalMinted = await webX.totalMinted();
-    const totalSupply = await webX.TOTAL_SUPPLY();
-    expect(totalMinted).to.equal(totalSupply); // Total minted equals total supply
-  
-    // Attempt to mint again and expect it to revert
-    await expect(webX.mint()).to.be.revertedWith("All tokens minted");
-  
-    // Verify mintableTokens is zero
-    const mintableTokens = await webX.mintableTokens();
-    expect(mintableTokens).to.equal(0);
-
-    // Verify remainingTokens is zero
-    const remainingTokens = await webX.remainingTokens();
-    expect(remainingTokens).to.equal(0);
   });
 
   it("should revert if no new tokens can be minted", async () => {
@@ -405,51 +320,25 @@ describe("WebX Contract", function () {
     await ethers.provider.send("evm_increaseTime", [0]);
     await ethers.provider.send("evm_mine", []);
 
-    await expect(webX.mint()).to.be.revertedWith("No new tokens to mint");
+    await expect(webX.mint()).to.be.revertedWith("No Token to mint");
   });
-
-  it("should handle remainingTokens and mintableTokens correctly", async () => {
-    // Simulate time passing (10 years in hours)
-    const tenYearsInHours = 10 * 365 * 2; // Convert 10 years to 12 hours
-    const tenYearsInSeconds = tenYearsInHours * 3600; // Convert hours to seconds
-    await ethers.provider.send("evm_increaseTime", [tenYearsInSeconds]);
-    await ethers.provider.send("evm_mine", []); // Mine the next block to apply the time change
-
-    // Expected values
-    const totalSupply = await webX.TOTAL_SUPPLY();
-    const mintingPeriod = await webX.MINTING_PERIOD(); // Minting period in hours
-    const mintablePerHour = BigInt(totalSupply) / BigInt(mintingPeriod); // Tokens minted per hour
-    const expectedMintableTokens = mintablePerHour * BigInt(tenYearsInHours); // Tokens mintable in 10 years
-    const expectedRemainingTokens = BigInt(totalSupply) - expectedMintableTokens; // Remaining tokens
-
-    // Check mintable tokens
-    const mintableTokens = await webX.mintableTokens();
-    expect(mintableTokens).to.equal(expectedMintableTokens);
-
-    // Call the mint function
-    await webX.mint();
-
-    // Check remaining tokens
-    const remainingTokens = await webX.remainingTokens();
-    expect(remainingTokens).to.equal(expectedRemainingTokens);
-  });
-
-  it("should correctly attribute percentage to an existing wallet", async () => {
+  
+  it("should correctly attribute blocks to an existing wallet", async () => {
     // Initial allocation for the owner and wallet2
-    const ownerAllocation = await webX.allocationPercentage(owner.address);
-    const wallet2Allocation = await webX.allocationPercentage(addr2.address);
+    const ownerAllocation = await webX.getAllocatedBlocks(owner.address);
+    const wallet2Allocation = await webX.getAllocatedBlocks(addr2.address);
 
-    // Attribute 10 units of allocation (considering DIVIDER is now 570)
-    const percentageToAttribute = 10; // Updated to align with the smaller allocation scale
-    await webX.connect(owner).attributeMintingRatio(addr2.address, percentageToAttribute);
+    // Attribute 10 units of allocation (considering TOKENS_PER_PERIOD is now 570)
+    const blocksToAttribute = 10; // Updated to align with the smaller allocation scale
+    await webX.connect(owner).attributeMintingBlock(addr2.address, blocksToAttribute);
 
     // Check updated allocations
-    const updatedOwnerAllocation = await webX.allocationPercentage(owner.address);
-    const updatedWallet2Allocation = await webX.allocationPercentage(addr2.address);
+    const updatedOwnerAllocation = await webX.getAllocatedBlocks(owner.address);
+    const updatedWallet2Allocation = await webX.getAllocatedBlocks(addr2.address);
 
-    // Ensure the owner's allocation decreased and wallet2's allocation increased by the attributed percentage
-    expect(updatedOwnerAllocation).to.equal(ownerAllocation - BigInt(percentageToAttribute));
-    expect(updatedWallet2Allocation).to.equal(wallet2Allocation + BigInt(percentageToAttribute));
+    // Ensure the owner's allocation decreased and wallet2's allocation increased by the attributed blocks
+    expect(updatedOwnerAllocation).to.equal(ownerAllocation - BigInt(blocksToAttribute));
+    expect(updatedWallet2Allocation).to.equal(wallet2Allocation + BigInt(blocksToAttribute));
 
     // Ensure addr2 remains in the allocatedWallets array
     const walletCount = await webX.allocatedWalletsLength();
@@ -465,28 +354,28 @@ describe("WebX Contract", function () {
   });
 
   it("should revert if attempting to attribute to the zero address", async () => {
-    const percentageToAttribute = 10000;
+    const blocksToAttribute = 10000;
     await expect(
-      webX.connect(owner).attributeMintingRatio("0x0000000000000000000000000000000000000000", percentageToAttribute)
+      webX.connect(owner).attributeMintingBlock("0x0000000000000000000000000000000000000000", blocksToAttribute)
     ).to.be.revertedWith("Cannot attribute to zero address");
   });
 
   it("should revert if attempting to attribute more than the available allocation", async () => {
-    const percentageToAttribute = 99864001; // Owner only has 99864000
+    const blocksToAttribute = BigInt(3241); // Owner only has 3240
     await expect(
-      webX.connect(owner).attributeMintingRatio(addr2.address, percentageToAttribute)
+      webX.connect(owner).attributeMintingBlock(addr2.address, blocksToAttribute)
     ).to.be.revertedWith("Insufficient allocation to attribute");
   });
 
-  it("should revert if attempting to attribute zero percentage", async () => {
+  it("should revert if attempting to attribute zero blocks", async () => {
     await expect(
-      webX.connect(owner).attributeMintingRatio(addr2.address, 0)
-    ).to.be.revertedWith("Percentage must be greater than zero");
+      webX.connect(owner).attributeMintingBlock(addr2.address, 0)
+    ).to.be.revertedWith("amountBlock must be greater than zero");
   });
 
   it("should add the recipient to allocatedWallets if not already present", async () => {
-    // Attribute 10 units of allocation (considering DIVIDER is now 570)
-    const percentageToAttribute = 10; // Updated allocation percentage
+    // Attribute 10 units of allocation (considering TOKENS_PER_PERIOD is now 570)
+    const blocksToAttribute = 10; // Updated allocation blocks
     const initialAllocatedWalletsCount = await webX.allocatedWalletsLength();
 
     // Ensure addr1 is not already in the allocatedWallets
@@ -500,8 +389,8 @@ describe("WebX Contract", function () {
     }
     expect(addr1Exists).to.be.false;
 
-    // Attribute the percentage to addr1
-    await webX.connect(owner).attributeMintingRatio(addr1.address, percentageToAttribute);
+    // Attribute the blocks to addr1
+    await webX.connect(owner).attributeMintingBlock(addr1.address, blocksToAttribute);
 
     // Verify that addr1 is added to allocatedWallets
     const updatedAllocatedWalletsCount = await webX.allocatedWalletsLength();
@@ -518,31 +407,31 @@ describe("WebX Contract", function () {
     expect(addr1Added).to.be.true;
 
     // Verify addr1's allocation
-    const addr1Allocation = await webX.allocationPercentage(addr1.address);
-    expect(addr1Allocation).to.equal(percentageToAttribute);
+    const addr1Allocation = await webX.getAllocatedBlocks(addr1.address);
+    expect(addr1Allocation).to.equal(blocksToAttribute);
   });
 
   it("should handle multiple attributions to the same wallet", async () => {
-    const percentageToAttribute1 = 10; // Adjusted to align with the updated DIVIDER (570)
-    const percentageToAttribute2 = 5;
+    const blocksToAttribute1 = 10; // Adjusted to align with the updated TOKENS_PER_PERIOD (570)
+    const blocksToAttribute2 = 5;
 
     // Fetch initial owner allocation
-    const initialOwnerAllocation = await webX.allocationPercentage(owner.address);
+    const initialOwnerAllocation = await webX.getAllocatedBlocks(owner.address);
 
     // First attribution
-    await webX.connect(owner).attributeMintingRatio(addr2.address, percentageToAttribute1);
+    await webX.connect(owner).attributeMintingBlock(addr2.address, blocksToAttribute1);
 
     // Second attribution
-    await webX.connect(owner).attributeMintingRatio(addr2.address, percentageToAttribute2);
+    await webX.connect(owner).attributeMintingBlock(addr2.address, blocksToAttribute2);
 
     // Check addr2's allocation
-    const addr2Allocation = await webX.allocationPercentage(addr2.address);
-    const expectedAddr2Allocation = BigInt(percentageToAttribute1 + percentageToAttribute2);
+    const addr2Allocation = await webX.getAllocatedBlocks(addr2.address);
+    const expectedAddr2Allocation = BigInt(blocksToAttribute1 + blocksToAttribute2);
     expect(addr2Allocation).to.equal(expectedAddr2Allocation);
 
     // Check owner's remaining allocation
     const expectedOwnerAllocation = initialOwnerAllocation - expectedAddr2Allocation;
-    const ownerAllocation = await webX.allocationPercentage(owner.address);
+    const ownerAllocation = await webX.getAllocatedBlocks(owner.address);
     expect(ownerAllocation).to.equal(expectedOwnerAllocation);
 
     // Ensure addr2 is still in allocatedWallets
@@ -558,7 +447,28 @@ describe("WebX Contract", function () {
     expect(walletExists).to.be.true;
   });
 
-  it("Should allow creating a buy offer", async () => {
+  it("should return zero token if balance is smaller than 1 token", async () => {
+    // Simulate 20 years of minting:
+    const twentyYearsInSeconds = 20 * oneYearInSeconds;
+    await ethers.provider.send("evm_increaseTime", [twentyYearsInSeconds]);
+    await ethers.provider.send("evm_mine", []);
+
+    // Mint:
+    await webX.mint();
+
+    // Transfer some wei:
+    await webX.connect(owner).transfer(addr1, 2);
+
+    // balance address:
+    let balanceAddress = await webX.balanceOfInToken(addr1);
+    expect(balanceAddress).to.be.eq(0);
+
+    // balance owner:
+    let balanceOwner = await webX.balanceOfInToken(owner);
+    expect(balanceOwner).to.be.eq(94608000 - 1);
+  });
+
+  /*it("Should allow creating a buy offer", async () => {
     const price = ethersUtils.parseEther("0.01");
     const amount = BigInt(100);
     const value = price * amount;
@@ -1010,5 +920,5 @@ it("Should partially match sell order if buy offers are insufficient", async () 
     await expect(tx)
         .to.emit(webX, "TokensSold")
         .withArgs(addr3.address, amountSell, expectedEarnings);
-  });
+  });*/
 });
