@@ -52,6 +52,9 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
     // erc-20 founder address:
     address public founderAddress = address(0);
 
+    // total supply:
+    uint256 public totalSupply;
+
     // events:
     event CurrencyAddressSet(address indexed currencyAddress);
     event FounderAddressSet(address indexed currencyAddress);
@@ -63,10 +66,48 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
     event AcceptOffer(address indexed tokenBuyer, address indexed tokenSeller, uint256 tokenId, uint256 price);
     event FounderPaymentReceived(uint256 amount);
 
-    constructor()
+    // webx events:
+    event WebxAddressSet(address indexed webxTokenAddress);
+    event WebxFounderAddressSet(address indexed webxTokenAddress);
+    event WebxPaymentReceived(address indexed user, uint256 shareAmount, uint256 totalAmount);
+    event WebxPaymentClaimed(address indexed user, uint256 amount);
+    event WebxRegisterReferral(address indexed owner, address indexed referral);
+    event WebxRegisterOffer(address indexed user, uint256 tokenId, uint256 amount);
+    event WebxWithdrawOffer(address indexed user, uint256 tokenId);
+    event WebxAcceptOffer(address indexed tokenBuyer, address indexed tokenSeller, uint256 tokenId, uint256 price);
+    event WebxFounderPaymentReceived(uint256 amount);
+
+    // webx payment book:
+    mapping(address => uint256) public webxPaymentBook;
+
+    // webx referral trees:
+    mapping(address => address[]) public webxParentChildren;
+    mapping(address => address) public webxChildParent;
+    mapping(address => mapping(address => uint256)) webxParentChildTokenId;
+    mapping(uint256 => mapping(uint256 => address)) webxTokenIdPriceOfferer;
+
+    // webx offering system:
+    mapping(address => mapping(uint256 => uint256)) public webxOffersByAddressTokenIdPrice;
+    mapping(uint256 => address) public webxTokenIdOfferer;
+    mapping(address => uint256[]) public webxOfferererTokenIds;
+
+    // next token id:
+    uint32 public webxNextTokenId = 0;
+
+    // webx address:
+    address public webxTokenAddress = address(0);
+
+    // webx founder address:
+    address public webxFounderAddress = address(0);
+
+    // webx total supply:
+    uint256 public webxTotalSupply;
+
+    constructor(address _webxTokenAddress)
         ERC721("LegitDAO Affiliates", "LEGIT-AFF")
         Ownable(msg.sender)
     {
+        webxTokenAddress = _webxTokenAddress;
         // initial referral tree:
         initialTreeRegister();
     }
@@ -312,6 +353,21 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
 
         delete parentChildren[from];
         return super.safeTransferFrom(from, to, tokenId, data);
+    }
+
+    // if there is no referral:
+    function setFounderAsParent(address child) public {
+        require(childParent[child] == address(0), "child already has a parent");
+
+        // set the founder as the parent:
+        childParent[child] = founderAddress;
+        parentChildren[founderAddress].push(child);
+        uint256 tokenId = nextTokenId++;
+        parentChildTokenId[parent][child] = tokenId;
+        _mint(parent, tokenId);
+
+        // emit:
+        emit RegisterReferral(parent, child);
     }
 
     function initialTreeRegister() private {
@@ -685,5 +741,261 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
         _register(0x93967805fAa6eabe9de62D578B1f076863908133, 0x423bdfeB5D25b0C8d5c6Ff598e99EB883A340381);
 
         _register(0x48e36BdBBc54219136FDd20685ccC73166Fe8324, 0xAaF4394aFBe1B7c6c8379DA08a999dA788a9728C);
+    }
+
+    function setWebxAddress(address currAddr) public onlyOwner {
+        require(webxTokenAddress != currAddr, "Currency Address already set");
+        require(currAddr != address(0), "Invalid address");
+
+        uint256 webxTotalSupply = IERC20(currAddr).totalSupply();
+        require(webxTotalSupply != 0, "Provided Currency ERC20 contract should not have a total supply of 0");
+        
+        webxTokenAddress = currAddr;
+
+        // emit:
+        emit WebxAddressSet(webxTokenAddress);
+    }
+
+    function setWebxFounderAddress(address fdrAddress) public onlyOwner {
+        require(webxFounderAddress == address(0), "Founder Address already set");
+        require(fdrAddress != address(0), "Invalid address");
+
+        uint256 webxTotalSupply = IERC20(fdrAddress).totalSupply();
+        require(webxTotalSupply != 0, "Provided Founder ERC20 contract should not have a total supply of 0");
+
+        webxFounderAddress = fdrAddress;
+
+        // emit:
+        emit WebxFounderAddressSet(webxFounderAddress);
+    }
+
+    function sendWebxPayment(address child, uint256 amount) public nonReentrant {
+        require(amount > 0, "amount must be greater than zero");
+
+        // transfer the payment to the contract:
+        _transferWebxOnBehalf(msg.sender, address(this), amount);
+
+        // receive payment:
+        _sendWebxPayment(child, amount, 0, 0);
+    }
+
+    function claimWebxPayment(address sendTo, uint256 amount) public nonReentrant {
+        require(amount > 0, "amount must be greater than zero");
+        require(webxPaymentBook[msg.sender] > 0, "sender has 0 balance");
+
+        uint256 transferAmount = amount;
+        if (transferAmount > webxPaymentBook[msg.sender]) {
+            transferAmount = webxPaymentBook[msg.sender];
+        }
+
+        // transfer the currency:
+        _transferWebxFromContract(sendTo, transferAmount);
+
+        // adjust the book:
+        webxPaymentBook[msg.sender] -= transferAmount;
+
+        // emit:
+        emit WebxPaymentClaimed(msg.sender, transferAmount);
+    }
+
+    function registerWebx(address child) public {
+        return _registerWebx(msg.sender, child);
+    }
+
+    function registerOfferWebx(uint256 tokenId, uint256 price) public {
+        require(price > 0, "price must be greater than zero");
+
+        address owner = _ownerOf(tokenId);
+        require(owner != address(0), "the token does not exists");
+        require(owner != msg.sender, "current token holder can NOT register an offer on his own token");
+
+        uint256 offerPrice = webxOffersByAddressTokenIdPrice[msg.sender][tokenId];
+        if (offerPrice > 0) {
+            require(offerPrice < price, "current offer registered higher than your price");
+
+            // withdraw the current offer:
+            withdrawOfferWebx(tokenId);
+        }
+
+        // transfer currency to the contract:
+        _transferWebxOnBehalf(msg.sender, address(this), price);
+
+        // register the new offer:
+        webxOffersByAddressTokenIdPrice[msg.sender][tokenId] = price;
+        webxTokenIdOfferer[tokenId] = msg.sender;
+        webxOfferererTokenIds[msg.sender].push(tokenId);
+        webxTokenIdPriceOfferer[tokenId][price] = msg.sender;
+
+        // emit:
+        emit WebxRegisterOffer(msg.sender, tokenId, price);
+    }
+
+    function withdrawOfferWebx(uint256 tokenId) public nonReentrant {
+        uint256 offerPrice = webxOffersByAddressTokenIdPrice[msg.sender][tokenId];
+        require(offerPrice > 0, "no offer registered from the provided address");
+
+        // transfer the currency from the contract to the user:
+        _transferWebxFromContract(msg.sender, offerPrice);
+        
+        _deleteOfferWebx(msg.sender, tokenId, offerPrice);
+
+        // emit:
+        emit WebxWithdrawOffer(msg.sender, tokenId);
+    }
+
+    function getOfferForTokenWebx(uint256 tokenId) public view returns(uint256) {
+        address offerer = webxTokenIdOfferer[tokenId];
+        return webxOffersByAddressTokenIdPrice[offerer][tokenId];
+    }
+
+    // accept a registered offer:
+    function acceptOfferWebx(address sendTo, uint256 tokenId) public nonReentrant {
+        address owner = _ownerOf(tokenId);
+        require(owner == msg.sender, "current address is not the owner of that tokenId");
+
+        uint256 offerPrice = getOfferForTokenWebx(tokenId);
+        require(offerPrice > 0, "no offer for that token");
+
+        // fetch the offerer:
+        address offerer = webxTokenIdPriceOfferer[tokenId][offerPrice];
+
+        // send the currency to the offer accepter:
+        _transferWebxFromContract(msg.sender, offerPrice);
+
+        // send the token to the offererer:
+        safeWebxTransferFrom(owner, offerer, tokenId);
+
+        // delete the offer:
+        _deleteOfferWebx(offerer, tokenId, offerPrice);
+
+        // emit:
+        emit WebxAcceptOffer(offerer, sendTo, tokenId, offerPrice);
+    }
+
+    // returns the token ids the sender made an offer on
+    function getMyTokenOffersWebx() public view returns(uint256[] memory) {
+        return webxOfferererTokenIds[msg.sender];
+    }
+
+    function getTokenIdWebx(address parent, address child) public view returns(uint256) {
+        return webxParentChildTokenId[parent][child];
+    }
+
+    function _transferWebxOnBehalf(address from, address to, uint256 amount) private {
+        require(webxTokenAddress != address(0), "currency contract address has not been set");
+
+        // approve the tokens to be sent from this contract for that price:
+        IERC20 token = IERC20(webxTokenAddress);
+        uint256 allowance = token.allowance(from, address(this));
+        require(amount <= allowance, "Allowance cannot be smaller than amount");
+
+        // send the currency to the offer registerer:
+        bool success = token.transferFrom(from, to, amount);
+        require(success, "Token transfer failed");
+    }
+
+    function _transferWebxFromContract(address to, uint256 amount) private {
+        require(webxTokenAddress != address(0), "currency contract address has not been set");
+
+        IERC20 token = IERC20(webxTokenAddress);
+        bool approveSuccess = token.approve(address(this), amount);
+        require(approveSuccess, "Token approval failed");
+
+        bool success = token.transferFrom(address(this), to, amount);
+        require(success, "Token transfer failed");
+    }
+
+    function _sendWebxPayment(address child, uint256 amount, uint256 level, uint256 totalPaid) private {
+        require(webxFounderAddress != address(0), "Founder Address not set");
+        require(amount > 0, "amount must be greater than zero");
+        require(totalPaid <= amount, "the totalPaid cannot exceed the amount");
+
+        uint256 remaining = amount - totalPaid;
+        if (remaining <= 0) {
+            return;
+        }
+
+        // find the parent:
+        address parent = webxChildParent[child];
+
+        // if there is no parent address:
+        if (parent == address(0)) {
+            
+            // transfer the remaining from the contract to the founder:
+            _transferWebxFromContract(webxFounderAddress, remaining);
+
+            // emit:
+            emit FounderPaymentReceived(remaining);
+
+            // return
+            return;
+        }
+
+        // find the share:
+        uint256 share = (levelRatios[level] * amount) / DESCALE;
+
+        // change the payment in the book:
+        webxPaymentBook[parent] += share;
+
+        // emit:
+        emit WebxPaymentReceived(parent, share, amount);
+
+        // continue next level:
+        uint nextLevel = level + 1;
+        _sendWebxPayment(parent, amount, nextLevel, totalPaid + share);
+    }
+
+    function _registerWebx(address parent, address child) private {
+        webxChildParent[child] = parent;
+        webxParentChildren[parent].push(child);
+        uint256 tokenId = webxNextTokenId++;
+        webxParentChildTokenId[parent][child] = tokenId;
+        _mint(parent, tokenId);
+
+        // emit:
+        emit WebxRegisterReferral(parent, child);
+    }
+
+    function _deleteOfferWebx(address from, uint256 tokenId, uint256 offerPrice) private {
+        delete webxTokenIdOfferer[tokenId];
+        delete webxOffersByAddressTokenIdPrice[from][tokenId];
+
+        // delete and re-order:
+        for (uint256 i = tokenId; i < webxOfferererTokenIds[from].length - 1; i++) {
+            webxOfferererTokenIds[from][i] = webxOfferererTokenIds[from][i + 1];
+        }
+
+        delete webxTokenIdPriceOfferer[tokenId][offerPrice];
+        webxOfferererTokenIds[from].pop();
+    }
+
+    // method overloads:
+    function safeWebxTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public override {
+        address[] memory childList = webxParentChildren[from];
+        for (uint256 i = 0; i < childList.length; i++) {
+            address child = childList[i];
+            webxParentChildren[to].push(child);
+            webxChildParent[child] = to;
+            delete webxParentChildTokenId[from][child];
+            webxParentChildTokenId[to][child] = tokenId;
+        }
+
+        delete webxParentChildren[from];
+        return super.safeWebxTransferFrom(from, to, tokenId, data);
+    }
+
+    // if there is no referral:
+    function setFounderAsParentWebx(address child) public {
+        require(webxChildParent[child] == address(0), "child already has a parent");
+
+        // set the founder as the parent:
+        webxChildParent[child] = webxFounderAddress;
+        webxParentChildren[webxFounderAddress].push(child);
+        uint256 tokenId = webxNextTokenId++;
+        webxParentChildTokenId[parent][child] = tokenId;
+        _mint(parent, tokenId);
+
+        // emit:
+        emit WebxRegisterReferral(parent, child);
     }
 }
