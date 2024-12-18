@@ -290,7 +290,8 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
         address parent = childParent[child];
 
         // if there is no parent address:
-        if (parent == address(0)) {
+        // if the level is greater than 6, stop the payment:
+        if (parent == address(0) || level > 6) {
             
             // transfer the remaining from the contract to the founder:
             _transferCurrencyFromContract(founderAddress, remaining);
@@ -317,14 +318,11 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
     }
 
     function _register(address parent, address child) private {
-        childParent[child] = parent;
-        parentChildren[parent].push(child);
-        uint256 tokenId = nextTokenId++;
-        parentChildTokenId[parent][child] = tokenId;
-        _mint(parent, tokenId);
-
-        // emit:
-        emit RegisterReferral(parent, child);
+        if (parent == address(0)) {
+            _registerWithFounderAsParent(child);
+        } else {
+            _registerWithParent(parent, child);
+        }
     }
 
     function _deleteOffer(address from, uint256 tokenId, uint256 offerPrice) private {
@@ -355,8 +353,20 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
         return super.safeTransferFrom(from, to, tokenId, data);
     }
 
+    // if there is referral:
+    function _registerWithParent(address parent, address child) private {
+        childParent[child] = parent;
+        parentChildren[parent].push(child);
+        uint256 tokenId = nextTokenId++;
+        parentChildTokenId[parent][child] = tokenId;
+        _mint(parent, tokenId);
+
+        // emit:
+        emit RegisterReferral(parent, child);
+    }
+
     // if there is no referral:
-    function setFounderAsParent(address child) public {
+    function _registerWithFounderAsParent(address child) private {
         require(childParent[child] == address(0), "child already has a parent");
 
         // set the founder as the parent:
@@ -919,13 +929,14 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
         address parent = webxChildParent[child];
 
         // if there is no parent address:
-        if (parent == address(0)) {
+        // if the level is greater than 6, stop the payment:
+        if (parent == address(0) || level > 6) {
             
             // transfer the remaining from the contract to the founder:
             _transferWebxFromContract(webxFounderAddress, remaining);
 
             // emit:
-            emit FounderPaymentReceived(remaining);
+            emit WebxFounderPaymentReceived(remaining);
 
             // return
             return;
@@ -946,14 +957,11 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
     }
 
     function _registerWebx(address parent, address child) private {
-        webxChildParent[child] = parent;
-        webxParentChildren[parent].push(child);
-        uint256 tokenId = webxNextTokenId++;
-        webxParentChildTokenId[parent][child] = tokenId;
-        _mint(parent, tokenId);
-
-        // emit:
-        emit WebxRegisterReferral(parent, child);
+        if (parent == address(0)) {
+            _registerWithFounderAsParentWebx(child);
+        } else {
+            _registerWithParentWebx(parent, child);
+        }
     }
 
     function _deleteOfferWebx(address from, uint256 tokenId, uint256 offerPrice) private {
@@ -984,8 +992,20 @@ contract Affiliates is ERC721, Ownable, ReentrancyGuard {
         return super.safeWebxTransferFrom(from, to, tokenId, data);
     }
 
+    // if there is referral:
+    function _registerWithParentWebx(address parent, address child) private {
+        webxChildParent[child] = parent;
+        webxParentChildren[parent].push(child);
+        uint256 tokenId = webxNextTokenId++;
+        webxParentChildTokenId[parent][child] = tokenId;
+        _mint(parent, tokenId);
+
+        // emit:
+        emit WebxRegisterReferral(parent, child);
+    }
+
     // if there is no referral:
-    function setFounderAsParentWebx(address child) public {
+    function _registerWithFounderAsParentWebx(address child) private {
         require(webxChildParent[child] == address(0), "child already has a parent");
 
         // set the founder as the parent:
