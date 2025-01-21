@@ -1,12 +1,11 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { ethers as ethersUtils } from "ethers";
-import { Founder, Affiliates,  ERC20Mock } from "../typechain-types";
+import { Founder, ERC20Mock } from "../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 
 describe("Founder Contract", function () {
     let founder: Founder;
-    let affiliates: Affiliates;
     let currencyToken: ERC20Mock;
     let owner: SignerWithAddress, holder1: SignerWithAddress, holder2: SignerWithAddress, holder3: SignerWithAddress, nonHolder: SignerWithAddress;
     let ownerAddress: string, holder1Address: string, holder2Address: string, holder3Address: string, nonHolderAddress: string;
@@ -28,19 +27,12 @@ describe("Founder Contract", function () {
         const Founder = await ethers.getContractFactory("Founder");
         founder = await Founder.deploy([holder1Address, holder2Address, holder3Address]);
 
-        // Deploy the Affiliates contract
-        const Affiliates = await ethers.getContractFactory("Affiliates");
-        affiliates = await Affiliates.deploy();
-
         // Transfer some ERC20 tokens to the Founder contract for dividends
         await currencyToken.transfer(founder.target, ethersUtils.parseEther("500"));
-
-        // Set the affiliate contract to the founder:
-        founder.setAffiliatesAddress(affiliates);
     });
 
     it("should revert if the provided address is zero", async () => {
-        await expect(founder.connect(owner).setPrimaryCurrency("0x0000000000000000000000000000000000000000"))
+        await expect(founder.connect(owner).setCurrencyAddress("0x0000000000000000000000000000000000000000"))
           .to.be.revertedWith("Invalid address");
     });
 
@@ -53,7 +45,7 @@ describe("Founder Contract", function () {
         const Founder = await ethers.getContractFactory("Founder");
         founder = await Founder.deploy([holder1Address, holder2Address, holder3Address]);
 
-        await expect(founder.connect(owner).setPrimaryCurrency(currencyToken.target))
+        await expect(founder.connect(owner).setCurrencyAddress(currencyToken.target))
           .to.be.revertedWith("Provided Currency ERC20 contract should not have a total supply of 0");
     });
 
@@ -66,57 +58,56 @@ describe("Founder Contract", function () {
     });
 
     it("Should allow the owner to set the currency address", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
-        expect(await founder.primaryCurrencyAddress()).to.equal(currencyToken.target);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
+        expect(await founder.currencyAddress()).to.equal(currencyToken.target);
     });
 
     it("Should not allow setting the currency address more than once", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
-        await expect(founder.connect(owner).setPrimaryCurrency(currencyToken.target)).to.be.revertedWith(
-            "Primary currency already set"
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
+        await expect(founder.connect(owner).setCurrencyAddress(currencyToken.target)).to.be.revertedWith(
+            "Currency Address already set"
         );
     });
 
     it("Should compute available dividends correctly", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
-        const dividends = await founder.getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder1Address);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
+        const dividends = await founder.getAvailableDividends(holder1Address);
         expect(dividends).to.be.gt(0);
     });
 
     it("Should allow holders to withdraw dividends", async function () {
-        let symbol = await currencyToken.symbol();
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
-        const availableDividends = await founder.getAvailableDividendsBeforeTax(symbol, holder1Address);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
+        const availableDividends = await founder.getAvailableDividends(holder1Address);
 
-        await founder.connect(holder1).withdrawDividends(symbol, availableDividends);
+        await founder.connect(holder1).withdrawDividends(availableDividends);
 
-        const withdrawnDividends = await founder.withdrawnDividends(holder1Address, symbol);
+        const withdrawnDividends = await founder.withdrawnDividends(holder1Address);
         expect(withdrawnDividends).to.equal(availableDividends);
     });
 
     it("Should proportionally withdraw dividends on transfer", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
 
-        const initialDividends = await founder.getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder1Address);
+        const initialDividends = await founder.getAvailableDividends(holder1Address);
 
         await founder.connect(holder1).transfer(holder2Address, ethersUtils.parseEther("5000000"));
 
-        const remainingDividends = await founder.getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder1Address);
+        const remainingDividends = await founder.getAvailableDividends(holder1Address);
         expect(remainingDividends).to.be.lt(initialDividends);
     });
 
-    it("Should emit DividendsTransfered on token transfer", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
+    it("Should emit TransferExecuted on token transfer", async function () {
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
 
         // calculate the dividends:
-        const senderDividends = await founder.connect(holder1).getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder2Address);
+        const senderDividends = await founder.connect(holder1).getAvailableDividends(holder2Address);
         const senderBalance = await founder.connect(holder1).balanceOf(holder2Address);
         const amount = ethersUtils.parseEther("5000000");
         const expectedDividends = (senderDividends * amount) / senderBalance;
 
         await expect(founder.connect(holder1).transfer(holder2Address, amount))
-            .to.emit(founder, "DividendsTransfered")
-            .withArgs(holder1Address, holder2Address, expectedDividends, await currencyToken.symbol());
+            .to.emit(founder, "TransferExecuted")
+            .withArgs(holder1Address, holder2Address, amount, expectedDividends);
     });
 
     it("Should reject dividend withdrawal if no dividends are available", async function () {
@@ -129,35 +120,35 @@ describe("Founder Contract", function () {
         founder = await Founder.deploy([holder1Address, holder2Address, holder3Address]);
 
         // Set the currency contract:
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
 
         // withdraw dividends:
-        await expect(founder.connect(nonHolder).withdrawDividends(await currencyToken.symbol(), ethersUtils.parseEther("1"))).to.be.revertedWith(
+        await expect(founder.connect(nonHolder).withdrawDividends(ethersUtils.parseEther("1"))).to.be.revertedWith(
             "No dividends available"
         );
     });
 
     it("Should reject dividend withdrawal if amount is 0", async function () {
         // withdraw dividends:
-        await expect(founder.connect(nonHolder).withdrawDividends(await currencyToken.symbol(), ethersUtils.parseEther("0"))).to.be.revertedWith(
-            "Currency not found"
+        await expect(founder.connect(nonHolder).withdrawDividends(ethersUtils.parseEther("0"))).to.be.revertedWith(
+            "Amount cannot be 0"
         );
     });
 
     it("Should change amount if requested amount is greater than available dividends", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
 
         // fetch the amount of dividends:
-        const senderDividends = await founder.connect(holder1).getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder1);
+        const senderDividends = await founder.connect(holder1).getAvailableDividends(holder1);
 
         // withdraw dividends:
-        await expect(founder.connect(holder1).withdrawDividends(await currencyToken.symbol(), senderDividends + ethersUtils.parseEther("1")))
+        await expect(founder.connect(holder1).withdrawDividends(senderDividends + ethersUtils.parseEther("1")))
             .to.emit(founder, "WithdrawDividends")
-            .withArgs(currencyToken.symbol(), holder1, senderDividends);
+            .withArgs(holder1, senderDividends);
     });
 
     it("Should fail if currency address is not set when calculating total dividends", async function () {
-        await expect(founder.totalDividends(await currencyToken.symbol())).to.be.revertedWith("Currency not found");
+        await expect(founder.totalDividends()).to.be.revertedWith("Currency Address not set");
     });
 
     it("Should return 0 if totalDividends is 0", async function () {
@@ -170,39 +161,39 @@ describe("Founder Contract", function () {
         founder = await Founder.deploy([holder1Address, holder2Address, holder3Address]);
 
         // Ensure currency address is set
-        await founder.setPrimaryCurrency(currencyToken.target);
+        await founder.setCurrencyAddress(currencyToken.target);
 
-        const totalDividendsAvailable = await founder.connect(holder1).totalDividendsAvailable(await currencyToken.symbol());
+        const totalDividendsAvailable = await founder.connect(holder1).totalDividendsAvailable();
         expect(totalDividendsAvailable).to.equal(0);
     });
 
     it("Should return totalDividends minus totalWithdrawnDividends", async function () {
         // Set currency address
-        await founder.setPrimaryCurrency(currencyToken.target);
+        await founder.setCurrencyAddress(currencyToken.target);
 
         // Withdraw some dividends
-        await founder.connect(holder1).withdrawDividends(await currencyToken.symbol(), ethersUtils.parseEther("100"));
+        await founder.connect(holder1).withdrawDividends(ethersUtils.parseEther("100"));
 
-        const totalDividends = await founder.connect(holder1).totalDividends(await currencyToken.symbol(), );
-        const totalWithdrawnDividends = await founder.connect(holder1).totalWithdrawnDividends(await currencyToken.symbol(), );
+        const totalDividends = await founder.connect(holder1).totalDividends();
+        const totalWithdrawnDividends = await founder.connect(holder1).totalWithdrawnDividends();
         const expectedAvailable = totalDividends - (totalWithdrawnDividends);
 
-        const totalDividendsAvailable = await founder.connect(holder1).totalDividendsAvailable(await currencyToken.symbol(), );
+        const totalDividendsAvailable = await founder.connect(holder1).totalDividendsAvailable();
         expect(totalDividendsAvailable).to.equal(expectedAvailable);
     });
 
     it("Should calculate correctly when totalDividends is greater than totalWithdrawnDividends", async function () {
         // Set currency address
-        await founder.setPrimaryCurrency(currencyToken.target);
+        await founder.setCurrencyAddress(currencyToken.target);
 
         // Ensure some tokens are withdrawn
-        await founder.connect(holder1).withdrawDividends(await currencyToken.symbol(), ethersUtils.parseEther("50"));
+        await founder.connect(holder1).withdrawDividends(ethersUtils.parseEther("50"));
 
-        const totalDividends = await founder.connect(holder1).totalDividends(await currencyToken.symbol(), );
-        const totalWithdrawnDividends = await founder.connect(holder1).totalWithdrawnDividends(await currencyToken.symbol(), );
+        const totalDividends = await founder.connect(holder1).totalDividends();
+        const totalWithdrawnDividends = await founder.connect(holder1).totalWithdrawnDividends();
         const expectedAvailable = totalDividends - (totalWithdrawnDividends);
 
-        const totalDividendsAvailable = await founder.connect(holder1).totalDividendsAvailable(await currencyToken.symbol(), );
+        const totalDividendsAvailable = await founder.connect(holder1).totalDividendsAvailable();
         expect(totalDividendsAvailable).to.equal(expectedAvailable);
     });
 
@@ -211,11 +202,11 @@ describe("Founder Contract", function () {
         const Founder = await ethers.getContractFactory("Founder");
         founder = await Founder.deploy([holder1Address, holder2Address, holder3Address]);
 
-        await expect(founder.totalDividendsAvailable(await currencyToken.symbol(), )).to.be.revertedWith("Currency not found");
+        await expect(founder.totalDividendsAvailable()).to.be.revertedWith("Currency Address not set");
     });
 
     it("Should revert if transfer is bigger than available funds", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
 
         // fetch available funds:
         const availableFunds = await founder.connect(owner).balanceOf(owner);
@@ -225,24 +216,24 @@ describe("Founder Contract", function () {
     });
 
     it("Should not change dividend is transfer withtout dividends available", async function () {
-        await founder.connect(owner).setPrimaryCurrency(currencyToken.target);
+        await founder.connect(owner).setCurrencyAddress(currencyToken.target);
 
         // fetch available funds:
         const availableFunds = await founder.connect(owner).balanceOf(owner);
 
         // fetch available dividends
-        const availableDividends = await founder.connect(holder1).getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder1);
+        const availableDividends = await founder.connect(holder1).getAvailableDividends(holder1);
 
         // withdraw the dividends:
-        await founder.connect(holder1).withdrawDividends(await currencyToken.symbol(), availableDividends);
+        await founder.connect(holder1).withdrawDividends(availableDividends);
 
         // dividends should be zero:
-        expect(await founder.connect(holder1).getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder1)).to.be.eq(0);
+        expect(await founder.connect(holder1).getAvailableDividends(holder1)).to.be.eq(0);
 
         await expect(founder.connect(holder1).transfer(holder2Address, availableFunds))
             .to.not.reverted;
 
         // dividends should be zero:
-        expect(await founder.connect(holder1).getAvailableDividendsBeforeTax(await currencyToken.symbol(), holder1)).to.be.eq(0);
+        expect(await founder.connect(holder1).getAvailableDividends(holder1)).to.be.eq(0);
     });
-})
+});
