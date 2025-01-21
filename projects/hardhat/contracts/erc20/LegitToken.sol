@@ -47,7 +47,7 @@ contract LegitToken is ERC20, Ownable, ReentrancyGuard {
     event VoteStartedTransfer(uint256 endTime, uint256 amount, address toAddress, string reason);
     event Voted(address voter, uint256 weight);
 
-    constructor() ERC20("LegitToken", "LEGIT") Ownable(msg.sender) {
+    constructor() ERC20("Legit", "LEGIT") Ownable(msg.sender) {
         _mint(address(this), CONTRACT_MINT); // Mint 80M tokens to contract
         _mint(msg.sender, OWNER_MINT); // Mint 20M tokens to owner
     }
