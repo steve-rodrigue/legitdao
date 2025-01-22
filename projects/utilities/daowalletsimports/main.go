@@ -184,7 +184,7 @@ referrals:
 units: 245373000
 referrals:
 ----
-37) 3e2ea46bdfe5ec7f1a12b3f24d47439e1b5e9ebf
+37) 704b0E7EcFf4b953063b7B38f8F4c6A17021A72A
 units: 296000000
 referrals:
 ----
@@ -429,8 +429,8 @@ referrals:
 units: 296000000
 referrals: 6eeb9dffb820d13fc7ad5df4a0b97d4cebfa2a59,
 6a7405cb055669af15d14392ed3ce4d330fd2cb5,
-3e2ea46bdfe5ec7f1a12b3f24d47439e1b5e9ebf,
-405481f2d0031115a14e3e3af0283cae429d93fb,
+704b0E7EcFf4b953063b7B38f8F4c6A17021A72A,
+bCE7B4a46f77DE88d32cA0F22BA1F94F7C30db74,
 6c0b439b0f993202eda0a0496c4da8d23ad7c801,
 024e0b8e22743d89e0465d30c337f951918705fa,
 e8c762ae04480c230ee51f7caacf3c3c6a98a5ac,
@@ -568,9 +568,9 @@ referrals:
 units: 25365000
 referrals:
 ----
-111) 405481f2d0031115a14e3e3af0283cae429d93fb
+111) bCE7B4a46f77DE88d32cA0F22BA1F94F7C30db74
 units: 296000000
-referrals: 72f72e91f658acfa46d6b6f2bf58ddd85193ec71
+referrals: 93d957E733D03bC2809e7525b19Ecb320D4b95ff
 ----
 112) 82094dfcd0e9d8c57c89a4ffd5491f7b16833fce
 units: 177600000
@@ -1358,7 +1358,7 @@ referrals: fcbdb50e1d99310380bfab314a66a0f4e2b23875,
 units: 296000000
 referrals: 12cbbf890b773fc9c4990aa3c3333267c14dd9f8
 ----
-284) 72f72e91f658acfa46d6b6f2bf58ddd85193ec71
+284) 93d957E733D03bC2809e7525b19Ecb320D4b95ff
 units: 41440000
 referrals:
 ----
@@ -1637,6 +1637,7 @@ e8b9F63bb91ed1a2ab7d8A5073a5FAf45c63340F]
 
 		total := oneTree.units + oneTree.referred + oneTree.referredTop + oneTree.top
 		fmt.Printf("| %s | %s | %d | %d | %d | %d | %d |\n", oneAddress, referralListStr, oneTree.units, oneTree.referred, oneTree.referredTop, oneTree.top, total)
+		//fmt.Printf("_mint(0x%s, %d);\n", oneAddress, total)
 	}
 }
 

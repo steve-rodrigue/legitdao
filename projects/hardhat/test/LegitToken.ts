@@ -12,8 +12,7 @@ describe("LegitToken - setAffiliatesAddress", function () {
     let user1: SignerWithAddress;
     let user2: SignerWithAddress;
     let addressZero = "0x0000000000000000000000000000000000000000";
-    const initialSupply = ethersUtils.parseEther("100000000"); // 100M tokens
-    const transferAmount = ethersUtils.parseEther("1000"); // Transfer 1000 tokens
+    const transferAmount = ethersUtils.parseEther("0.01"); // Transfer 0.01 tokens
     const TAX_SENDER = 20; // 20% sender tax
     const TAX_RECEIVER = 15; // 15% receiver tax
 
@@ -91,7 +90,7 @@ describe("LegitToken - setAffiliatesAddress", function () {
 
     it("✅ Should transfer full amount if sender is affiliates contract (no taxes)", async function () {
         await legitToken.connect(owner).setAffiliatesAddress(affiliatesAddress.address);
-        await legitToken.transfer(affiliatesAddress.address, transferAmount);
+        await legitToken.connect(owner).transfer(affiliatesAddress.address, transferAmount);
 
         const senderBalanceBefore = await legitToken.balanceOf(affiliatesAddress.address);
         const recipientBalanceBefore = await legitToken.balanceOf(user2.address);
@@ -233,7 +232,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
   let user3: SignerWithAddress;
   let nonTokenHolder: SignerWithAddress;
   const VOTE_DURATION = 7 * 24 * 60 * 60; // 7 days in seconds
-  const ONE_ETH = ethersUtils.parseEther("1"); // 1 ETH in Wei
+  const AMOUNT_ETH = ethersUtils.parseEther("1"); // 1 ETH in Wei
 
   beforeEach(async function () {
       [owner, user1, user2, user3, nonTokenHolder, affiliatesAddress] = await ethers.getSigners();
@@ -261,11 +260,11 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
 
       await owner.sendTransaction({
           to: legitToken.getAddress(),
-          value: ONE_ETH,
+          value: AMOUNT_ETH,
       });
 
       const contractBalance = await ethers.provider.getBalance(legitToken.getAddress());
-      expect(contractBalance).to.equal(initialBalance + ONE_ETH);
+      expect(contractBalance).to.equal(initialBalance + AMOUNT_ETH);
   });
 
   it("✅ Should allow token holders to vote pro-rata", async function () {
@@ -305,7 +304,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
   it("✅ Should conclude vote and distribute BNB if >50% votes YES", async function () {
       await owner.sendTransaction({
           to: legitToken.getAddress(),
-          value: ONE_ETH,
+          value: AMOUNT_ETH,
       });
 
       const contractBalance = await ethers.provider.getBalance(legitToken.getAddress());
@@ -335,9 +334,9 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
       const balanceAfterUser3 = await ethers.provider.getBalance(user3.address);
 
       const totalSupply = ethersUtils.parseEther("6000");
-      const expectedShareUser1 = ONE_ETH * BigInt(1000) / BigInt(totalSupply);
-      const expectedShareUser2 = ONE_ETH * BigInt(2000) / BigInt(totalSupply);
-      const expectedShareUser3 = ONE_ETH * BigInt(3000) / BigInt(totalSupply);
+      const expectedShareUser1 = AMOUNT_ETH * BigInt(1000) / BigInt(totalSupply);
+      const expectedShareUser2 = AMOUNT_ETH * BigInt(2000) / BigInt(totalSupply);
+      const expectedShareUser3 = AMOUNT_ETH * BigInt(3000) / BigInt(totalSupply);
 
       expect(balanceAfterUser1 - balanceBeforeUser1).to.equal(expectedShareUser1);
       expect(balanceAfterUser2 - balanceBeforeUser2).to.equal(expectedShareUser2);
@@ -347,7 +346,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
   it("✅ Should keep BNB in contract if vote fails", async function () {
       await owner.sendTransaction({
           to: legitToken.getAddress(),
-          value: ONE_ETH,
+          value: AMOUNT_ETH,
       });
 
       const contractBalance = await ethers.provider.getBalance(legitToken.getAddress());
@@ -377,7 +376,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
 
   it("✅ Should execute two votes and ensure BNB is distributed properly", async function () {
     // --- First Voting Round ---
-    await legitToken.startVoteDividends(ONE_ETH); // Vote to distribute 1 BNB
+    await legitToken.startVoteDividends(AMOUNT_ETH); // Vote to distribute 1 BNB
 
     await legitToken.connect(user1).vote(true); // User1 votes YES (1000 tokens)
     await legitToken.connect(user2).vote(true); // User2 votes YES (2000 tokens)
@@ -391,10 +390,10 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
 
     // Check that 1 BNB is allocated as dividends
     const totalDividends1 = await legitToken.totalDividendsDistributed();
-    expect(totalDividends1).to.equal(ONE_ETH);
+    expect(totalDividends1).to.equal(AMOUNT_ETH);
 
     // --- Second Voting Round ---
-    await legitToken.startVoteDividends(ONE_ETH); // Vote to distribute the remaining 1 BNB
+    await legitToken.startVoteDividends(AMOUNT_ETH); // Vote to distribute the remaining 1 BNB
 
     await legitToken.connect(user1).vote(true);
     await legitToken.connect(user2).vote(true);
@@ -430,7 +429,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
   it("❌ Should revert if the contract has insufficient BNB", async function () {
       const LegitTokenFactory = await ethers.getContractFactory("LegitToken");
       const emptyLegitToken = (await LegitTokenFactory.deploy()) as LegitToken;
-      await expect(emptyLegitToken.startVoteDividends(ONE_ETH)).to.be.revertedWith(
+      await expect(emptyLegitToken.startVoteDividends(AMOUNT_ETH)).to.be.revertedWith(
           "Insufficient contract BNB balance"
       );
   });
@@ -455,7 +454,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
 
   it("✅ Should allow first withdrawal, then revert if trying again before 30 days", async function () {
     // Start and complete a vote to distribute dividends
-    await legitToken.startVoteDividends(ONE_ETH);
+    await legitToken.startVoteDividends(AMOUNT_ETH);
     await legitToken.connect(user1).vote(true);
     await ethers.provider.send("evm_increaseTime", [7 * 24 * 60 * 60]); // Fast forward 7 days
     await ethers.provider.send("evm_mine", []);
@@ -465,7 +464,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
     await expect(legitToken.connect(user1).withdrawDividends()).to.not.be.reverted;
 
     // Vote again
-    await legitToken.startVoteDividends(ONE_ETH);
+    await legitToken.startVoteDividends(AMOUNT_ETH);
     await legitToken.connect(user1).vote(true);
 
     // Trying to withdraw again immediately should fail
@@ -494,7 +493,7 @@ describe("LegitToken - BNB Voting & Dividend Distribution", function () {
       await expect(
           user1.sendTransaction({
               to: legitToken.getAddress(),
-              value: ONE_ETH, // Sending 1 BNB
+              value: AMOUNT_ETH, // Sending 1 BNB
           })
       ).to.not.be.reverted;
   });
@@ -510,7 +509,7 @@ describe("LegitToken - Voting Session for a Transfer", function () {
   let recipient: SignerWithAddress;
   let affiliatesAddress: SignerWithAddress;
   let addressZero = "0x0000000000000000000000000000000000000000";
-  const ONE_ETH = ethersUtils.parseEther("1"); // 1 BNB in Wei
+  const AMOUNT_ETH = ethersUtils.parseEther("1"); // 1 BNB in Wei
   const VOTE_DURATION = 7 * 24 * 60 * 60; // 7 days in seconds
 
   beforeEach(async function () {
@@ -535,7 +534,7 @@ describe("LegitToken - Voting Session for a Transfer", function () {
 
   it("✅ Should execute a transfer vote and send BNB to recipient if approved", async function () {
       // Start voting session to transfer 1 BNB to recipient
-      await legitToken.startVoteTransfer(ONE_ETH, recipient.address, "My Reason");
+      await legitToken.startVoteTransfer(AMOUNT_ETH, recipient.address, "My Reason");
 
       // Users vote
       await legitToken.connect(user1).vote(true); // 1000 tokens
@@ -553,12 +552,12 @@ describe("LegitToken - Voting Session for a Transfer", function () {
 
       // Check that 1 BNB was transferred to the recipient
       const balanceAfter = await ethers.provider.getBalance(recipient.address);
-      expect(balanceAfter - balanceBefore).to.equal(ONE_ETH);
+      expect(balanceAfter - balanceBefore).to.equal(AMOUNT_ETH);
   });
 
   it("❌ Should NOT transfer BNB if the vote fails", async function () {
       // Start voting session to transfer 1 BNB to recipient
-      await legitToken.startVoteTransfer(ONE_ETH, recipient.address, "My Reason");
+      await legitToken.startVoteTransfer(AMOUNT_ETH, recipient.address, "My Reason");
 
       // Only user1 votes YES (1000 tokens), user2 votes FALSE
       await legitToken.connect(user1).vote(true);
@@ -580,9 +579,9 @@ describe("LegitToken - Voting Session for a Transfer", function () {
   });
 
   it("❌ Should revert if trying to start a vote when another is active", async function () {
-      await legitToken.startVoteTransfer(ONE_ETH, recipient.address, "My Reason");
+      await legitToken.startVoteTransfer(AMOUNT_ETH, recipient.address, "My Reason");
 
-      await expect(legitToken.startVoteTransfer(ONE_ETH, recipient.address, "My Reason")).to.be.revertedWith(
+      await expect(legitToken.startVoteTransfer(AMOUNT_ETH, recipient.address, "My Reason")).to.be.revertedWith(
           "Vote already in progress"
       );
   });
@@ -595,7 +594,7 @@ describe("LegitToken - Voting Session for a Transfer", function () {
 
   it("❌ Should revert if recipient address is 0", async function () {
       await expect(
-          legitToken.startVoteTransfer(ONE_ETH, addressZero, "My Reason")
+          legitToken.startVoteTransfer(AMOUNT_ETH, addressZero, "My Reason")
       ).to.be.revertedWith("Address cannot be 0");
   });
 });
